@@ -18,11 +18,7 @@
       "~/*": ["./src/*"]
     }
   },
-  "include": [
-    ".eslintrc.js",
-    "./src/**/*.ts",
-    "**/*.cjs",
-    "**/*.mjs"
-  ],
-  "exclude": ["node_modules", "dist", "test"]
+  "include": [".eslintrc.js", "./src/**/*.ts", "**/*.cjs", "**/*.mjs"],
+  "exclude": ["node_modules", "dist", "test"],
+  "types": ["@types/jest"]
 }
