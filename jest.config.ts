@@ -1,4 +1,4 @@
-import { pathsToModuleNameMapper, JestConfigWithTsJest } from "ts-jest";
+import { pathsToModuleNameMapper, JestConfigWithTsJest } from 'ts-jest'
 
 const { compilerOptions } = require('./tsconfig.json')
 
@@ -13,4 +13,4 @@ const jestConfig: JestConfigWithTsJest = {
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/build/'],
 }
 
-export default jestConfig;
+export default jestConfig
