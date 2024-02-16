@@ -1,7 +1,7 @@
 import {
   type IHttpRequest,
   type IHttpResponse,
-} from '~/core/interfaces/web/Request'
+} from '~/core/domain/interfaces/web/Request'
 import { BadRequestError } from '../errors'
 import { type UserService } from '~/core/application/services/UserService'
 import { makeApiHttpResponse } from '../helpers/httpHelpers'
@@ -14,7 +14,7 @@ export class UserController {
       console.log(httpRequest.body)
       await this.userService.create()
       return makeApiHttpResponse(201, {
-        message: 'Hello World',
+        status: 'ok',
       })
     } catch (error: any) {
       throw new BadRequestError(error.message)
