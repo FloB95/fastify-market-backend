@@ -1,5 +1,5 @@
-import loadConfigurations from "./core/config/setup";
-import { startServer } from "./core/infrastructure/server";
+import loadConfigurations from './core/config/setup'
+import { startServer } from './core/infrastructure/server'
 
-loadConfigurations();
-void startServer();
+loadConfigurations()
+void startServer()

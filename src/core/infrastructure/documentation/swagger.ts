@@ -1,4 +1,4 @@
-import { type FastifySwaggerUiOptions } from "@fastify/swagger-ui"
+import { type FastifySwaggerUiOptions } from '@fastify/swagger-ui'
 
 export const swaggerDocumentation: FastifySwaggerUiOptions = {
   routePrefix: '/api/v1/docs',

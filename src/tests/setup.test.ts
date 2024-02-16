@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-namespace */
-// setupTests.ts
 import loadConfigurations from '~/core/config/setup'
 import { type FastifyInstance } from 'fastify'
 import { buildServer } from '~/core/infrastructure/server'

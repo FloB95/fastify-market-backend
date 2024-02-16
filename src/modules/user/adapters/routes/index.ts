@@ -18,7 +18,7 @@ const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
       },
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
-      const res = await userController.createUser(fastifyRequestParser(request))
+      const res = await userController.getUsers(fastifyRequestParser(request))
       reply.statusCode = res.statusCode
       void reply.headers(res.headers)
       void reply.send(res.data)
