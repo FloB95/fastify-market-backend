@@ -1,7 +1,7 @@
-import { CustomApiError } from "./CustomApiError";
+import { CustomApiError } from './CustomApiError'
 
 export class BadRequestError extends CustomApiError {
   constructor(message: string) {
-    super(message, 400);
+    super(message, 400)
   }
 }

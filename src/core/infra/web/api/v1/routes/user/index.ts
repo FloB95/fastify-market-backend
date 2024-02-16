@@ -2,17 +2,17 @@ import {
   type FastifyRequest,
   type FastifyPluginCallback,
   type FastifyReply,
-} from "fastify";
+} from 'fastify'
 
 const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
-  fastify.get("/", async (request: FastifyRequest, reply: FastifyReply) => {
-    reply.statusCode = 200;
+  fastify.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
+    reply.statusCode = 200
     void reply.send({
-      message: "Hello World",
-    });
-  });
+      message: 'Hello World',
+    })
+  })
 
-  done();
-};
+  done()
+}
 
-export default UserRouter;
+export default UserRouter
