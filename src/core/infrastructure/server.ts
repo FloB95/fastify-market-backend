@@ -39,12 +39,9 @@ export const buildServer = async (): Promise<FastifyInstance> => {
   void server.register(routes, { prefix: '/api/v1' })
 
   // health check
-  server.get(
-    '/',
-    async (req, resp) => {
-      void resp.send({ status: 'ok' })
-    },
-  )
+  server.get('/', async (req, resp) => {
+    void resp.send({ status: 'ok' })
+  })
 
   // register error handler
   server.setErrorHandler(fastifyErrorHandler)

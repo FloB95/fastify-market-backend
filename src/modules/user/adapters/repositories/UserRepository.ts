@@ -5,7 +5,7 @@ import { type IUserRepository } from '../../domain/repositories/IUserRepository'
 import { type User } from '../../domain/entities/User'
 
 class UserRepository implements IUserRepository {
-  async findAll(max: number): Promise<IPaginationResult<User>> {
+  async findAll(max: number): Promise<User[]> {
     throw new Error('Method not implemented.')
   }
 

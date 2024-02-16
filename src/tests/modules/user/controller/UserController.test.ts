@@ -1,9 +1,12 @@
-import { type User } from '~/modules/user/domain/entities/User'
+import { type IPaginationResult } from '~/core/interfaces/repositories/BaseRepository'
+import { type ICreateUserDto } from '~/modules/user/application/dtos/UserCreateDto'
+import { type IUserResponseDto } from '~/modules/user/application/dtos/UserResponseDto'
 import { fastifyInstance } from '~/tests/setup.test'
 
 describe('Test UserController', () => {
-  const demoUser: User = {
-    id: '121',
+  const createUserDto: ICreateUserDto = {
+    firstname: 'John',
+    lastname: 'Doe',
     email: 'john.doe@test.de',
     password: 'password',
   }
@@ -13,11 +16,60 @@ describe('Test UserController', () => {
       const response = await fastifyInstance.inject({
         method: 'POST',
         url: '/api/v1/users',
-        payload: demoUser,
+        payload: createUserDto,
       })
 
       expect(response.statusCode).toBe(201)
-      expect(response.json()).toEqual(demoUser)
+
+      const receivedUser = JSON.parse(response.payload) as IUserResponseDto
+
+      // Additional verification for each field can be added if necessary
+      expect(receivedUser.id).toBeDefined()
+      expect(receivedUser.email).toBe(createUserDto.email)
+      expect(receivedUser.firstname).toBe(createUserDto.firstname)
+      expect(receivedUser.lastname).toBe(createUserDto.lastname)
+      expect(receivedUser.createdAt).toBeDefined()
+      expect(receivedUser.updatedAt).toBeDefined()
+
+      // Ensure that password field is not present
+      // @ts-ignore
+      expect(receivedUser.password).toBeUndefined()
+    })
+  })
+
+  describe('getUsers', () => {
+    it('should return a pagination with users and statuscode 200', async () => {
+      const response = await fastifyInstance.inject({
+        method: 'GET',
+        url: '/api/v1/users',
+        query: { page: '1', limit: '20' },
+      })
+
+      expect(response.statusCode).toBe(200)
+
+      const receivedUsers = JSON.parse(
+        response.payload,
+      ) as IPaginationResult<IUserResponseDto>
+
+      // Additional verification for each field can be added if necessary
+      expect(receivedUsers.page).toBe(1)
+      expect(receivedUsers.total).toEqual(expect.any(Number))
+      expect(receivedUsers.limit).toEqual(expect.any(Number))
+      expect(Array.isArray(receivedUsers.data)).toBe(true)
+
+      // Ensure that each item in the array conforms to the IUserResponseDto interface
+      receivedUsers.data.forEach((userDto) => {
+        expect(userDto.id).toBeDefined()
+        expect(userDto.email).toBeDefined()
+        expect(userDto.firstname).toBeDefined()
+        expect(userDto.lastname).toBeDefined()
+        expect(userDto.createdAt).toBeDefined()
+        expect(userDto.updatedAt).toBeDefined()
+
+        // Ensure that password field is not present
+        // @ts-ignore
+        expect(receivedUser.password).toBeUndefined()
+      })
     })
   })
 })
