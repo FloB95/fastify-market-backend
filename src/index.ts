@@ -1,4 +1,5 @@
-import 'reflect-metadata' // tsyringe dependency injection
-import setup from './core/config/setup'
+import loadConfigurations from "./core/config/setup";
+import { startServer } from "./core/infrastructure/server";
 
-void setup()
+loadConfigurations();
+void startServer();

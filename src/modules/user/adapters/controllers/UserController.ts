@@ -17,8 +17,8 @@ export class UserController {
 
   async createUser(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
-      console.log(httpRequest.body)
-      let user = new User('123', 'tes†@test.dev', 'password')
+      const { id, email, password } = httpRequest.body
+      let user = new User(id, email, password)
       user = await this.userService.createUser(user)
       return makeApiHttpResponse(201, user)
     } catch (error: any) {

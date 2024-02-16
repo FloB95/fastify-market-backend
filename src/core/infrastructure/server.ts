@@ -4,13 +4,32 @@ import { fastifyErrorHandler } from './fastify'
 import fastifyCors from '@fastify/cors'
 import fastifyHelmet from '@fastify/helmet'
 import routes from '../adapters/api/v1/routes'
+import { swaggerDocumentation } from './documentation/swagger'
+import swagger from '@fastify/swagger'
+import fastifySwaggerUi from '@fastify/swagger-ui'
 
 const port = process.env.API_PORT || 5000
 
-export const buildServer = (): FastifyInstance => {
+export const buildServer = async (): Promise<FastifyInstance> => {
   const server = fastify({
     logger,
   })
+
+  // register swagger documentation
+  void server.register(swagger, {
+    swagger: {
+      info: {
+        title: 'Marketplace API',
+        description: 'Marketplace API Documentation',
+        version: '1.0.0',
+      },
+      tags: [
+        { name: 'User', description: 'User related end-points' },
+        { name: 'Product', description: 'Product related end-points' },
+      ],
+    },
+  })
+  void server.register(fastifySwaggerUi, swaggerDocumentation)
 
   // register security modules
   void server.register(fastifyCors)
@@ -20,9 +39,12 @@ export const buildServer = (): FastifyInstance => {
   void server.register(routes, { prefix: '/api/v1' })
 
   // health check
-  server.get('/', async (req, resp) => {
-    void resp.send({ status: 'ok' })
-  })
+  server.get(
+    '/',
+    async (req, resp) => {
+      void resp.send({ status: 'ok' })
+    },
+  )
 
   // register error handler
   server.setErrorHandler(fastifyErrorHandler)
@@ -38,13 +60,15 @@ export const buildServer = (): FastifyInstance => {
     }
   }
 
+  await server.ready()
+  server.swagger()
+
   return server
 }
 
 export const startServer = async () => {
   try {
-    const server = buildServer()
-
+    const server = await buildServer()
     const serverOptions: any = {
       port,
     }
