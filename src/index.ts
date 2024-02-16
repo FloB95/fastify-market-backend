@@ -1,4 +1,4 @@
-import { startServer } from './core/infrastructure/web/server'
+import 'reflect-metadata' // tsyringe dependency injection
+import setup from './core/config/setup'
 
-console.log('start server')
-void startServer()
+void setup()

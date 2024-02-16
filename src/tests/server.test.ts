@@ -1,5 +1,5 @@
 import { type FastifyInstance } from 'fastify'
-import { buildServer } from '~/core/infrastructure/web/server'
+import { buildServer } from '~/core/infrastructure/server'
 
 describe('Fastify Application', () => {
   let fastify: FastifyInstance
