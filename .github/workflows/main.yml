@@ -47,7 +47,7 @@ jobs:
         uses: ./.github/actions/ci-setup
 
       - name: Build Application
-        run: npm run build --workspace @code-racer/app
+        run: npm run build
 
   test:
     name: Test
