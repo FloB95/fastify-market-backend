@@ -1,4 +1,4 @@
-import { varchar, date, mysqlTable } from 'drizzle-orm/mysql-core'
+import { varchar, mysqlTable, datetime } from 'drizzle-orm/mysql-core'
 
 export const usersTable = mysqlTable('User', {
   id: varchar('id', {
@@ -15,6 +15,6 @@ export const usersTable = mysqlTable('User', {
   })
     .notNull()
     .unique('email'),
-  createdAt: date('createdAt').notNull(),
-  updatedAt: date('updatedAt').default(null),
+  createdAt: datetime('createdAt').notNull(),
+  updatedAt: datetime('updatedAt').default(null),
 })
