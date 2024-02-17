@@ -17,3 +17,4 @@
 - Finish User module
 - add user events (UserCreated, UserUpdated, UserDeleted)
 - Optimize Swagger documentation & implement zod to schema
+- setup drizzle migrations

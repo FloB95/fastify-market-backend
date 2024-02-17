@@ -12,10 +12,10 @@ export const UserSchema = z.object({
 export class User extends BaseEntity {
   constructor(
     public readonly id: string,
-    public readonly firstname: string,
-    public readonly lastname: string,
-    public readonly email: string,
-    public readonly password: string,
+    public firstname: string,
+    public lastname: string,
+    public email: string,
+    public password: string,
   ) {
     super(id)
   }

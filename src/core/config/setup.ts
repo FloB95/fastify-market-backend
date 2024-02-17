@@ -1,9 +1,16 @@
+// import env
+import 'dotenv/config'
+
 // tsyringe dependency injection
 import 'reflect-metadata'
 
 // load all modules
 import 'src/modules/user/setup'
 
-export default function loadConfigurations() {
-  // Add your setup code here
+// other imports
+import { initDb } from '../infrastructure/db/drizzle/setup'
+
+export default async function loadConfigurations() {
+  // initialize the database
+  await initDb()
 }

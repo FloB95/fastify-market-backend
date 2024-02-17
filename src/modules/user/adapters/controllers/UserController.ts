@@ -30,7 +30,6 @@ export class UserController {
       const userResponse = UserResponseDtoSchema.parse(user)
       return makeApiHttpResponse(201, userResponse)
     } catch (error: any) {
-      console.log(error)
       throw new BadRequestError(error.message)
     }
   }

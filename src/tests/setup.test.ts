@@ -5,7 +5,7 @@ import { buildServer } from '~/core/infrastructure/server'
 export let fastifyInstance: FastifyInstance
 
 beforeAll(async () => {
-  void loadConfigurations()
+  await loadConfigurations()
   fastifyInstance = await buildServer()
 })
 

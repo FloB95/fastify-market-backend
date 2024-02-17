@@ -13,6 +13,7 @@
     "strict": false,
     "esModuleInterop": true,
     "noEmit": false,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]

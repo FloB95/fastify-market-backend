@@ -2,13 +2,15 @@ import { type IPaginationResult } from '~/core/interfaces/repositories/BaseRepos
 import { type ICreateUserDto } from '~/modules/user/application/dtos/UserCreateDto'
 import { type IUserResponseDto } from '~/modules/user/application/dtos/UserResponseDto'
 import { fastifyInstance } from '~/tests/setup.test'
+import { faker } from '@faker-js/faker'
+
 
 describe('Test UserController', () => {
   const createUserDto: ICreateUserDto = {
-    firstname: 'John',
-    lastname: 'Doe',
-    email: 'john.doe@test.de',
-    password: 'password',
+    firstname: faker.person.firstName(),
+    lastname: faker.person.lastName(),
+    email: faker.internet.email(),
+    password: faker.internet.password(),
   }
 
   describe('createUser', () => {
@@ -68,7 +70,7 @@ describe('Test UserController', () => {
 
         // Ensure that password field is not present
         // @ts-ignore
-        expect(receivedUser.password).toBeUndefined()
+        expect(userDto.password).toBeUndefined()
       })
     })
   })

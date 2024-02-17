@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const BaseEntitySchema = z.object({
   id: z.string().uuid(),
   createdAt: z.date(),
-  updatedAt: z.date(),
+  updatedAt: z.date().nullable().default(null),
 })
 
 type BaseDtoCreateOmitFields = {
@@ -20,10 +20,18 @@ export const BaseDtoCreateOmitFields: BaseDtoCreateOmitFields = {
 
 export abstract class BaseEntity {
   public readonly id: string
-  public readonly createdAt: Date = new Date()
-  public readonly updatedAt: Date = new Date()
+  public createdAt: Date = new Date()
+  public updatedAt: Date | null
 
   constructor(id: string) {
     this.id = id
+  }
+
+  setCreatedAt(date: Date) {
+    this.createdAt = date
+  }
+
+  setUpdatedAt(date: Date | null) {
+    this.updatedAt = date
   }
 }
