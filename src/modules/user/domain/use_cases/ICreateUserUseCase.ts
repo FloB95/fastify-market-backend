@@ -1,5 +1,5 @@
-import { type User } from '../entities/User'
+import { type TUser, type User } from '../entities/User'
 
 export interface ICreateUserUseCase {
-  execute(user: User): Promise<User>
+  execute(user: TUser): Promise<User>
 }

@@ -29,6 +29,7 @@ interface IBaseRepository<T> {
   create(item: T): Promise<T>
   update(item: T): Promise<T>
   delete(id: string): Promise<boolean>
+  generateId(): Promise<string>
 }
 
 export default IBaseRepository

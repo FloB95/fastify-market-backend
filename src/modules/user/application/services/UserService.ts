@@ -1,8 +1,7 @@
 import { injectable, inject } from 'tsyringe'
 import { ICreateUserUseCase } from '../../domain/use_cases/ICreateUserUseCase'
-import { User } from '../../domain/entities/User'
-import { type ICreateUserDto } from '../dtos/UserCreateDto'
-import { v4 as uuidv4 } from 'uuid'
+import { type User } from '../../domain/entities/User'
+import { CreateUserDtoSchema, type ICreateUserDto } from '../dtos/UserCreateDto'
 import { IGetUsersUseCase } from '../../domain/use_cases/IGetUsersUseCase'
 
 @injectable()
@@ -13,14 +12,11 @@ export class UserService {
   ) {}
 
   async createUser(userDto: ICreateUserDto): Promise<User> {
-    const user = new User(
-      uuidv4(), // generate a uuid
-      userDto.firstname,
-      userDto.lastname,
-      userDto.email,
-      userDto.password,
-    )
-    const newUser = await this.createUserUseCase.execute(user)
+    // Validate the user input using the User schema
+    const validatedUser = CreateUserDtoSchema.parse(userDto)
+
+    // Pass the validated user DTO to the CreateUserUseCase
+    const newUser = await this.createUserUseCase.execute(validatedUser)
 
     // todo implement email service
     // await this.sendEmailUseCase.execute(

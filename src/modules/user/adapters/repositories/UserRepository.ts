@@ -5,10 +5,12 @@ import { User } from '../../domain/entities/User'
 import { injectable } from 'tsyringe'
 import { db } from '~/core/infrastructure/db/drizzle/setup'
 import { usersTable } from '~/core/infrastructure/db/drizzle/schema'
+import { BaseRepository } from '~/core/adapters/repositories/BaseRepository'
 
 type NewUser = typeof usersTable.$inferInsert
 @injectable()
-class UserRepository implements IUserRepository {
+class UserRepository extends BaseRepository<User> implements IUserRepository {
+  table = usersTable
   async findAll(max: number): Promise<User[]> {
     // TODO password is not returned
     const users = await db.query.usersTable.findMany()
