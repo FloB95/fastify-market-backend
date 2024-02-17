@@ -3,7 +3,7 @@ import { migrate } from 'drizzle-orm/mysql2/migrator'
 import { db, connection } from './setup'
 import { logger } from '../../logger'
 
-export const migrateDb = async () => {
+export const migrateDb = async (closeConnection = true) => {
   if (!db || !connection) {
     throw new Error('Database not initialized')
   }
@@ -20,5 +20,7 @@ export const migrateDb = async () => {
       throw new Error(`Failed to migrate database ${String(error)}`)
     })
   // Don't forget to close the connection, otherwise the script will hang
-  await connection.end()
+  if (closeConnection) {
+    await connection.end()
+  }
 }

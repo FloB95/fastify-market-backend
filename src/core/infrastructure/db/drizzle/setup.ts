@@ -2,7 +2,7 @@ import { drizzle } from 'drizzle-orm/mysql2'
 import mysql from 'mysql2/promise'
 import * as schema from './schema'
 import { type MySql2Database } from 'drizzle-orm/mysql2'
-// import { migrateDb } from './migrate'
+import { migrateDb } from './migrate'
 import { logger } from '../../logger'
 import { env } from '~/core/config/env'
 
@@ -23,7 +23,7 @@ export const initDb = async () => {
     db = drizzle(connection, { schema, mode: 'default' })
 
     // run migrations
-    // await migrateDb()
+    await migrateDb(false)
   } catch (error) {
     logger.error('Failed to initialize database')
     logger.error(error.message)

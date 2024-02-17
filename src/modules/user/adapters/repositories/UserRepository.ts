@@ -13,7 +13,9 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
   table = usersTable
   async findAll(max: number): Promise<User[]> {
     // TODO password is not returned
-    const users = await db.query.usersTable.findMany()
+    const users = await db.query.usersTable.findMany({
+      orderBy: (u, { desc }) => [desc(u.id)],
+    })
     return users.map((user) => UserRepository.mapDbEntryToUser(user))
   }
 
@@ -56,9 +58,8 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
       dbUser.password,
     )
 
-    user.setCreatedAt(dbUser.createdAt)
-    user.setUpdatedAt(dbUser.updatedAt)
-
+    user.setCreatedAt(new Date(dbUser.createdAt))
+    user.setUpdatedAt(dbUser.updatedAt ? new Date(dbUser.updatedAt) : null)
     return user
   }
 }

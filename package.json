@@ -10,9 +10,10 @@
     "pr:precheck": "npm run format && npm run lint && npm run type-check && npm run build",
     "build": "tsc -p tsconfig.json",
     "start": "node build/index.js",
-    "dev": "ts-node-dev -r tsconfig-paths/register ./src/index.ts",
+    "dev": "TZ=Europe/Berlin ts-node-dev -r tsconfig-paths/register ./src/index.ts",
     "test": "jest --silent",
     "db:push": "drizzle-kit push:mysql --config=drizzle.config.ts",
+    "db:migrate": "drizzle-kit generate:mysql --config=drizzle.config.ts",
     "studio": "drizzle-kit studio"
   },
   "keywords": [],
