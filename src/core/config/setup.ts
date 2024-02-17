@@ -1,5 +1,5 @@
 // import env
-import 'dotenv/config'
+import './env'
 
 // tsyringe dependency injection
 import 'reflect-metadata'

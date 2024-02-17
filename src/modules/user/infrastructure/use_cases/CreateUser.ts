@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events'
 import { inject, injectable } from 'tsyringe'
 import { type ICreateUserUseCase } from '../../domain/use_cases/ICreateUserUseCase'
-import { type User } from '../../domain/entities/User'
+import { User, type TUser } from '../../domain/entities/User'
 import { logger } from '~/core/infrastructure/logger'
 import { IUserRepository } from '../../domain/repositories/IUserRepository'
 
@@ -18,9 +18,17 @@ export class CreateUserUseCase implements ICreateUserUseCase {
     })
   }
 
-  async execute(user: User): Promise<User> {
-    await this.userRepository.create(user)
+  async execute(user: TUser): Promise<User> {
+    const newUser = new User(
+      await this.userRepository.generateId(),
+      user.firstname,
+      user.lastname,
+      user.email,
+      user.password,
+    )
+
+    await this.userRepository.create(newUser)
     this.eventEmitter.emit('userCreated', user)
-    return user
+    return newUser
   }
 }

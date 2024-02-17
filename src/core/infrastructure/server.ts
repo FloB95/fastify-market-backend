@@ -7,8 +7,9 @@ import routes from '../adapters/api/v1/routes'
 import { swaggerDocumentation } from './documentation/swagger'
 import swagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
+import { env } from '../config/env'
 
-const port = process.env.API_PORT || 5000
+const port = env.API_PORT
 
 export const buildServer = async (): Promise<FastifyInstance> => {
   const server = fastify({
@@ -46,7 +47,7 @@ export const buildServer = async (): Promise<FastifyInstance> => {
   // register error handler
   server.setErrorHandler(fastifyErrorHandler)
 
-  if (process.env.NODE_ENV === 'production') {
+  if (env.NODE_ENV === 'production') {
     for (const signal of ['SIGINT', 'SIGTERM']) {
       process.on(signal, () =>
         server.close().then((err) => {

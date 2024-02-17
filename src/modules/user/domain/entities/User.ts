@@ -9,6 +9,8 @@ export const UserSchema = z.object({
   password: z.string().min(6).max(255),
 })
 
+export type TUser = z.infer<typeof UserSchema>
+
 export class User extends BaseEntity {
   constructor(
     public readonly id: string,
