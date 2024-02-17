@@ -11,7 +11,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node build/index.js",
     "dev": "TZ=Europe/Berlin ts-node-dev -r tsconfig-paths/register ./src/index.ts",
-    "test": "jest --silent",
+    "test": "jest --silent --detectOpenHandles",
     "db:push": "drizzle-kit push:mysql --config=drizzle.config.ts",
     "db:migrate": "drizzle-kit generate:mysql --config=drizzle.config.ts",
     "studio": "drizzle-kit studio"
