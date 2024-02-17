@@ -4,6 +4,7 @@ import * as schema from './schema'
 import { type MySql2Database } from 'drizzle-orm/mysql2'
 // import { migrateDb } from './migrate'
 import { logger } from '../../logger'
+import { env } from '~/core/config/env'
 
 export let db: MySql2Database<typeof schema>
 export let connection: mysql.Connection
@@ -12,10 +13,10 @@ export const initDb = async () => {
   try {
     logger.info('Initializing database')
     connection = await mysql.createConnection({
-      host: process.env.DB_HOST,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      host: env.DB_HOST,
+      user: env.DB_USER,
+      password: env.DB_PASSWORD,
+      database: env.DB_NAME,
       multipleStatements: true,
     })
 

@@ -15,6 +15,7 @@ import {
   PaginationOptionsSchema,
   type IPaginationResult,
 } from '~/core/interfaces/repositories/BaseRepository'
+import { ZodError } from 'zod'
 
 export class UserController {
   private userService: UserService
@@ -30,7 +31,8 @@ export class UserController {
       const userResponse = UserResponseDtoSchema.parse(user)
       return makeApiHttpResponse(201, userResponse)
     } catch (error: any) {
-      throw new BadRequestError(error.message)
+      const zodErrors = error instanceof ZodError ? error.issues : []
+      throw new BadRequestError(error.message, zodErrors)
     }
   }
 
