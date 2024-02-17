@@ -7,7 +7,7 @@ export const migrateDb = async () => {
   if (!db || !connection) {
     throw new Error('Database not initialized')
   }
-  
+
   // This will run migrations on the database, skipping the ones already applied
   await migrate(db, {
     migrationsFolder: './src/core/infrastructure/db/drizzle/migrations',

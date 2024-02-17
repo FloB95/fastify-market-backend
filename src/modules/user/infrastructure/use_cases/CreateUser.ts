@@ -1,6 +1,5 @@
 import { EventEmitter } from 'events'
 import { inject, injectable } from 'tsyringe'
-import { sleep } from '~/core/utils/general'
 import { type ICreateUserUseCase } from '../../domain/use_cases/ICreateUserUseCase'
 import { type User } from '../../domain/entities/User'
 import { logger } from '~/core/infrastructure/logger'

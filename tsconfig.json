@@ -13,12 +13,17 @@
     "strict": false,
     "esModuleInterop": true,
     "noEmit": false,
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"]
     }
   },
   "include": [".eslintrc.js", "./src/**/*.ts", "**/*.cjs", "**/*.mjs"],
-  "exclude": ["node_modules", "dist", "test"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+  ],
   "types": ["@types/jest"]
 }
