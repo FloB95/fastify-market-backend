@@ -1,5 +1,9 @@
 import loadConfigurations from './core/config/setup'
 import { startServer } from './core/infrastructure/server'
 
-loadConfigurations()
-void startServer()
+async function startUp() {
+  await loadConfigurations()
+  await startServer()
+}
+
+void startUp()

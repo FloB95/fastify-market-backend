@@ -50,7 +50,7 @@ export const buildServer = async (): Promise<FastifyInstance> => {
     for (const signal of ['SIGINT', 'SIGTERM']) {
       process.on(signal, () =>
         server.close().then((err) => {
-          console.log(`close application on ${signal}`)
+          logger.warn(`close application on ${signal}`)
           process.exit(err ? 1 : 0)
         }),
       )
@@ -69,6 +69,7 @@ export const startServer = async () => {
     const serverOptions: any = {
       port,
     }
+
     await server.listen(serverOptions)
   } catch (e) {
     console.error(e)
