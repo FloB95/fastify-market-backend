@@ -10,8 +10,8 @@ type NewUser = typeof usersTable.$inferInsert
 @injectable()
 class UserRepository implements IUserRepository {
   async findAll(max: number): Promise<User[]> {
+    // TODO password is not returned
     const users = await db.query.usersTable.findMany()
-
     return users.map((user) => UserRepository.mapDbEntryToUser(user))
   }
 
@@ -54,8 +54,8 @@ class UserRepository implements IUserRepository {
       dbUser.password,
     )
 
-    user.setCreatedAt(dbUser.created_at)
-    user.setUpdatedAt(dbUser.updated_at)
+    user.setCreatedAt(dbUser.createdAt)
+    user.setUpdatedAt(dbUser.updatedAt)
 
     return user
   }

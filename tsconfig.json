@@ -20,10 +20,6 @@
     }
   },
   "include": [".eslintrc.js", "./src/**/*.ts", "**/*.cjs", "**/*.mjs"],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "test",
-  ],
+  "exclude": ["node_modules", "dist", "test"],
   "types": ["@types/jest"]
 }
