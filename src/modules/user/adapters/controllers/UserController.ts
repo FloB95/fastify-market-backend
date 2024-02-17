@@ -37,16 +37,21 @@ export class UserController {
   }
 
   async getUsers(httpRequest: IHttpRequest): Promise<IHttpResponse> {
-    const { page, limit } = PaginationOptionsSchema.parse(httpRequest.query)
-    const users = await this.userService.getUsers(page, limit)
+    try {
+      const { page, limit } = PaginationOptionsSchema.parse(httpRequest.query)
+      const users = await this.userService.getUsers(page, limit)
 
-    const pagination: IPaginationResult<IUserResponseDto> = {
-      page: page,
-      limit: limit,
-      total: users.length,
-      data: users.map((user) => UserResponseDtoSchema.parse(user)),
+      const pagination: IPaginationResult<IUserResponseDto> = {
+        page: page,
+        limit: limit,
+        total: users.length,
+        data: users.map((user) => UserResponseDtoSchema.parse(user)),
+      }
+
+      return makeApiHttpResponse(200, pagination)
+    } catch (error: any) {
+      const zodErrors = error instanceof ZodError ? error.issues : []
+      throw new BadRequestError(error.message, zodErrors)
     }
-
-    return makeApiHttpResponse(200, pagination)
   }
 }

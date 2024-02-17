@@ -1,11 +1,10 @@
+import { API_BASE_PATH, fastifyInstance } from '~/tests/setup.test'
+import { faker } from '@faker-js/faker'
+import { type IUserResponseDto } from '~/modules/user/application/dtos/UserResponseDto'
 import { type IPaginationResult } from '~/core/interfaces/repositories/BaseRepository'
 import { type ICreateUserDto } from '~/modules/user/application/dtos/UserCreateDto'
-import { type IUserResponseDto } from '~/modules/user/application/dtos/UserResponseDto'
-import { fastifyInstance } from '~/tests/setup.test'
-import { faker } from '@faker-js/faker'
 
-
-describe('Test UserController', () => {
+describe('UserController', () => {
   const createUserDto: ICreateUserDto = {
     firstname: faker.person.firstName(),
     lastname: faker.person.lastName(),
@@ -14,10 +13,10 @@ describe('Test UserController', () => {
   }
 
   describe('createUser', () => {
-    it('should create a random user and return it as json http response with statuscode 201', async () => {
+    it('should create a user and return it as JSON with status code 201', async () => {
       const response = await fastifyInstance.inject({
         method: 'POST',
-        url: '/api/v1/users',
+        url: `${API_BASE_PATH}/users`,
         payload: createUserDto,
       })
 
@@ -25,7 +24,6 @@ describe('Test UserController', () => {
 
       const receivedUser = JSON.parse(response.payload) as IUserResponseDto
 
-      // Additional verification for each field can be added if necessary
       expect(receivedUser.id).toBeDefined()
       expect(receivedUser.email).toBe(createUserDto.email)
       expect(receivedUser.firstname).toBe(createUserDto.firstname)
@@ -33,17 +31,63 @@ describe('Test UserController', () => {
       expect(receivedUser.createdAt).toBeDefined()
       expect(receivedUser.updatedAt).toBeDefined()
 
-      // Ensure that password field is not present
       // @ts-ignore
       expect(receivedUser.password).toBeUndefined()
+    })
+
+    it('should return a 400 error if the request body is invalid', async () => {
+      const response = await fastifyInstance.inject({
+        method: 'POST',
+        url: `${API_BASE_PATH}/users`,
+        payload: {
+          // Invalid payload with missing required fields
+        },
+      })
+
+      expect(response.statusCode).toBe(400)
+
+      const responseBody = JSON.parse(response.payload)
+      expect(responseBody.message).toBeDefined()
+      expect(responseBody.code).toBe(400)
+      expect(responseBody.fieldErrors).toBeDefined()
+
+      // Check individual field errors
+      expect(responseBody.fieldErrors).toContainEqual({
+        code: 'invalid_type',
+        expected: 'string',
+        received: 'undefined',
+        path: ['firstname'],
+        message: 'Required',
+      })
+      expect(responseBody.fieldErrors).toContainEqual({
+        code: 'invalid_type',
+        expected: 'string',
+        received: 'undefined',
+        path: ['lastname'],
+        message: 'Required',
+      })
+      expect(responseBody.fieldErrors).toContainEqual({
+        code: 'invalid_type',
+        expected: 'string',
+        received: 'undefined',
+        path: ['email'],
+        message: 'Required',
+      })
+      expect(responseBody.fieldErrors).toContainEqual({
+        code: 'invalid_type',
+        expected: 'string',
+        received: 'undefined',
+        path: ['password'],
+        message: 'Required',
+      })
     })
   })
 
   describe('getUsers', () => {
-    it('should return a pagination with users and statuscode 200', async () => {
+    it('should return a pagination with users and status code 200', async () => {
       const response = await fastifyInstance.inject({
         method: 'GET',
-        url: '/api/v1/users',
+        url: `${API_BASE_PATH}/users`,
         query: { page: '1', limit: '20' },
       })
 
@@ -53,13 +97,11 @@ describe('Test UserController', () => {
         response.payload,
       ) as IPaginationResult<IUserResponseDto>
 
-      // Additional verification for each field can be added if necessary
       expect(receivedUsers.page).toBe(1)
       expect(receivedUsers.total).toEqual(expect.any(Number))
       expect(receivedUsers.limit).toEqual(expect.any(Number))
       expect(Array.isArray(receivedUsers.data)).toBe(true)
 
-      // Ensure that each item in the array conforms to the IUserResponseDto interface
       receivedUsers.data.forEach((userDto) => {
         expect(userDto.id).toBeDefined()
         expect(userDto.email).toBeDefined()
@@ -68,9 +110,50 @@ describe('Test UserController', () => {
         expect(userDto.createdAt).toBeDefined()
         expect(userDto.updatedAt).toBeDefined()
 
-        // Ensure that password field is not present
         // @ts-ignore
         expect(userDto.password).toBeUndefined()
+      })
+    })
+
+    it('should return a 400 error if the page query parameter is not a number', async () => {
+      const response = await fastifyInstance.inject({
+        method: 'GET',
+        url: `${API_BASE_PATH}/users`,
+        query: { page: 'invalid', limit: '20' },
+      })
+
+      expect(response.statusCode).toBe(400)
+      const responseBody = JSON.parse(response.payload)
+      expect(responseBody.message).toBeDefined()
+      expect(responseBody.code).toBe(400)
+      expect(responseBody.fieldErrors).toBeDefined()
+
+      // Check individual field errors
+      expect(responseBody.fieldErrors).toContainEqual({
+        code: 'custom',
+        path: ['page'],
+        message: 'Page must be a positive integer',
+      })
+    })
+
+    it('should return a 400 error if the limit query parameter is not a number', async () => {
+      const response = await fastifyInstance.inject({
+        method: 'GET',
+        url: `${API_BASE_PATH}/users`,
+        query: { page: '1', limit: 'invalid' },
+      })
+
+      expect(response.statusCode).toBe(400)
+      const responseBody = JSON.parse(response.payload)
+      expect(responseBody.message).toBeDefined()
+      expect(responseBody.code).toBe(400)
+      expect(responseBody.fieldErrors).toBeDefined()
+
+      // Check individual field errors
+      expect(responseBody.fieldErrors).toContainEqual({
+        code: 'custom',
+        path: ['limit'],
+        message: 'Limit must be a positive integer',
       })
     })
   })
