@@ -5,7 +5,7 @@ import type IBaseRepository from '~/core/interfaces/repositories/BaseRepository'
 
 export abstract class BaseRepository<T> implements IBaseRepository<T> {
   abstract table: MySqlTableWithColumns<any>
-  abstract findAll(max: number): Promise<T[]>
+  abstract findAll(max: number, offset: number): Promise<T[]>
   abstract findById(id: string): Promise<T | undefined>
   abstract create(item: T): Promise<T>
   abstract update(item: T): Promise<T>

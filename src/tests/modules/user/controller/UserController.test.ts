@@ -101,6 +101,7 @@ describe('UserController', () => {
       expect(receivedUsers.total).toEqual(expect.any(Number))
       expect(receivedUsers.limit).toEqual(expect.any(Number))
       expect(Array.isArray(receivedUsers.data)).toBe(true)
+      expect(receivedUsers.data.length).toBeLessThanOrEqual(receivedUsers.limit)
 
       receivedUsers.data.forEach((userDto) => {
         expect(userDto.id).toBeDefined()

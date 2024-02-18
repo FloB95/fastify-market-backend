@@ -33,7 +33,7 @@ export interface IPaginationResult<T> {
 }
 
 interface IBaseRepository<T> {
-  findAll(max: number): Promise<T[]>
+  findAll(max: number, offset: number): Promise<T[]>
   findById(id: string): Promise<T | undefined>
   create(item: T): Promise<T>
   update(item: T): Promise<T>

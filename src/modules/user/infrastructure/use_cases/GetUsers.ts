@@ -11,6 +11,7 @@ export class GetUsersUseCase implements IGetUsersUseCase {
   ) {}
 
   async execute(page: number, limit: number): Promise<User[]> {
-    return await this.userRepository.findAll(limit)
+    const offset = (page - 1) * limit
+    return await this.userRepository.findAll(limit, offset)
   }
 }
