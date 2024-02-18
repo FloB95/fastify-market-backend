@@ -34,6 +34,7 @@ export interface IPaginationResult<T> {
 
 interface IBaseRepository<T> {
   findAll(max: number, offset: number): Promise<T[]>
+  countTotal(): Promise<number>
   findById(id: string): Promise<T | undefined>
   create(item: T): Promise<T>
   update(item: T): Promise<T>

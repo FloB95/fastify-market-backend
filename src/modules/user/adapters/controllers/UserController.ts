@@ -40,12 +40,12 @@ export class UserController {
   async getUsers(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const { page, limit } = PaginationOptionsSchema.parse(httpRequest.query)
-      const users = await this.userService.getUsers(page, limit)
+      const { users, total } = await this.userService.getUsers(page, limit)
 
       const pagination: IPaginationResult<IUserResponseDto> = {
         page: page,
         limit: limit,
-        total: users.length,
+        total: total,
         data: users,
       }
 
