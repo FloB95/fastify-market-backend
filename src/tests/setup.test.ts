@@ -23,5 +23,4 @@ afterAll(() => {
 
   // close fastify server
   void fastifyInstance.close()
-
 })

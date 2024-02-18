@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events'
-import { type IBaseEventHandler } from '~/core/interfaces/events/BaseEventHandler'
+import { type IBaseEventEmitter } from '~/core/interfaces/events/BaseEventEmitter'
 
-export class NodeEventHandler implements IBaseEventHandler {
+export class NodeEventEmitter implements IBaseEventEmitter {
   private emitter: EventEmitter
 
   constructor() {

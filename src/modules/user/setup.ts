@@ -10,7 +10,6 @@ import UserRepository from './adapters/repositories/UserRepository'
 container.register<CreateUserUseCase>('CreateUserUseCase', {
   useClass: CreateUserUseCase,
 })
-
 container.register<GetUsersUseCase>('GetUsersUseCase', {
   useClass: GetUsersUseCase,
 })
