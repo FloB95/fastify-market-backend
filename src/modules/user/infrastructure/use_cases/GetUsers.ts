@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { inject, injectable } from 'tsyringe'
-import { sleep } from '~/core/utils/general'
 import { type User } from '../../domain/entities/User'
 import { type IGetUsersUseCase } from '../../domain/use_cases/IGetUsersUseCase'
 import { IUserRepository } from '../../domain/repositories/IUserRepository'

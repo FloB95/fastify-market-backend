@@ -10,6 +10,7 @@ import { CreateUserDtoSchema } from '../../application/dtos/UserCreateDto'
 import {
   type IUserResponseDto,
   UserResponseDtoSchema,
+  UserPaginationResponseSchema,
 } from '../../application/dtos/UserResponseDto'
 import {
   PaginationOptionsSchema,
@@ -45,10 +46,12 @@ export class UserController {
         page: page,
         limit: limit,
         total: users.length,
-        data: users.map((user) => UserResponseDtoSchema.parse(user)),
+        data: users,
       }
 
-      return makeApiHttpResponse(200, pagination)
+      const response = UserPaginationResponseSchema.parse(pagination)
+
+      return makeApiHttpResponse(200, response)
     } catch (error: any) {
       const zodErrors = error instanceof ZodError ? error.issues : []
       throw new BadRequestError(error.message, zodErrors)

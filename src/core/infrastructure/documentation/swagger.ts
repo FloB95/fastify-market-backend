@@ -31,7 +31,8 @@ export const swaggerConfig: FastifyDynamicSwaggerOptions = {
   swagger: {
     info: {
       title: 'Market API Documentation',
-      description: 'Testing the Fastify swagger API',
+      description:
+        'Welcome to the Market API Documentation. This API provides endpoints to manage products and orders in a market.',
       version: '0.1.0',
     },
     host: 'localhost',
