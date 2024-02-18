@@ -4,7 +4,7 @@ import { fastifyErrorHandler } from './fastify'
 import fastifyCors from '@fastify/cors'
 import fastifyHelmet from '@fastify/helmet'
 import routes from '../adapters/api/v1/routes'
-import { swaggerDocumentation } from './documentation/swagger'
+import { swaggerConfig, swaggerUiConfig } from './documentation/swagger'
 import swagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import { env } from '../config/env'
@@ -17,20 +17,8 @@ export const buildServer = async (): Promise<FastifyInstance> => {
   })
 
   // register swagger documentation
-  void server.register(swagger, {
-    swagger: {
-      info: {
-        title: 'Marketplace API',
-        description: 'Marketplace API Documentation',
-        version: '1.0.0',
-      },
-      tags: [
-        { name: 'User', description: 'User related end-points' },
-        { name: 'Product', description: 'Product related end-points' },
-      ],
-    },
-  })
-  void server.register(fastifySwaggerUi, swaggerDocumentation)
+  void server.register(swagger, swaggerConfig)
+  void server.register(fastifySwaggerUi, swaggerUiConfig)
 
   // register security modules
   void server.register(fastifyCors)

@@ -1,6 +1,7 @@
+import { type FastifyDynamicSwaggerOptions } from '@fastify/swagger'
 import { type FastifySwaggerUiOptions } from '@fastify/swagger-ui'
 
-export const swaggerDocumentation: FastifySwaggerUiOptions = {
+export const swaggerUiConfig: FastifySwaggerUiOptions = {
   routePrefix: '/api/v1/docs',
   theme: {
     title: 'Fastify API',
@@ -24,4 +25,31 @@ export const swaggerDocumentation: FastifySwaggerUiOptions = {
     return swaggerObject
   },
   transformSpecificationClone: true,
+}
+
+export const swaggerConfig: FastifyDynamicSwaggerOptions = {
+  swagger: {
+    info: {
+      title: 'Market API Documentation',
+      description: 'Testing the Fastify swagger API',
+      version: '0.1.0',
+    },
+    host: 'localhost',
+    schemes: ['http', 'https'],
+    consumes: ['application/json'],
+    produces: ['application/json'],
+    tags: [
+      { name: 'User', description: 'User related end-points' },
+      { name: 'Product', description: 'Product related end-points' },
+    ],
+    securityDefinitions: {
+      Bearer: {
+        type: 'apiKey',
+        name: 'Authorization',
+        in: 'header',
+        description:
+          'Enter the token with the `Bearer: ` prefix, e.g. "Bearer abcde12345".',
+      },
+    },
+  },
 }

@@ -18,6 +18,6 @@ export default async function loadConfigurations() {
 
   // just a test to see if the event listener is working
   onUserCreated((event) => {
-    logger.info(`User created: ${event.user.email}`)
+    logger.info(`User created: ${event.user.email} no async`)
   })
 }

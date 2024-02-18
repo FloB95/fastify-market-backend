@@ -18,12 +18,6 @@ export class UserService {
     // Pass the validated user DTO to the CreateUserUseCase
     const newUser = await this.createUserUseCase.execute(validatedUser)
 
-    // todo implement email service
-    // await this.sendEmailUseCase.execute(
-    //   newUser.email,
-    //   'Welcome!',
-    //   'Thanks for signing up!',
-    // )
     return newUser
   }
 
