@@ -18,6 +18,7 @@ export const initDb = async () => {
       password: env.DB_PASSWORD,
       database: env.DB_NAME,
       multipleStatements: true,
+      port: Number(env.DB_PORT),
     })
 
     db = drizzle(connection, { schema, mode: 'default' })

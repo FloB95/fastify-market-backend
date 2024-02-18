@@ -11,6 +11,7 @@ const server = z.object({
   DB_USER: z.string(),
   DB_PASSWORD: z.string(),
   DB_NAME: z.string(),
+  DB_PORT: z.string(),
   NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
   API_PORT: z.string().default('5000'),
   API_HOST: z.string().default('127.0.0.1'),
