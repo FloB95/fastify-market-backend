@@ -1,4 +1,4 @@
-import { z } from 'zod'
+import { type ZodSchema, z } from 'zod'
 
 export const PaginationOptionsSchema = z.object({
   page: z
@@ -16,6 +16,15 @@ export const PaginationOptionsSchema = z.object({
     })
     .default('10'),
 })
+
+export const PaginationResponseSchema = (dataSchema: ZodSchema) =>
+  z.object({
+    page: z.number().default(1),
+    limit: z.number().default(10),
+    total: z.number(),
+    data: z.array(dataSchema),
+  })
+
 export interface IPaginationResult<T> {
   data: T[]
   total: number

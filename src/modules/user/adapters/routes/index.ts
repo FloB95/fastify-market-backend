@@ -5,18 +5,17 @@ import {
 } from 'fastify'
 import { fastifyRequestParser } from '~/core/infrastructure/fastify'
 import { UserController } from '../controllers/UserController'
+import {
+  CreateUserSchema,
+  GetUsersSchema,
+} from '../../documentation/SwaggerSchemas'
 
 const userController = new UserController()
-const schemaTags = ['User']
 
 const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
   fastify.get(
     '/',
-    {
-      schema: {
-        tags: schemaTags,
-      },
-    },
+    { schema: GetUsersSchema },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const res = await userController.getUsers(fastifyRequestParser(request))
       reply.statusCode = res.statusCode
@@ -28,9 +27,7 @@ const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
   fastify.post(
     '/',
     {
-      schema: {
-        tags: schemaTags,
-      },
+      schema: CreateUserSchema,
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const res = await userController.createUser(fastifyRequestParser(request))

@@ -4,7 +4,7 @@ import { fastifyErrorHandler } from './fastify'
 import fastifyCors from '@fastify/cors'
 import fastifyHelmet from '@fastify/helmet'
 import routes from '../adapters/api/v1/routes'
-import { swaggerDocumentation } from './documentation/swagger'
+import { swaggerConfig, swaggerUiConfig } from './documentation/swagger'
 import swagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import { env } from '../config/env'
@@ -14,23 +14,12 @@ const port = env.API_PORT
 export const buildServer = async (): Promise<FastifyInstance> => {
   const server = fastify({
     logger,
+    ajv: { customOptions: { strict: false } },
   })
 
   // register swagger documentation
-  void server.register(swagger, {
-    swagger: {
-      info: {
-        title: 'Marketplace API',
-        description: 'Marketplace API Documentation',
-        version: '1.0.0',
-      },
-      tags: [
-        { name: 'User', description: 'User related end-points' },
-        { name: 'Product', description: 'Product related end-points' },
-      ],
-    },
-  })
-  void server.register(fastifySwaggerUi, swaggerDocumentation)
+  void server.register(swagger, swaggerConfig)
+  void server.register(fastifySwaggerUi, swaggerUiConfig)
 
   // register security modules
   void server.register(fastifyCors)
@@ -38,6 +27,11 @@ export const buildServer = async (): Promise<FastifyInstance> => {
 
   // register routes
   void server.register(routes, { prefix: '/api/v1' })
+
+  // disable build in validation and use custom validation
+  server.setValidatorCompiler(() => {
+    return () => ({})
+  })
 
   // health check
   server.get('/', async (req, resp) => {

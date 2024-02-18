@@ -13,10 +13,10 @@ export const migrateDb = async (closeConnection = true) => {
     migrationsFolder: './src/core/infrastructure/db/drizzle/migrations',
   })
     .then(() => {
-      logger.info('INIT', 'Migrated database')
+      logger.info('Database Migrated')
     })
     .catch((error) => {
-      logger.error('INIT', `Failed to migrate database ${String(error)}`)
+      logger.error(`Failed to migrate database ${String(error)}`)
       throw new Error(`Failed to migrate database ${String(error)}`)
     })
   // Don't forget to close the connection, otherwise the script will hang
