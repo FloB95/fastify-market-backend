@@ -14,6 +14,7 @@ const port = env.API_PORT
 export const buildServer = async (): Promise<FastifyInstance> => {
   const server = fastify({
     logger,
+    ajv: { customOptions: { strict: false } },
   })
 
   // register swagger documentation
@@ -26,6 +27,11 @@ export const buildServer = async (): Promise<FastifyInstance> => {
 
   // register routes
   void server.register(routes, { prefix: '/api/v1' })
+
+  // disable build in validation and use custom validation
+  server.setValidatorCompiler(() => {
+    return () => ({})
+  })
 
   // health check
   server.get('/', async (req, resp) => {

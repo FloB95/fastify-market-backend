@@ -15,6 +15,7 @@ export const GetUsersSchema: ExtendedFastifySchema = {
 
 export const CreateUserSchema: ExtendedFastifySchema = {
   description: 'Create a new user',
+  validate: false,
   tags: ['User'],
   body: CreateUserJsonSchema.definitions.body,
   response: {
