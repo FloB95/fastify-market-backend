@@ -35,7 +35,7 @@ export const swaggerConfig: FastifyDynamicSwaggerOptions = {
         'Welcome to the Market API Documentation. This API provides endpoints to manage products and orders in a market.',
       version: '0.1.0',
     },
-    host: 'localhost',
+    host: 'localhost:5000',
     schemes: ['http', 'https'],
     consumes: ['application/json'],
     produces: ['application/json'],
