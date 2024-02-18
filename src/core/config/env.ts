@@ -13,6 +13,7 @@ const server = z.object({
   DB_NAME: z.string(),
   NODE_ENV: z.enum(['development', 'test', 'production']).default('production'),
   API_PORT: z.string().default('5000'),
+  API_HOST: z.string().default('127.0.0.1'),
   LOG_LEVEL: z
     .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace'])
     .default('info'),

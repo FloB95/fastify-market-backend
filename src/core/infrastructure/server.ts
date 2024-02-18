@@ -9,7 +9,6 @@ import swagger from '@fastify/swagger'
 import fastifySwaggerUi from '@fastify/swagger-ui'
 import { env } from '../config/env'
 
-const port = env.API_PORT
 
 export const buildServer = async (): Promise<FastifyInstance> => {
   const server = fastify({
@@ -62,7 +61,8 @@ export const startServer = async () => {
   try {
     const server = await buildServer()
     const serverOptions: any = {
-      port,
+      port: env.API_PORT,
+      host: env.API_HOST
     }
 
     await server.listen(serverOptions)
