@@ -10,8 +10,13 @@ export class GetUsersUseCase implements IGetUsersUseCase {
     @inject('UserRepository') private userRepository: IUserRepository,
   ) {}
 
-  async execute(page: number, limit: number): Promise<User[]> {
+  async execute(page: number, limit: number) {
     const offset = (page - 1) * limit
-    return await this.userRepository.findAll(limit, offset)
+    const users = await this.userRepository.findAll(limit, offset)
+    const total = await this.userRepository.countTotal()
+    return {
+      users,
+      total,
+    }
   }
 }

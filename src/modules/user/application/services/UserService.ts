@@ -21,7 +21,13 @@ export class UserService {
     return newUser
   }
 
-  async getUsers(page: number, limit: number): Promise<User[]> {
-    return this.getUsersUseCase.execute(page, limit)
+  async getUsers(
+    page: number,
+    limit: number,
+  ): Promise<{
+    users: User[]
+    total: number
+  }> {
+    return await this.getUsersUseCase.execute(page, limit)
   }
 }

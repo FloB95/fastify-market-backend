@@ -1,3 +1,4 @@
+import { sql } from 'drizzle-orm'
 import { type MySqlTableWithColumns } from 'drizzle-orm/mysql-core'
 import { v4 as uuidv4 } from 'uuid'
 import { db } from '~/core/infrastructure/db/drizzle/setup'
@@ -10,6 +11,17 @@ export abstract class BaseRepository<T> implements IBaseRepository<T> {
   abstract create(item: T): Promise<T>
   abstract update(item: T): Promise<T>
   abstract delete(id: string): Promise<boolean>
+
+  // TODO find more performant way to count total
+  public async countTotal(): Promise<number> {
+    const result = await db
+      .select({
+        count: sql<number>`count(${this.table.id})`,
+      })
+      .from(this.table)
+
+    return result[0]?.count || 0
+  }
 
   public async generateId(): Promise<string> {
     let newId: string
