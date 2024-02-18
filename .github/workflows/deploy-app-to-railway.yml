@@ -17,7 +17,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: 'Install Dependencies'
-        run: npm i
+        run: npm install --omit=dev
       - name: Update Database
         run: npm run db:push
       - name: Install Railway
