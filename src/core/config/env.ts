@@ -7,6 +7,7 @@ import { z } from 'zod'
  * built with invalid env vars.
  */
 const server = z.object({
+  BASE_URL: z.string().url().default('http://localhost:5000'),
   DB_HOST: z.string(),
   DB_USER: z.string(),
   DB_PASSWORD: z.string(),

@@ -1,5 +1,6 @@
 import { type FastifyDynamicSwaggerOptions } from '@fastify/swagger'
 import { type FastifySwaggerUiOptions } from '@fastify/swagger-ui'
+import { env } from '~/core/config/env'
 
 export const swaggerUiConfig: FastifySwaggerUiOptions = {
   routePrefix: '/api/v1/docs',
@@ -9,7 +10,7 @@ export const swaggerUiConfig: FastifySwaggerUiOptions = {
   uiConfig: {
     docExpansion: 'full',
     deepLinking: false,
-    url: 'http://localhost:5000/api/v1/swagger.json',
+    url: `${env.BASE_URL}/api/v1/swagger.json`,
   },
   uiHooks: {
     onRequest: function (request, reply, next) {
@@ -35,8 +36,8 @@ export const swaggerConfig: FastifyDynamicSwaggerOptions = {
         'Welcome to the Market API Documentation. This API provides endpoints to manage products and orders in a market.',
       version: '0.1.0',
     },
-    host: 'localhost:5000',
-    schemes: ['http', 'https'],
+    host: env.BASE_URL.replace('http://', '').replace('https://', ''),
+    schemes: ['https', 'http'],
     consumes: ['application/json'],
     produces: ['application/json'],
     tags: [
