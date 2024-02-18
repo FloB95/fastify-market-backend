@@ -5,7 +5,7 @@ import './env'
 import 'reflect-metadata'
 
 // load all modules
-import 'src/modules/user/setup'
+import '~/modules/user/setup'
 
 // other imports
 import { initDb } from '../infrastructure/db/drizzle/setup'

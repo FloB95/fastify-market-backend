@@ -1,0 +1,21 @@
+name: Deploy to Railway
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy-app:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: 'Install Dependencies'
+        run: npm i
+      - name: Update Database
+        run: DATABASE_URL=${{ secrets.DATABASE_URL }} npm run db:push
+      - name: Install Railway
+        run: npm i -g @railway/cli
+      - name: Deploy
+        run: railway up
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
