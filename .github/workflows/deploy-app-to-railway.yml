@@ -18,8 +18,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: 'Install Dependencies'
         run: npm install --omit=dev
-      - name: Update Database
-        run: npm run db:push
+      # - name: Update Database
+      #   run: npm run db:push
       - name: Install Railway
         run: npm i -g @railway/cli
       - name: Deploy
