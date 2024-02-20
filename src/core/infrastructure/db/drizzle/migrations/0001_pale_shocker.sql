@@ -1,0 +1,1 @@
+ALTER TABLE `User` ADD `password` varchar(255) NOT NULL;

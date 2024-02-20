@@ -7,6 +7,9 @@ export const usersTable = mysqlTable('User', {
   firstname: varchar('firstname', {
     length: 255,
   }).notNull(),
+  password: varchar('password', {
+    length: 255,
+  }).notNull(),
   lastname: varchar('lastname', {
     length: 255,
   }).notNull(),

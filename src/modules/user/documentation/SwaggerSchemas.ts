@@ -20,5 +20,6 @@ export const CreateUserSchema: ExtendedFastifySchema = {
   body: CreateUserJsonSchema.definitions.body,
   response: {
     201: CreateUserJsonSchema.definitions.response,
+    400: BadRequestErrorResponseJsonSchema.definitions.response,
   },
 }

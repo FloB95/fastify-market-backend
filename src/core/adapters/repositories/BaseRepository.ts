@@ -12,8 +12,8 @@ export abstract class BaseRepository<T> implements IBaseRepository<T> {
   abstract update(item: T): Promise<T>
   abstract delete(id: string): Promise<boolean>
 
-  // TODO find more performant way to count total
   public async countTotal(): Promise<number> {
+    // if(1 === 1) return 0
     const result = await db
       .select({
         count: sql<number>`count(${this.table.id})`,
