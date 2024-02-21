@@ -12,7 +12,6 @@ import { env } from '../config/env'
 export const buildServer = async (): Promise<FastifyInstance> => {
   const server = fastify({
     logger,
-    ajv: { customOptions: { strict: false } },
   })
 
   // register swagger documentation
@@ -30,6 +29,12 @@ export const buildServer = async (): Promise<FastifyInstance> => {
   server.setValidatorCompiler(() => {
     return () => ({})
   })
+
+ server.setSerializerCompiler(function () {
+   return function (data) {
+     return JSON.stringify(data)
+   }
+ })
 
   // health check
   server.get('/', async (req, resp) => {
