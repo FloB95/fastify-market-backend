@@ -56,28 +56,7 @@ describe('UserController', () => {
         code: 'invalid_type',
         expected: 'string',
         received: 'undefined',
-        path: ['firstname'],
-        message: 'Required',
-      })
-      expect(responseBody.fieldErrors).toContainEqual({
-        code: 'invalid_type',
-        expected: 'string',
-        received: 'undefined',
-        path: ['lastname'],
-        message: 'Required',
-      })
-      expect(responseBody.fieldErrors).toContainEqual({
-        code: 'invalid_type',
-        expected: 'string',
-        received: 'undefined',
-        path: ['email'],
-        message: 'Required',
-      })
-      expect(responseBody.fieldErrors).toContainEqual({
-        code: 'invalid_type',
-        expected: 'string',
-        received: 'undefined',
-        path: ['password'],
+        path: ['firstname', 'lastname', 'email', 'password'],
         message: 'Required',
       })
     })

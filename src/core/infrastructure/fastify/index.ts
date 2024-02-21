@@ -22,7 +22,8 @@ export const fastifyErrorHandler = (
     }
 
     if (zodErrors.length > 0) {
-      responsePayload.fieldErrors = zodErrors
+      const mergedErrors = mergeErrorObjects(zodErrors)
+      responsePayload.fieldErrors = mergedErrors
     }
 
     return reply.status(error.statusCode).send(responsePayload)
@@ -32,4 +33,24 @@ export const fastifyErrorHandler = (
     message: error.message,
     code: 500,
   })
+}
+
+
+function mergeErrorObjects(errors: any[]): any[] {
+  const mergedErrors = []
+
+  for (const error of errors) {
+    const existingError = mergedErrors.find((e) => {
+      const keys = Object.keys(e)
+      return keys.every((key) => key === 'path' || e[key] === error[key])
+    })
+
+    if (existingError) {
+      existingError.path = [...existingError.path, ...error.path]
+    } else {
+      mergedErrors.push(error)
+    }
+  }
+
+  return mergedErrors
 }
