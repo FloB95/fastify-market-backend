@@ -42,11 +42,10 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
         email: user.email,
         password: user.password,
         createdAt: user.createdAt,
-        updatedAt: user.updatedAt, // Convert Date to string,
+        updatedAt: user.updatedAt,
       } as NewUser)
       .execute()
 
-    // TODO get user by id ??
     return user
   }
 

@@ -8,6 +8,13 @@
       "when": 1708178082294,
       "tag": "0000_redundant_violations",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1708290759921,
+      "tag": "0001_pale_shocker",
+      "breakpoints": true
     }
   ]
 }

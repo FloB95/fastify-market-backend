@@ -45,7 +45,7 @@ export class UserController {
       const pagination: IPaginationResult<IUserResponseDto> = {
         page: page,
         limit: limit,
-        total: total,
+        total,
         data: users,
       }
 
