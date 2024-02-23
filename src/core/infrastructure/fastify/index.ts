@@ -1,6 +1,6 @@
 import { type FastifyReply, type FastifyRequest } from 'fastify'
 import { BadRequestError, CustomApiError } from '../../errors/http'
-import { type IHttpRequest } from '~/core/interfaces/http/Request'
+import { type IHttpRequest } from '~/core/domain/http/Request'
 
 export const fastifyRequestParser = (request: FastifyRequest): IHttpRequest => {
   const { body, params, query, headers } = request
@@ -15,6 +15,8 @@ export const fastifyErrorHandler = (
   if (error instanceof CustomApiError) {
     // if error is instance of BadRequestError attach zod errors
     const zodErrors = error instanceof BadRequestError ? error.zodErrors : []
+
+    console.log('error', error)
 
     const responsePayload: any = {
       message: error.message,

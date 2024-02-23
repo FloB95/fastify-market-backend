@@ -4,6 +4,8 @@ import { UserService } from './application/services/UserService'
 import { GetUsersUseCase } from './infrastructure/use_cases/GetUsers'
 import UserRepository from './adapters/repositories/UserRepository'
 import { GetOneUserByUseCase } from './infrastructure/use_cases/GetOneUserBy'
+import { UpdateUserUseCase } from './infrastructure/use_cases/UpdateUser'
+import { DeleteUserUseCase } from './infrastructure/use_cases/DeleteUser'
 
 /***
  * Use Cases
@@ -11,11 +13,17 @@ import { GetOneUserByUseCase } from './infrastructure/use_cases/GetOneUserBy'
 container.register<CreateUserUseCase>('CreateUserUseCase', {
   useClass: CreateUserUseCase,
 })
+container.register<UpdateUserUseCase>('UpdateUserUseCase', {
+  useClass: UpdateUserUseCase,
+})
 container.register<GetUsersUseCase>('GetUsersUseCase', {
   useClass: GetUsersUseCase,
 })
 container.register<GetOneUserByUseCase>('GetOneUserByUseCase', {
   useClass: GetOneUserByUseCase,
+})
+container.register<DeleteUserUseCase>('DeleteUserUseCase', {
+  useClass: DeleteUserUseCase,
 })
 
 /***

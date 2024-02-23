@@ -1,3 +1,9 @@
+import { z } from 'zod'
+
+export const DefaultApiErrorResponseSchema = z.object({
+  message: z.string(),
+})
+
 export class CustomApiError extends Error {
   statusCode: number
 

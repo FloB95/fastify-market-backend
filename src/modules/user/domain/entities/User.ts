@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { BaseEntity, BaseEntitySchema } from '~/core/domain/BaseEntity'
+import { BaseEntity, BaseEntitySchema } from '~/core/domain/entities/BaseEntity'
 
 export const UserSchema = z.object({
   ...BaseEntitySchema.shape,

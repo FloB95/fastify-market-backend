@@ -11,9 +11,9 @@ export class GetOneUserByUseCase implements IGetOneUserByUseCase {
   async execute(where) {
     // if id find by id else find by email
     if ('id' in where) {
-      return await this.userRepository.findById(where.id)
+      return await this.userRepository.findOneById(where.id)
     }
 
-    return await this.userRepository.findByEmail(where.email)
+    return await this.userRepository.findOneByEmail(where.email)
   }
 }
