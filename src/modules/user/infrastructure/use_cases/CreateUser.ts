@@ -19,8 +19,13 @@ export class CreateUserUseCase implements ICreateUserUseCase {
       user.password,
     )
 
+    // create the user
     await this.userRepository.create(newUser)
-    emitUserCreatedEvent(newUser)
-    return newUser
+
+    // get the user from the repository
+    const createdUser = await this.userRepository.findOneById(newUser.id)
+
+    emitUserCreatedEvent(createdUser)
+    return createdUser
   }
 }

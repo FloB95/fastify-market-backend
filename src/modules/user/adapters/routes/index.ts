@@ -7,13 +7,17 @@ import { fastifyRequestParser } from '~/core/infrastructure/fastify'
 import { UserController } from '../controllers/UserController'
 import {
   CreateUserSchema,
+  DeleteUserSchema,
+  GetUserSchema,
   GetUsersSchema,
+  UpdateUserSchema,
 } from '../../documentation/SwaggerSchemas'
 import UserRepository from '../repositories/UserRepository'
 
 const userController = new UserController()
 
 const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
+  //
   fastify.get(
     '/',
     { schema: GetUsersSchema },
@@ -25,16 +29,16 @@ const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
     },
   )
 
-  fastify.get(
-    '/test',
-    { schema: GetUsersSchema },
-    async (request: FastifyRequest, reply: FastifyReply) => {
-      const r = new UserRepository()
-      const users = await r.findAll(10, 0)
-      void reply.send(users)
-    },
-  )
+  fastify.get('/test', async (request: FastifyRequest, reply: FastifyReply) => {
+    const r = new UserRepository()
+    const users = await r.findAll({
+      limit: 10,
+      offset: 0,
+    })
+    void reply.send(users)
+  })
 
+  // create user route
   fastify.post(
     '/',
     {
@@ -42,6 +46,42 @@ const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const res = await userController.createUser(fastifyRequestParser(request))
+      reply.statusCode = res.statusCode
+      void reply.headers(res.headers)
+      void reply.send(res.data)
+    },
+  )
+
+  // get singe user ny id
+  fastify.get(
+    '/:id',
+    { schema: GetUserSchema },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const res = await userController.getUser(fastifyRequestParser(request))
+      reply.statusCode = res.statusCode
+      void reply.headers(res.headers)
+      void reply.send(res.data)
+    },
+  )
+
+  // update user route
+  fastify.patch(
+    '/:id',
+    { schema: UpdateUserSchema },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const res = await userController.updateUser(fastifyRequestParser(request))
+      reply.statusCode = res.statusCode
+      void reply.headers(res.headers)
+      void reply.send(res.data)
+    },
+  )
+
+  // delete user route
+  fastify.delete(
+    '/:id',
+    { schema: DeleteUserSchema },
+    async (request: FastifyRequest, reply: FastifyReply) => {
+      const res = await userController.deleteUser(fastifyRequestParser(request))
       reply.statusCode = res.statusCode
       void reply.headers(res.headers)
       void reply.send(res.data)

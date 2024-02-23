@@ -1,5 +1,5 @@
 import { z, type ZodIssue } from 'zod'
-import { CustomApiError } from './CustomApiError'
+import { CustomApiError, DefaultApiErrorResponseSchema } from './CustomApiError'
 import zodToJsonSchema from 'zod-to-json-schema'
 
 const FieldErrorSchema = z.object({
@@ -12,7 +12,7 @@ const FieldErrorSchema = z.object({
 
 export const BadRequestErrorResponseSchema = z
   .object({
-    message: z.string(),
+    ...DefaultApiErrorResponseSchema.shape,
     code: z.number().default(400),
     fieldErrors: z.array(FieldErrorSchema).optional(),
   })

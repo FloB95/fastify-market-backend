@@ -1,5 +1,9 @@
 import { type ZodSchema, z } from 'zod'
 
+export const DefaultIdParamSchema = z.object({
+  id: z.string(),
+})
+
 export const PaginationOptionsSchema = z.object({
   page: z
     .string()
@@ -15,6 +19,13 @@ export const PaginationOptionsSchema = z.object({
       message: 'Limit must be a positive integer',
     })
     .default('10'),
+  select: z
+    .string()
+    .optional()
+    .describe(
+      "String with comma separated fields from the entity's schema which will be selected. If not provided, all fields will be selected.",
+    ),
+  where: z.string().optional().describe('String with comma separated fields'),
 })
 
 export const PaginationResponseSchema = (dataSchema: ZodSchema) =>
@@ -32,13 +43,20 @@ export interface IPaginationResult<T> {
   limit: number
 }
 
+export interface ISqlQueryFindBy<T> {
+  limit: number
+  offset: number
+  select?: Partial<{ [K in keyof T]: boolean }>
+  where?: Partial<{ [K in keyof T]: any }>
+}
+
 interface IBaseRepository<T> {
-  findAll(max: number, offset: number): Promise<T[]>
+  findAll({ limit, offset, select, where }: ISqlQueryFindBy<T>): Promise<T[]>
   countTotal(): Promise<number>
-  findById(id: string): Promise<T | undefined>
-  create(item: T): Promise<T>
-  update(item: T): Promise<T>
-  delete(id: string): Promise<boolean>
+  findOneById(id: string): Promise<T | undefined>
+  create(item: T): Promise<void>
+  update(item: T, updates: Partial<T>): Promise<void>
+  delete(item: T): Promise<boolean>
   generateId(): Promise<string>
 }
 

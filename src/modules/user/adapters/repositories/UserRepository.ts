@@ -1,46 +1,83 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/require-await */
-import { type IUserRepository } from '../../domain/repositories/IUserRepository'
 import { User } from '../../domain/entities/User'
 import { injectable } from 'tsyringe'
 import { db } from '~/core/infrastructure/db/drizzle/setup'
 import { usersTable } from '~/core/infrastructure/db/drizzle/schema'
 import { BaseRepository } from '~/core/adapters/repositories/BaseRepository'
-import { eq } from 'drizzle-orm'
+import { desc, eq } from 'drizzle-orm'
+import { type ISqlQueryFindBy } from '~/core/domain/repositories/BaseRepository'
+import { type IUserRepository } from '../../domain/repositories/IUserRepository'
 
 type NewUser = typeof usersTable.$inferInsert
+
 @injectable()
 class UserRepository extends BaseRepository<User> implements IUserRepository {
   table = usersTable
-  async findAll(max: number, offset: number): Promise<User[]> {
-    const users = await db.query.usersTable.findMany({
-      limit: max,
-      offset,
-      orderBy: (u, { desc }) => [desc(u.createdAt)],
-    })
+
+  async findAll({
+    limit,
+    offset,
+    select,
+    where,
+  }: ISqlQueryFindBy<User>): Promise<User[]> {
+    // get keys from select object where true and map them with this.table[key]
+    const mappedSelect = select
+      ? Object.entries(select)
+          .filter(([key, value]) => value === true)
+          .reduce((acc, [key, value]) => {
+            acc[key] = this.table[key]
+            return acc
+          }, {})
+      : undefined
+
+    let users
+    if (mappedSelect) {
+      users = await db
+        .select(mappedSelect)
+        .from(this.table)
+        //  .where(where)
+        .orderBy(desc(this.table.createdAt))
+        .limit(limit)
+        .offset(offset)
+    } else {
+      users = await db
+        .select()
+        .from(this.table)
+        //  .where(where)
+        .orderBy(desc(this.table.createdAt))
+        .limit(limit)
+        .offset(offset)
+    }
+
     return users.map((user) => UserRepository.mapDbEntryToUser(user))
   }
 
-  async findById(id: string): Promise<User | undefined> {
-    throw new Error('Method not implemented.')
-  }
-
-  async findByEmail(email: string): Promise<User | undefined> {
+  async findOneById(id: string): Promise<User | undefined> {
     const user = await db.query.usersTable.findFirst({
-      where: eq(usersTable.email, email),
+      where: eq(usersTable.id, id),
     })
     return user ? UserRepository.mapDbEntryToUser(user) : undefined
   }
 
-  async update(item: User): Promise<User> {
-    throw new Error('Method not implemented.')
+  async findOneByEmail(email: string): Promise<User | undefined> {
+    const user = await db.query.usersTable.findFirst({
+      where: eq(usersTable.email, email),
+    })
+
+    return user ? UserRepository.mapDbEntryToUser(user) : undefined
   }
 
-  async delete(id: string): Promise<boolean> {
-    throw new Error('Method not implemented.')
+  async update(user: User, updates: Partial<User>): Promise<void> {
+    await db.update(this.table).set(updates).where(eq(this.table.id, user.id))
   }
 
-  async create(user: User): Promise<User> {
+  async delete(user: User): Promise<boolean> {
+    await db.delete(this.table).where(eq(this.table.id, user.id)).execute()
+    return true
+  }
+
+  async create(user: User): Promise<void> {
     await db
       .insert(usersTable)
       .values({
@@ -53,8 +90,6 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
         updatedAt: user.updatedAt,
       } as NewUser)
       .execute()
-
-    return user
   }
 
   public static mapDbEntryToUser(dbUser: any): User {
@@ -66,8 +101,16 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
       dbUser.password,
     )
 
-    user.setCreatedAt(new Date(dbUser.createdAt))
-    user.setUpdatedAt(dbUser.updatedAt ? new Date(dbUser.updatedAt) : null)
+    console.log(dbUser)
+
+    user.setCreatedAt(dbUser.createdAt ? new Date(dbUser.createdAt) : undefined)
+
+    // can be null if db field is empty or can be undefined if not selected
+    if (typeof dbUser.updatedAt !== 'undefined') {
+      user.setUpdatedAt(dbUser.updatedAt ? new Date(dbUser.updatedAt) : null)
+    } else {
+      user.setUpdatedAt(undefined)
+    }
     return user
   }
 }

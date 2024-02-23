@@ -1,3 +1,4 @@
+import { type ISqlQueryFindBy } from '~/core/domain/repositories/BaseRepository'
 import { type User } from '../entities/User'
 
 interface IGetUsersUseCaseResponse {
@@ -5,5 +6,10 @@ interface IGetUsersUseCaseResponse {
   total: number
 }
 export interface IGetUsersUseCase {
-  execute(page: number, limit: number): Promise<IGetUsersUseCaseResponse>
+  execute({
+    limit,
+    offset,
+    select,
+    where,
+  }: ISqlQueryFindBy<User>): Promise<IGetUsersUseCaseResponse>
 }

@@ -21,7 +21,7 @@ export const BaseDtoCreateOmitFields: BaseDtoCreateOmitFields = {
 export abstract class BaseEntity {
   public readonly id: string
   public createdAt: Date = new Date()
-  public updatedAt: Date | null
+  public updatedAt: Date | null = null
 
   constructor(id: string) {
     this.id = id

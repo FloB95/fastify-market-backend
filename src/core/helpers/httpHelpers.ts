@@ -1,4 +1,4 @@
-import { type IHttpResponse } from '~/core/interfaces/http/Request'
+import { type IHttpResponse } from '~/core/domain/http/Request'
 
 export const makeApiHttpResponse = (
   statusCode: number,
