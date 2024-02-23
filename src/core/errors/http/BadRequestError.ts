@@ -4,8 +4,10 @@ import zodToJsonSchema from 'zod-to-json-schema'
 
 const FieldErrorSchema = z.object({
   code: z.string(),
-  message: z.string(),
+  expected: z.string().optional(),
+  received: z.string().optional(),
   path: z.array(z.string()),
+  message: z.string(),
 })
 
 export const BadRequestErrorResponseSchema = z

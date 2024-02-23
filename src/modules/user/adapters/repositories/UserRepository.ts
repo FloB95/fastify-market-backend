@@ -6,6 +6,7 @@ import { injectable } from 'tsyringe'
 import { db } from '~/core/infrastructure/db/drizzle/setup'
 import { usersTable } from '~/core/infrastructure/db/drizzle/schema'
 import { BaseRepository } from '~/core/adapters/repositories/BaseRepository'
+import { eq } from 'drizzle-orm'
 
 type NewUser = typeof usersTable.$inferInsert
 @injectable()
@@ -22,6 +23,13 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
 
   async findById(id: string): Promise<User | undefined> {
     throw new Error('Method not implemented.')
+  }
+
+  async findByEmail(email: string): Promise<User | undefined> {
+    const user = await db.query.usersTable.findFirst({
+      where: eq(usersTable.email, email),
+    })
+    return user ? UserRepository.mapDbEntryToUser(user) : undefined
   }
 
   async update(item: User): Promise<User> {
