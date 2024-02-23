@@ -15,6 +15,13 @@
       "when": 1708290759921,
       "tag": "0001_pale_shocker",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1708681076730,
+      "tag": "0002_luxuriant_hulk",
+      "breakpoints": true
     }
   ]
 }

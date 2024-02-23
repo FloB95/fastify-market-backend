@@ -30,11 +30,11 @@ export const buildServer = async (): Promise<FastifyInstance> => {
     return () => ({})
   })
 
- server.setSerializerCompiler(function () {
-   return function (data) {
-     return JSON.stringify(data)
-   }
- })
+  server.setSerializerCompiler(function () {
+    return function (data) {
+      return JSON.stringify(data)
+    }
+  })
 
   // health check
   server.get('/', async (req, resp) => {

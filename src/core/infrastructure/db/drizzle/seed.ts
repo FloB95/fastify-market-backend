@@ -9,7 +9,7 @@ async function runSeed() {
   // Generate a million entries
   const numEntries = 1000000
   const batchSize = 10
-   // Number of entries to insert in each batch
+  // Number of entries to insert in each batch
   for (let i = 0; i < numEntries; i += batchSize) {
     console.log('start creating batch', i)
     const entries = []
@@ -26,7 +26,7 @@ async function runSeed() {
         lastname,
         email,
         createdAt,
-        password
+        password,
       })
     }
 

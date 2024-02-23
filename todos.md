@@ -3,7 +3,7 @@
 - Check validation. Currently done in Controller. Should be a Business Logic ?
 - Implement EventHandlers in core to handle events like UserCreated, UserUpdated, UserDeleted etc. Use Interface to be flexible.
 - Implement a proper logging system. Currently using console.log
-- Implement a proper error handling system. Currently using throw new Error
+- Standardize error messages globally in an error handler
 - Implement a proper configuration system. Currently using hardcoded values
 - Implement a proper database system. Currently using in-memory array
 - Implement a proper authentication system.

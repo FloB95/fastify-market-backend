@@ -13,7 +13,8 @@ export class GetUsersUseCase implements IGetUsersUseCase {
   async execute(page: number, limit: number) {
     const offset = (page - 1) * limit
     const users = await this.userRepository.findAll(limit, offset)
-    const total = await this.userRepository.countTotal()
+    const total = 1
+
     return {
       users,
       total,

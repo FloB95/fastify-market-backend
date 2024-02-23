@@ -35,7 +35,6 @@ export const fastifyErrorHandler = (
   })
 }
 
-
 function mergeErrorObjects(errors: any[]): any[] {
   const mergedErrors = []
 

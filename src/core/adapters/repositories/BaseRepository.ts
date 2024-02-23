@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm'
+import { eq, sql } from 'drizzle-orm'
 import { type MySqlTableWithColumns } from 'drizzle-orm/mysql-core'
 import { v4 as uuidv4 } from 'uuid'
 import { db } from '~/core/infrastructure/db/drizzle/setup'
@@ -32,8 +32,7 @@ export abstract class BaseRepository<T> implements IBaseRepository<T> {
       const existing = await db
         .select()
         .from(this.table)
-        // @ts-ignore
-        .where({ id: newId })
+        .where(eq(this.table.id, newId))
         .execute()
 
       if (existing.length === 0) {
