@@ -22,6 +22,13 @@
       "when": 1708681076730,
       "tag": "0002_luxuriant_hulk",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1708783246313,
+      "tag": "0003_sweet_makkari",
+      "breakpoints": true
     }
   ]
 }

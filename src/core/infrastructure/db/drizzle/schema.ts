@@ -25,7 +25,10 @@ export const usersTable = mysqlTable(
   },
   (table) => {
     return {
+      firstname: index('firstname').on(table.firstname),
+      lastname: index('lastname').on(table.lastname),
       createdAt: index('createdAt').on(table.createdAt),
+      updatedAt: index('updatedAt').on(table.updatedAt),
     }
   },
 )

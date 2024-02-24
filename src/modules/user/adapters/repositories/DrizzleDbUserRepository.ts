@@ -7,6 +7,10 @@ import { BaseRepository } from '~/core/adapters/repositories/BaseRepository'
 import { desc, eq } from 'drizzle-orm'
 import { type ISqlQueryFindBy } from '~/core/domain/repositories/BaseRepository'
 import { type IUserRepository } from '../../domain/repositories/IUserRepository'
+import {
+  convertQuerySelectToDrizzle,
+  convertWhereConditionToDrizzle,
+} from '~/core/infrastructure/db/drizzle/utils'
 
 type NewUser = typeof usersTable.$inferInsert
 
@@ -23,34 +27,32 @@ class DrizzleDbUserRepository
     select,
     where,
   }: ISqlQueryFindBy<User>): Promise<User[]> {
-    // get keys from select object where true and map them with this.table[key]
-    const mappedSelect = select
-      ? Object.entries(select)
-          .filter(([key, value]) => value === true)
-          .reduce((acc, [key, value]) => {
-            acc[key] = this.table[key]
-            return acc
-          }, {})
+    const whereDrizzle = where
+      ? convertWhereConditionToDrizzle<User>(where, this.table)
       : undefined
 
-    let users
-    if (mappedSelect) {
-      users = await db
-        .select(mappedSelect)
+    const drizzleSelect = convertQuerySelectToDrizzle(select, this.table)
+
+    let usersQuery
+    if (drizzleSelect) {
+      usersQuery = db
+        .select(drizzleSelect)
         .from(this.table)
-        //  .where(where)
         .orderBy(desc(this.table.createdAt))
         .limit(limit)
         .offset(offset)
     } else {
-      users = await db
+      usersQuery = db
         .select()
         .from(this.table)
-        //  .where(where)
         .orderBy(desc(this.table.createdAt))
         .limit(limit)
         .offset(offset)
     }
+
+    if (whereDrizzle) usersQuery.where(whereDrizzle)
+
+    const users = await usersQuery.execute()
 
     return users.map((user) => DrizzleDbUserRepository.mapDbEntryToUser(user))
   }

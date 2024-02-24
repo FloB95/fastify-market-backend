@@ -11,7 +11,7 @@ import { env } from '../config/env'
 
 export const buildServer = async (): Promise<FastifyInstance> => {
   const server = fastify({
-    logger,
+    logger: false,
   })
 
   // register swagger documentation

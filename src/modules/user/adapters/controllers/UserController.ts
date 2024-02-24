@@ -2,7 +2,10 @@ import {
   type IHttpRequest,
   type IHttpResponse,
 } from '~/core/domain/http/Request'
-import { makeApiHttpResponse } from '~/core/helpers/httpHelpers'
+import {
+  convertQuerySelectToObj,
+  makeApiHttpResponse,
+} from '~/core/helpers/httpHelpers'
 import {
   BadRequestError,
   CustomApiError,
@@ -16,12 +19,11 @@ import {
   UserResponseDtoSchema,
   UserPaginationResponseSchema,
 } from '../../application/dtos/UserResponseDto'
-import {
-  PaginationOptionsSchema,
-  type IPaginationResult,
-} from '~/core/domain/repositories/BaseRepository'
 import { ZodError } from 'zod'
 import { UserSchema } from '../../domain/entities/User'
+import { GetUsersQueryParamsSchema } from '../../application/dtos/UsersRequestDto'
+import qs from 'qs'
+import { type IPaginationResult } from '~/core/domain/dto/BaseResponseDto'
 
 export class UserController {
   private userService: UserService
@@ -46,35 +48,40 @@ export class UserController {
   async getUsers(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const {
+        page: qPage,
+        limit: qLimit,
+        select: qSelect,
+        where: qWhere,
+      } = httpRequest.query
+
+      // parsed where query string
+      const pWhere: any = qWhere ? qs.parse(qWhere) : undefined
+
+      // validated query params
+      const {
         page,
         limit,
         select: selectString,
         where,
-      } = PaginationOptionsSchema.parse(httpRequest.query)
+      } = GetUsersQueryParamsSchema.parse({
+        page: qPage,
+        limit: qLimit,
+        select: qSelect,
+        where: pWhere,
+      })
 
-      const select: any = selectString
-        ? selectString.split(',').reduce((acc, key) => {
-            acc[key] = true
-            return acc
-          }, {})
-        : undefined
+      // convert select string to object
+      const select = convertQuerySelectToObj(selectString, UserSchema)
 
-      // remove all the keys that are not in the User entity
-      if (select) {
-        Object.keys(select).forEach((key) => {
-          if (!(key in UserSchema.shape)) {
-            delete select[key]
-          }
-        })
-      }
-
+      // get users
       const { users, total } = await this.userService.getUsers(
         page,
         limit,
-        select && Object.entries(select).length > 0 ? select : undefined,
+        select,
         where,
       )
 
+      // create pagination response object
       const pagination: IPaginationResult<IUserResponseDto> = {
         page: page,
         limit: limit,
@@ -82,6 +89,7 @@ export class UserController {
         data: users,
       }
 
+      // validate and return response
       const response = UserPaginationResponseSchema.parse(pagination)
 
       return makeApiHttpResponse(200, response)

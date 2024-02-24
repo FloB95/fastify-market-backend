@@ -13,6 +13,7 @@ export class GetUsersUseCase implements IGetUsersUseCase {
 
   async execute({ limit, offset: page, select, where }: ISqlQueryFindBy<User>) {
     const offset = (page - 1) * limit
+
     const users = await this.userRepository.findAll({
       limit,
       offset,

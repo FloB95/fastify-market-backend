@@ -48,13 +48,11 @@ export class UserService {
     page: number,
     limit: number,
     select?: object,
-    whereString?: any,
+    where?: any,
   ): Promise<{
     users: User[]
     total: number
   }> {
-    const where = whereString ? JSON.parse(whereString) : undefined
-
     return await this.getUsersUseCase.execute({
       limit,
       offset: page,

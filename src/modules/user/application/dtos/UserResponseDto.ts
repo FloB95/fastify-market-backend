@@ -1,10 +1,8 @@
 import { z } from 'zod'
-import {
-  PaginationOptionsSchema,
-  PaginationResponseSchema,
-} from '~/core/domain/repositories/BaseRepository'
 import zodToJsonSchema from 'zod-to-json-schema'
 import { BaseEntitySchema } from '~/core/domain/entities/BaseEntity'
+import { PaginationResponseSchema } from '~/core/domain/dto/BaseResponseDto'
+import { GetUsersQueryParamsSchema } from './UsersRequestDto'
 
 // UserResponseDto to remove thinks like passwords and other sensitive data
 export const UserResponseDtoSchema = z
@@ -28,7 +26,7 @@ export const UserPaginationResponseJsonSchema = zodToJsonSchema(
   {
     $refStrategy: 'none',
     definitions: {
-      querystring: PaginationOptionsSchema,
+      querystring: GetUsersQueryParamsSchema,
       response: UserPaginationResponseSchema,
     },
   },
