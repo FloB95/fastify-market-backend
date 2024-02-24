@@ -25,5 +25,6 @@ afterAll(() => {
   // close fastify server
   void fastifyInstance.close()
 
+  // disconnect from redis cache
   AppCache.disconnect()
 })
