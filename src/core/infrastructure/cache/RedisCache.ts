@@ -27,4 +27,8 @@ export class RedisCache implements IBaseCache {
   async del(key: string): Promise<void> {
     await this.client.del(key)
   }
+
+  disconnect() {
+    this.client.disconnect()
+  }
 }

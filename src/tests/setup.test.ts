@@ -2,6 +2,7 @@ import loadConfigurations from '~/core/config/setup'
 import { type FastifyInstance } from 'fastify'
 import { buildServer } from '~/core/infrastructure/server'
 import { connection } from '~/core/infrastructure/db/drizzle/setup'
+import AppCache from '~/core/infrastructure/cache'
 
 export let fastifyInstance: FastifyInstance
 export const API_BASE_PATH = '/api/v1'
@@ -23,4 +24,6 @@ afterAll(() => {
 
   // close fastify server
   void fastifyInstance.close()
+
+  AppCache.disconnect()
 })
