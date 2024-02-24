@@ -3,6 +3,7 @@ import { type FastifyInstance } from 'fastify'
 import { buildServer } from '~/core/infrastructure/server'
 import { connection } from '~/core/infrastructure/db/drizzle/setup'
 import AppCache from '~/core/infrastructure/cache'
+import { logger } from '~/core/infrastructure/logger'
 
 export let fastifyInstance: FastifyInstance
 export const API_BASE_PATH = '/api/v1'
@@ -27,4 +28,6 @@ afterAll(() => {
 
   // disconnect from redis cache
   AppCache.disconnect()
+
+  logger.flush()
 })

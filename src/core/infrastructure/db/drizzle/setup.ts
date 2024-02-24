@@ -21,6 +21,13 @@ export const initDb = async () => {
       port: Number(env.DB_PORT),
     })
 
+    // Listen for the 'error' event
+    connection.on('error', async (err) => {
+      console.error('Database connection error:', err)
+      // Attempt to reconnect to the database
+      await connection.connect()
+    })
+
     db = drizzle(connection, { schema, mode: 'default' })
 
     // run migrations
