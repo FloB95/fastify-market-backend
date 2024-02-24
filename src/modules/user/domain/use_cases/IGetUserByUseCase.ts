@@ -1,3 +1,4 @@
+import { type IBaseUseCase } from '~/core/domain/use_cases/BaseUseCase'
 import { type User } from '../entities/User'
 
 type IdOrEmail =
@@ -8,6 +9,6 @@ type IdOrEmail =
       email: string
     }
 
-export interface IGetOneUserByUseCase {
+export interface IGetOneUserByUseCase extends IBaseUseCase {
   execute(where: IdOrEmail): Promise<User>
 }

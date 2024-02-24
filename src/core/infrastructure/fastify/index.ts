@@ -16,8 +16,6 @@ export const fastifyErrorHandler = (
     // if error is instance of BadRequestError attach zod errors
     const zodErrors = error instanceof BadRequestError ? error.zodErrors : []
 
-    console.log('error', error)
-
     const responsePayload: any = {
       message: error.message,
       code: error.statusCode,
