@@ -1,8 +1,9 @@
 import { API_BASE_PATH, fastifyInstance } from '~/tests/setup.test'
 import { faker } from '@faker-js/faker'
 import { type IUserResponseDto } from '~/modules/user/application/dtos/UserResponseDto'
-import { type IPaginationResult } from '~/core/domain/repositories/BaseRepository'
 import { type ICreateUserDto } from '~/modules/user/application/dtos/UserCreateDto'
+import { type IPaginationResult } from '~/core/domain/dto/BaseResponseDto'
+import qs from 'qs'
 
 describe('UserController', () => {
   const createUserDto: ICreateUserDto = {
@@ -152,6 +153,67 @@ describe('UserController', () => {
         // @ts-ignore
         expect(userDto.password).toBeUndefined()
       })
+    })
+
+    it('get users by where eq condition, should find at least one user and return 200', async () => {
+      const response = await fastifyInstance.inject({
+        method: 'GET',
+        url: `${API_BASE_PATH}/users`,
+        query: {
+          page: '1',
+          limit: '20',
+          where: qs.stringify({
+            [`firstname[eq]`]: createdUser.firstname,
+            [`lastname[eq]`]: createdUser.lastname,
+            [`email[eq]`]: createdUser.email,
+            [`createdAt[eq]`]: createdUser.createdAt as unknown as string,
+          }),
+        },
+      })
+
+      expect(response.statusCode).toBe(200)
+
+      const receivedUsers = JSON.parse(
+        response.payload,
+      ) as IPaginationResult<IUserResponseDto>
+
+      expect(receivedUsers.page).toBe(1)
+      expect(receivedUsers.total).toEqual(expect.any(Number))
+      expect(receivedUsers.limit).toBe(20)
+      expect(Array.isArray(receivedUsers.data)).toBe(true)
+      expect(receivedUsers.data.length).toBeLessThanOrEqual(receivedUsers.limit)
+
+      expect(receivedUsers.data).toContainEqual(createdUser)
+    })
+
+    it('get users by where neq condition, should not find the created user 200', async () => {
+      const response = await fastifyInstance.inject({
+        method: 'GET',
+        url: `${API_BASE_PATH}/users`,
+        query: {
+          page: '1',
+          limit: '20',
+          where: qs.stringify({
+            ['firstname[neq]']: createdUser.firstname,
+            ['lastname[neq]']: createdUser.lastname,
+            ['createdAt[eq]']: createdUser.createdAt as unknown as string,
+          }),
+        },
+      })
+
+      expect(response.statusCode).toBe(200)
+
+      const receivedUsers = JSON.parse(
+        response.payload,
+      ) as IPaginationResult<IUserResponseDto>
+
+      expect(receivedUsers.page).toBe(1)
+      expect(receivedUsers.total).toEqual(expect.any(Number))
+      expect(receivedUsers.limit).toBe(20)
+      expect(Array.isArray(receivedUsers.data)).toBe(true)
+      expect(receivedUsers.data.length).toBeLessThanOrEqual(receivedUsers.limit)
+
+      expect(receivedUsers.data).not.toContainEqual(createdUser)
     })
 
     it('should return a 400 error if the limit query parameter is not a number', async () => {

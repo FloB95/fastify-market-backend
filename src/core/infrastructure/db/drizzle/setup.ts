@@ -28,7 +28,11 @@ export const initDb = async () => {
       await connection.connect()
     })
 
-    db = drizzle(connection, { schema, mode: 'default' })
+    db = drizzle(connection, {
+      schema,
+      mode: 'default',
+      // logger: true,
+    })
 
     // run migrations
     await migrateDb(false)
