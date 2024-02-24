@@ -22,7 +22,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
     // create the user
     await this.userRepository.create(newUser)
 
-    // get the user from the repository
+    // get the created user from the repository
     const createdUser = await this.userRepository.findOneById(newUser.id)
 
     emitUserCreatedEvent(createdUser)

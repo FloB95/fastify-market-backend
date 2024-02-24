@@ -12,7 +12,7 @@ import {
   GetUsersSchema,
   UpdateUserSchema,
 } from '../../documentation/SwaggerSchemas'
-import UserRepository from '../repositories/UserRepository'
+import UserRepository from '../repositories/DrizzleDbUserRepository'
 
 const userController = new UserController()
 

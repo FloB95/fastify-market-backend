@@ -19,6 +19,7 @@ const server = z.object({
   LOG_LEVEL: z
     .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace'])
     .default('info'),
+  REDIS_URL: z.string().url(),
 })
 
 // Don't touch the part below

@@ -20,6 +20,7 @@ export class GetUsersUseCase implements IGetUsersUseCase {
       where,
     })
     const total = await this.userRepository.countTotal()
+    // const total = 1
 
     return {
       users,

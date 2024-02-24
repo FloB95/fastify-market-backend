@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable @typescript-eslint/require-await */
 import { User } from '../../domain/entities/User'
 import { injectable } from 'tsyringe'
 import { db } from '~/core/infrastructure/db/drizzle/setup'
@@ -12,7 +11,10 @@ import { type IUserRepository } from '../../domain/repositories/IUserRepository'
 type NewUser = typeof usersTable.$inferInsert
 
 @injectable()
-class UserRepository extends BaseRepository<User> implements IUserRepository {
+class DrizzleDbUserRepository
+  extends BaseRepository<User>
+  implements IUserRepository
+{
   table = usersTable
 
   async findAll({
@@ -50,14 +52,14 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
         .offset(offset)
     }
 
-    return users.map((user) => UserRepository.mapDbEntryToUser(user))
+    return users.map((user) => DrizzleDbUserRepository.mapDbEntryToUser(user))
   }
 
   async findOneById(id: string): Promise<User | undefined> {
     const user = await db.query.usersTable.findFirst({
       where: eq(usersTable.id, id),
     })
-    return user ? UserRepository.mapDbEntryToUser(user) : undefined
+    return user ? DrizzleDbUserRepository.mapDbEntryToUser(user) : undefined
   }
 
   async findOneByEmail(email: string): Promise<User | undefined> {
@@ -65,7 +67,7 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
       where: eq(usersTable.email, email),
     })
 
-    return user ? UserRepository.mapDbEntryToUser(user) : undefined
+    return user ? DrizzleDbUserRepository.mapDbEntryToUser(user) : undefined
   }
 
   async update(user: User, updates: Partial<User>): Promise<void> {
@@ -101,8 +103,6 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
       dbUser.password,
     )
 
-    console.log(dbUser)
-
     user.setCreatedAt(dbUser.createdAt ? new Date(dbUser.createdAt) : undefined)
 
     // can be null if db field is empty or can be undefined if not selected
@@ -115,4 +115,4 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
   }
 }
 
-export default UserRepository
+export default DrizzleDbUserRepository

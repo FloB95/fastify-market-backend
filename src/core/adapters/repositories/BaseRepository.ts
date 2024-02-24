@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { db } from '~/core/infrastructure/db/drizzle/setup'
 import type IBaseRepository from '~/core/domain/repositories/BaseRepository'
 import { type ISqlQueryFindBy } from '~/core/domain/repositories/BaseRepository'
+import AppCache from '~/core/infrastructure/cache'
 
 export abstract class BaseRepository<T> implements IBaseRepository<T> {
   abstract table: MySqlTableWithColumns<any>
@@ -18,15 +19,23 @@ export abstract class BaseRepository<T> implements IBaseRepository<T> {
   abstract update(item: T, updates: Partial<T>): Promise<void>
   abstract delete(item: T): Promise<boolean>
 
-  // TODO implement cache
   public async countTotal(): Promise<number> {
-    const result = await db
-      .select({
-        count: sql<number>`count(${this.table.id})`,
-      })
-      .from(this.table)
+    const cacheCount = (await AppCache.get('userTableCountTotal')) as string
 
-    return result[0]?.count || 0
+    if (!cacheCount) {
+      const result = await db
+        .select({
+          count: sql<number>`count(${this.table.id})`,
+        })
+        .from(this.table)
+
+      const count = result[0]?.count || 0
+      await AppCache.set('userTableCountTotal', count, 60)
+
+      return count
+    }
+
+    return parseInt(cacheCount)
   }
 
   public async generateId(): Promise<string> {

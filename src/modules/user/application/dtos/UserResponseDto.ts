@@ -1,14 +1,21 @@
-import { type z } from 'zod'
-import { UserSchema } from '../../domain/entities/User'
+import { z } from 'zod'
 import {
   PaginationOptionsSchema,
   PaginationResponseSchema,
 } from '~/core/domain/repositories/BaseRepository'
 import zodToJsonSchema from 'zod-to-json-schema'
+import { BaseEntitySchema } from '~/core/domain/entities/BaseEntity'
 
-export const UserResponseDtoSchema = UserSchema.omit({
-  password: true,
-}).partial()
+// UserResponseDto to remove thinks like passwords and other sensitive data
+export const UserResponseDtoSchema = z
+  .object({
+    ...BaseEntitySchema.shape,
+    firstname: z.string(),
+    lastname: z.string(),
+    email: z.string(),
+  })
+  .partial()
+
 export interface IUserResponseDto
   extends z.infer<typeof UserResponseDtoSchema> {}
 
