@@ -6,7 +6,9 @@ export class RedisCache implements IBaseCache {
   private client: Redis
 
   constructor() {
-    this.client = new Redis(env.REDIS_URL)
+    this.client = new Redis(env.REDIS_URL, {
+      maxRetriesPerRequest: 3,
+    })
   }
 
   async set(

@@ -70,6 +70,8 @@ export const startServer = async () => {
     }
 
     await server.listen(serverOptions)
+
+    return server
   } catch (e) {
     console.error(e)
   }
