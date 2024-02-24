@@ -48,3 +48,7 @@ The project follows a modular folder structure based on Clean Architecture princ
 
    ```bash
    npm install
+3. Setup Local Database:
+
+   ```bash
+   docker-compose up -d
