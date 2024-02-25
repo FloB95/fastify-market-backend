@@ -58,7 +58,8 @@ The project adheres to a well-organized and well-documented folder structure:
 │   ├── repositories    # Abstractions for accessing domain entities.
 │   └── use_cases       # Use cases related to users.
 ├── errors              # Defines custom error classes for consistent error handling.
-├── zod                 # Custom error handling for Zod validation errors.
+│   ├── zod             # Custom error handling for Zod validation errors.
+│   └── http            # Custom error handling for HTTP API errors.
 ├── helpers             # Contains reusable utility functions.
 ├── infrastructure
 │   ├── cache           # Implements the chosen cache mechanism (e.g., Redis).
@@ -84,21 +85,21 @@ Each module encapsulates a specific feature or functionality.
 
 └── user
     ├── adapters
-    │   ├── controllers  # Adapters related to user functionality (e.g., controllers, repositories).
-    │   └── repositories # (Optional)
+    │   ├── controllers    # Adapters related to user functionality (e.g., controllers, repositories).
+    │   └── repositories   # (Optional)
     ├── application
-    │   ├── dtos        # Data transfer objects specific to user data.
-    │   ├── events       # User-related events.
-    │   ├── factories     # Creates test data for users.
-    │   ├── services     # User-related business logic.
-    │   └── documentation # Module-specific documentation.
+    │   ├── dtos           # Data transfer objects specific to user data.
+    │   ├── events         # User-related events.
+    │   ├── factories      # Creates test data for users.
+    │   ├── services       # User-related business logic.
+    │   └── documentation  # Module-specific documentation.
     ├── domain
-    │   ├── entities     # Domain entities and models related to users.
-    │   └── use_cases    # Use cases related to users.
+    │   ├── entities       # Domain entities and models related to users.
+    │   └── use_cases      # Use cases related to users.
     ├── infrastructure
-    │   ├── db           # (Optional) Database-specific implementations for user-related functionality.
-    │   └── event        # (Optional) Event-related implementations for user-related functionality.
-    └── setup          # Module initialization logic.
+    │   ├── db             # (Optional) Database-specific implementations for user-related functionality.
+    │   └── event          # (Optional) Event-related implementations for user-related functionality.
+    └── setup              # Module initialization logic.
 
 ```
 
