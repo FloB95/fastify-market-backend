@@ -6,18 +6,6 @@ export const BaseEntitySchema = z.object({
   updatedAt: z.date().nullable().default(null),
 })
 
-type BaseDtoCreateOmitFields = {
-  id?: true
-  createdAt?: true
-  updatedAt?: true
-}
-
-export const BaseDtoCreateOmitFields: BaseDtoCreateOmitFields = {
-  id: true,
-  createdAt: true,
-  updatedAt: true,
-}
-
 export abstract class BaseEntity {
   public readonly id: string
   public createdAt: Date = new Date()

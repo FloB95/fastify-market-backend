@@ -1,9 +1,9 @@
 import { API_BASE_PATH, fastifyInstance } from '~/tests/setup.test'
 import { faker } from '@faker-js/faker'
-import { type IUserResponseDto } from '~/modules/user/application/dtos/UserResponseDto'
-import { type ICreateUserDto } from '~/modules/user/application/dtos/UserCreateDto'
-import { type IPaginationResult } from '~/core/domain/dto/BaseResponseDto'
 import qs from 'qs'
+import { type ICreateUserDto } from '~/core/domain/dtos/user/ICreateUserDto'
+import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
+import { type IPaginationDto } from '~/core/domain/dtos/IPaginationDto'
 
 describe('UserController', () => {
   const createUserDto: ICreateUserDto = {
@@ -80,7 +80,7 @@ describe('UserController', () => {
 
       const receivedUsers = JSON.parse(
         response.payload,
-      ) as IPaginationResult<IUserResponseDto>
+      ) as IPaginationDto<IUserResponseDto>
 
       expect(receivedUsers.page).toBe(1)
       expect(receivedUsers.total).toEqual(expect.any(Number))
@@ -133,7 +133,7 @@ describe('UserController', () => {
 
       const receivedUsers = JSON.parse(
         response.payload,
-      ) as IPaginationResult<IUserResponseDto>
+      ) as IPaginationDto<IUserResponseDto>
 
       expect(receivedUsers.page).toBe(1)
       expect(receivedUsers.total).toEqual(expect.any(Number))
@@ -175,7 +175,7 @@ describe('UserController', () => {
 
       const receivedUsers = JSON.parse(
         response.payload,
-      ) as IPaginationResult<IUserResponseDto>
+      ) as IPaginationDto<IUserResponseDto>
 
       expect(receivedUsers.page).toBe(1)
       expect(receivedUsers.total).toEqual(expect.any(Number))
@@ -205,7 +205,7 @@ describe('UserController', () => {
 
       const receivedUsers = JSON.parse(
         response.payload,
-      ) as IPaginationResult<IUserResponseDto>
+      ) as IPaginationDto<IUserResponseDto>
 
       expect(receivedUsers.page).toBe(1)
       expect(receivedUsers.total).toEqual(expect.any(Number))
