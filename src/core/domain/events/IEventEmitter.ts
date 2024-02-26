@@ -1,6 +1,6 @@
 import { type BaseEvent } from './BaseEvent'
 
 export interface IEventEmitter {
-  emit(event: BaseEvent, ...args: any[]): void
+  emit(event: BaseEvent): void
   on(event: string, listener: (event: BaseEvent) => void): void
 }
