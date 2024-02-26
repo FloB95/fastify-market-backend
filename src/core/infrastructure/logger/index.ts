@@ -1,10 +1,3 @@
-import pino from 'pino'
-import { env } from '~/core/config/env'
+import { PinoLogger } from './PinoLogger'
 
-export const logger = pino({
-  // redact: ["DATABASE_CONNECTION"],
-  level: env.LOG_LEVEL,
-  transport: {
-    target: 'pino-pretty',
-  },
-})
+export const logger = new PinoLogger()

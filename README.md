@@ -4,16 +4,6 @@ License: [https://opensource.org/licenses/MIT](https://opensource.org/licenses/M
 GitHub Issues: [https://github.com/FloB95/fastify-market-backend/issues](https://github.com/FloB95/fastify-market-backend/issues)  
 GitHub Pull Requests: [https://github.com/FloB95/fastify-market-backend/pulls](https://github.com/FloB95/fastify-market-backend/pulls)  
 
-## Table of Contents
-
-- Fastify TypeScript Project Template: [#fastify-typescript-project-template]
-  - Table of Contents: [#table-of-contents]
-  - About: [#about]
-  - Features: [#features]
-  - Folder Structure: [#folder-structure]
-  - Project Organization: [#project-organization]
-  - Setup: [#setup]
-
 ## About
 
 This project provides a clean and well-structured template for building robust and scalable Fastify Node.js applications using TypeScript. It incorporates best practices for:

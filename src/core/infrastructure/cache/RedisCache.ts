@@ -1,8 +1,10 @@
 import Redis from 'ioredis'
+import { injectable } from 'tsyringe'
+import { type IBaseKeyCache } from '~/core/application/cache/IBaseKeyCache'
 import { env } from '~/core/config/env'
-import { type IBaseCache } from '~/core/domain/cache/BaseCache'
 
-export class RedisCache implements IBaseCache {
+@injectable()
+export class RedisCache implements IBaseKeyCache {
   private client: Redis
 
   constructor() {

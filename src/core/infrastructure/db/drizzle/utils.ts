@@ -1,7 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { and, eq, gt, gte, like, lt, lte, not, type SQL } from 'drizzle-orm'
-import { type WhereField, type WhereConditions } from '../types'
 import { type MySqlTableWithColumns } from 'drizzle-orm/mysql-core'
+import {
+  type WhereConditions,
+  type WhereField,
+} from '~/core/application/repositories/IBaseRepository'
 
 export function convertWhereConditionToDrizzle<T>(
   where: WhereConditions<T>,

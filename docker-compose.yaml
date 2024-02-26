@@ -24,3 +24,10 @@ services:
       UPLOAD_LIMIT: 100M
     ports:
       - 8080:80
+
+
+  redis:
+    image: redis:latest
+    restart: always
+    ports:
+      - 6379:6379
