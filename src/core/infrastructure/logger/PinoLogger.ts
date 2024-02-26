@@ -1,16 +1,17 @@
 import pino, { type Logger } from 'pino'
-import { injectable } from 'tsyringe'
+import { injectable, singleton } from 'tsyringe'
 import { env } from '~/core/config/env'
 import { type IBaseLogger } from '~/core/domain/logger/IBaseLogger'
 
 @injectable()
+@singleton()
 export class PinoLogger implements IBaseLogger {
   private logger: Logger
 
-  constructor(private logLevel: string = env.LOG_LEVEL) {
+  constructor() {
     this.logger = pino({
       // redact: ["DATABASE_CONNECTION"],
-      level: logLevel,
+      level: env.LOG_LEVEL,
       transport: {
         target: 'pino-pretty',
       },

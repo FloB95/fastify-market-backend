@@ -2,6 +2,7 @@ import loadConfigurations from './core/config/setup'
 import { connection, initDb } from './core/infrastructure/db/drizzle/setup'
 import { startServer } from './core/infrastructure/fastify/server'
 
+
 async function startUp() {
   await loadConfigurations()
   await startServer()

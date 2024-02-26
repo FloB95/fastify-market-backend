@@ -8,15 +8,9 @@ import { PinoLogger } from '~/core/infrastructure/logger/PinoLogger'
 /***
  * Infrastructure Services
  */
-container.register<PinoLogger>('Logger', {
-  useClass: PinoLogger,
-})
-container.register<NodeEventEmitter>('EventEmitter', {
-  useClass: NodeEventEmitter,
-})
-container.register<RedisCache>('ApplicationKeyCache', {
-  useClass: RedisCache,
-})
+container.registerSingleton<PinoLogger>('Logger', PinoLogger)
+container.registerSingleton<NodeEventEmitter>('EventEmitter', NodeEventEmitter)
+container.registerSingleton<RedisCache>('ApplicationKeyCache', RedisCache)
 
 // import all di files and export them
 
