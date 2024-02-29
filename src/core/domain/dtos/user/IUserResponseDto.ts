@@ -1,7 +1,9 @@
 import { z } from 'zod'
 import { BaseEntitySchema } from '../../entities/BaseEntity'
 
-// UserResponseDto to remove thinks like passwords and other sensitive data
+/**
+ * Schema for the User Response DTO.
+ */
 export const UserResponseDtoSchema = z
   .object({
     ...BaseEntitySchema.shape,
@@ -11,5 +13,8 @@ export const UserResponseDtoSchema = z
   })
   .partial()
 
+/**
+ * Interface for the User Response DTO.
+ */
 export interface IUserResponseDto
   extends z.infer<typeof UserResponseDtoSchema> {}

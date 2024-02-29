@@ -13,6 +13,12 @@ export class UpdateUserUseCase implements IUpdateUserUseCase {
     @inject('UserRepository') private userRepository: IUserRepository,
   ) {}
 
+  /**
+   * Executes the UpdateUserUseCase.
+   * @param {User} userToUpdate The user to update.
+   * @param {IUpdateUserDto} updateUserDto The data to update the user with.
+   * @returns {User} The updated user.
+   */
   async execute(
     userToUpdate: User,
     updateUserDto: IUpdateUserDto,

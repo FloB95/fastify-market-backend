@@ -2,6 +2,9 @@ import { type FastifyDynamicSwaggerOptions } from '@fastify/swagger'
 import { type FastifySwaggerUiOptions } from '@fastify/swagger-ui'
 import { env } from '~/core/config/env'
 
+/**
+ * Configuration options for the Swagger UI.
+ */
 export const swaggerUiConfig: FastifySwaggerUiOptions = {
   routePrefix: '/api/v1/docs',
   theme: {
@@ -28,6 +31,9 @@ export const swaggerUiConfig: FastifySwaggerUiOptions = {
   transformSpecificationClone: true,
 }
 
+/**
+ * Configuration options for the Swagger documentation.
+ */
 export const swaggerConfig: FastifyDynamicSwaggerOptions = {
   swagger: {
     info: {

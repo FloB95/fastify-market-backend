@@ -6,6 +6,12 @@ import {
   type WhereField,
 } from '~/core/application/repositories/IBaseRepository'
 
+/**
+ * Converts a where condition object to a Drizzle SQL object.
+ * @param where The where condition object.
+ * @param table The table schema.
+ * @returns The Drizzle SQL object representing the where condition.
+ */
 export function convertWhereConditionToDrizzle<T>(
   where: WhereConditions<T>,
   table: MySqlTableWithColumns<any>,
@@ -61,7 +67,12 @@ export function convertWhereConditionToDrizzle<T>(
   return sql
 }
 
-// get keys from select object where true and map them with this.table[key]
+/**
+ * Converts a select object to a Drizzle SQL object.
+ * @param select The select object.
+ * @param table The table schema.
+ * @returns The Drizzle SQL object representing the select object.
+ */
 export function convertQuerySelectToDrizzle(
   select: Record<string, boolean>,
   table: MySqlTableWithColumns<any>,
@@ -69,9 +80,12 @@ export function convertQuerySelectToDrizzle(
   return select
     ? Object.entries(select)
         .filter(([key, value]) => value === true)
-        .reduce((acc, [key, value]) => {
-          acc[key] = table[key]
-          return acc
-        }, {})
+        .reduce(
+          (acc, [key, value]) => {
+            acc[key] = table[key]
+            return acc
+          },
+          {} as Record<string, any>,
+        )
     : undefined
 }

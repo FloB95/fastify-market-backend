@@ -1,6 +1,13 @@
 import { type z } from 'zod'
 import { type IHttpResponse } from '../interfaces/IResponse'
 
+/**
+ * Creates an HTTP response object.
+ * @param statusCode The status code of the response.
+ * @param data The data to be included in the response.
+ * @param additionalHeaders Additional headers to be included in the response.
+ * @returns An HTTP response object.
+ */
 export const makeApiHttpResponse = (
   statusCode: number,
   data: any,
@@ -16,6 +23,12 @@ export const makeApiHttpResponse = (
   }
 }
 
+/**
+ * Converts a comma-separated string of keys into an object with those keys set to true.
+ * @param selectString The comma-separated string of keys.
+ * @param objSchema The schema object to compare the keys against.
+ * @returns An object with keys from the selectString set to true, if they exist in objSchema.
+ */
 export const convertHttpSelectQueryToObj = (
   selectString: string,
   objSchema: z.ZodObject<any, any, any>,

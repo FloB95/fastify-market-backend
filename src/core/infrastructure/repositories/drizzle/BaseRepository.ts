@@ -6,6 +6,9 @@ import type IBaseRepository from '~/core/application/repositories/IBaseRepositor
 import { type ISqlQueryFindBy } from '~/core/application/repositories/IBaseRepository'
 import { db } from '~/core/infrastructure/db/drizzle/setup'
 
+/**
+ * Base class for repositories.
+ */
 export abstract class BaseRepository<T> implements IBaseRepository<T> {
   constructor(private appCache: IBaseKeyCache) {}
 
@@ -21,6 +24,10 @@ export abstract class BaseRepository<T> implements IBaseRepository<T> {
   abstract update(item: T, updates: Partial<T>): Promise<void>
   abstract delete(item: T): Promise<boolean>
 
+  /**
+   * Counts the total number of items in the table.
+   * @returns A promise that resolves to the total count.
+   */
   public async countTotal(): Promise<number> {
     const cacheCount = (await this.appCache.get(
       'userTableCountTotal',
@@ -42,6 +49,10 @@ export abstract class BaseRepository<T> implements IBaseRepository<T> {
     return parseInt(cacheCount)
   }
 
+  /**
+   * Generates a new UUIDv4 ID.
+   * @returns A promise that resolves to the generated ID.
+   */
   public async generateId(): Promise<string> {
     let newId: string
 

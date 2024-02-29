@@ -19,6 +19,11 @@ export class GetUserController implements IController {
     private getOneUserByUseCase: IGetOneUserByUseCase,
   ) {}
 
+  /**
+   * Handles the retrieval of a user by ID.
+   * @param httpRequest The incoming HTTP request.
+   * @returns A promise that resolves to an HTTP response.
+   */
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const { id } = httpRequest.params

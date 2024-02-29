@@ -17,6 +17,11 @@ export class CreateUserUseCase implements ICreateUserUseCase {
     @inject('EventEmitter') private eventEmitter: IEventEmitter,
   ) {}
 
+  /**
+   * Executes the CreateUserUseCase.
+   * @param userDto The user data to create a new user.
+   * @returns The created user.
+   */
   async execute(userDto: ICreateUserDto): Promise<User> {
     // Validate the user input using the User schema
     const validatedUser = CreateUserDtoSchema.parse(userDto)
