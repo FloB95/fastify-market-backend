@@ -1,3 +1,5 @@
+import { type BaseEvent } from "./BaseEvent"
+
 /**
  * Represents an event emitter.
  */
