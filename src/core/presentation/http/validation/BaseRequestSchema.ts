@@ -1,9 +1,15 @@
 import { z } from 'zod'
 
+/**
+ * Schema for default ID query parameter.
+ */
 export const DefaultIdQueryParamSchema = z.object({
   id: z.string(),
 })
 
+/**
+ * Schema for default string where query parameter.
+ */
 export const DefaultStringWhereQueryParamSchema = z
   .object({
     eq: z.string(),
@@ -16,6 +22,9 @@ export type DefaultStringWhereQueryParam = z.infer<
   typeof DefaultStringWhereQueryParamSchema
 >
 
+/**
+ * Schema for default email where query parameter.
+ */
 export const DefaultEmailWhereQueryParamSchema = z
   .object({
     eq: z.string().email(),
@@ -28,6 +37,9 @@ export type DefaultEmailWhereQueryParam = z.infer<
   typeof DefaultEmailWhereQueryParamSchema
 >
 
+/**
+ * Schema for default date where query parameter.
+ */
 export const DefaultDateWhereQueryParamSchema = z
   .object({
     eq: z.string().transform((val) => new Date(val)),
@@ -43,6 +55,11 @@ export type DefaultDateWhereQueryParam = z.infer<
   typeof DefaultDateWhereQueryParamSchema
 >
 
+/**
+ * Schema for pagination query parameters.
+ * @param whereObj The where object schema.
+ * @returns A Zod object schema for pagination query parameters.
+ */
 export const PaginationQueryParamsSchema = (
   whereObj: z.ZodObject<any, any, any>,
 ) =>

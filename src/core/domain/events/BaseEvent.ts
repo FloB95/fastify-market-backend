@@ -1,3 +1,3 @@
 export abstract class BaseEvent {
-  abstract eventName(): string
+  abstract eventName(): string;
 }

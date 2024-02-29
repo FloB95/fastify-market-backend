@@ -9,6 +9,10 @@ import { fastifyErrorHandler } from './helpers'
 import { logger } from '../logger'
 import { env } from '~/core/config/env'
 
+/**
+ * Builds a Fastify server instance with the specified configurations.
+ * @returns A promise that resolves to a FastifyInstance.
+ */
 export const buildServer = async (): Promise<FastifyInstance> => {
   const server = fastify({
     logger: false,
@@ -61,6 +65,9 @@ export const buildServer = async (): Promise<FastifyInstance> => {
   return server
 }
 
+/**
+ * Starts the Fastify server.
+ */
 export const startServer = async () => {
   try {
     const server = await buildServer()

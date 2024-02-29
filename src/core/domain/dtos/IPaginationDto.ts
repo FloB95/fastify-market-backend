@@ -1,5 +1,10 @@
 import { type ZodSchema, z } from 'zod'
 
+/**
+ * Schema for the Pagination Response DTO.
+ * @param dataSchema The schema for the data.
+ * @returns The schema for the pagination response.
+ */
 export const PaginationResponseDtoSchema = (dataSchema: ZodSchema) =>
   z.object({
     page: z.number(),
@@ -8,6 +13,10 @@ export const PaginationResponseDtoSchema = (dataSchema: ZodSchema) =>
     data: z.array(dataSchema),
   })
 
+/**
+ * Interface for the Pagination DTO.
+ * @template T The type of data in the pagination response.
+ */
 export interface IPaginationDto<T> {
   data: T[]
   total: number

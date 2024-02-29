@@ -14,6 +14,11 @@ export class GetUsersUseCase implements IGetUsersUseCase {
     @inject('UserRepository') private userRepository: IUserRepository,
   ) {}
 
+  /**
+   * Executes the GetUsersUseCase.
+   * @param {ISqlQueryFindBy<User>} query The query parameters for finding users.
+   * @returns {IGetUsersUseCaseResponse} The response containing users and total count.
+   */
   async execute({
     limit,
     offset: page,

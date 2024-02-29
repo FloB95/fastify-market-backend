@@ -9,6 +9,11 @@ export class DeleteUserUseCase implements IDeleteUserUseCase {
     @inject('UserRepository') private userRepository: IUserRepository,
   ) {}
 
+  /**
+   * Executes the DeleteUserUseCase.
+   * @param user The user to delete.
+   * @returns A boolean indicating whether the user was successfully deleted.
+   */
   async execute(user: User): Promise<boolean> {
     await this.userRepository.delete(user)
 

@@ -14,6 +14,9 @@ import { IBaseKeyCache } from '~/core/application/cache/IBaseKeyCache'
 
 type NewUser = typeof usersTable.$inferInsert
 
+/**
+ * Repository for managing User entities.
+ */
 @injectable()
 class UserRepository extends BaseRepository<User> implements IUserRepository {
   table = usersTable
@@ -22,6 +25,11 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
     super(appCache)
   }
 
+  /**
+   * Finds all users based on the provided query parameters.
+   * @param options - Query options.
+   * @returns A promise that resolves to an array of users.
+   */
   async findAll({
     limit,
     offset,
@@ -58,6 +66,11 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
     return users.map((user) => UserRepository.mapDbEntryToUser(user))
   }
 
+  /**
+   * Finds a user by their ID.
+   * @param id - The ID of the user.
+   * @returns A promise that resolves to the user if found, otherwise undefined.
+   */
   async findOneById(id: string): Promise<User | undefined> {
     const user = await db.query.usersTable.findFirst({
       where: eq(usersTable.id, id),
@@ -65,6 +78,11 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
     return user ? UserRepository.mapDbEntryToUser(user) : undefined
   }
 
+  /**
+   * Finds a user by their email address.
+   * @param email - The email address of the user.
+   * @returns A promise that resolves to the user if found, otherwise undefined.
+   */
   async findOneByEmail(email: string): Promise<User | undefined> {
     const user = await db.query.usersTable.findFirst({
       where: eq(usersTable.email, email),
@@ -73,15 +91,29 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
     return user ? UserRepository.mapDbEntryToUser(user) : undefined
   }
 
+  /**
+   * Updates a user with the provided updates.
+   * @param user - The user to update.
+   * @param updates - The updates to apply to the user.
+   */
   async update(user: User, updates: Partial<User>): Promise<void> {
     await db.update(this.table).set(updates).where(eq(this.table.id, user.id))
   }
 
+  /**
+   * Deletes a user.
+   * @param user - The user to delete.
+   * @returns A promise that resolves to true if the user was deleted successfully.
+   */
   async delete(user: User): Promise<boolean> {
     await db.delete(this.table).where(eq(this.table.id, user.id)).execute()
     return true
   }
 
+  /**
+   * Creates a new user.
+   * @param user - The user to create.
+   */
   async create(user: User): Promise<void> {
     await db
       .insert(usersTable)
@@ -97,6 +129,11 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
       .execute()
   }
 
+  /**
+   * Maps a database entry to a User entity.
+   * @param dbUser - The database entry representing a user.
+   * @returns The mapped User entity.
+   */
   public static mapDbEntryToUser(dbUser: any): User {
     const user = new User(
       dbUser.id,

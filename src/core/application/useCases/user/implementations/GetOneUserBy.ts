@@ -9,6 +9,11 @@ export class GetOneUserByUseCase implements IGetOneUserByUseCase {
     @inject('UserRepository') private userRepository: IUserRepository,
   ) {}
 
+  /**
+   * Executes the GetOneUserByUseCase.
+   * @param where The criteria to search for a user. Can be an id or an email.
+   * @returns The user if found, otherwise undefined.
+   */
   async execute(where: IdOrEmail): Promise<User | undefined> {
     // if id find by id else find by email
     if ('id' in where) {

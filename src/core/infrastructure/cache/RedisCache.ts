@@ -3,6 +3,9 @@ import { injectable } from 'tsyringe'
 import { type IBaseKeyCache } from '~/core/application/cache/IBaseKeyCache'
 import { env } from '~/core/config/env'
 
+/**
+ * RedisCache class for caching data using Redis.
+ */
 @injectable()
 export class RedisCache implements IBaseKeyCache {
   private client: Redis
@@ -13,6 +16,12 @@ export class RedisCache implements IBaseKeyCache {
     })
   }
 
+  /**
+   * Sets a value in the cache.
+   * @param key The key for the cache entry.
+   * @param value The value to set.
+   * @param expirationTimeSeconds The expiration time in seconds.
+   */
   async set(
     key: string,
     value: string | Buffer | number,
@@ -24,14 +33,26 @@ export class RedisCache implements IBaseKeyCache {
     }
   }
 
+  /**
+   * Gets a value from the cache.
+   * @param key The key for the cache entry.
+   * @returns The value if found, otherwise null.
+   */
   async get(key: string): Promise<string | Buffer | number | null> {
     return await this.client.get(key)
   }
 
+  /**
+   * Deletes a value from the cache.
+   * @param key The key for the cache entry.
+   */
   async del(key: string): Promise<void> {
     await this.client.del(key)
   }
 
+  /**
+   * Disconnects the Redis client.
+   */
   disconnect() {
     this.client.disconnect()
   }

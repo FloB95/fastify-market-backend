@@ -15,6 +15,11 @@ export class CreateUserController implements IController {
     @inject('CreateUserUseCase') private createUserUseCase: ICreateUserUseCase,
   ) {}
 
+  /**
+   * Handles the creation of a new user.
+   * @param httpRequest The incoming HTTP request.
+   * @returns A promise that resolves to an HTTP response.
+   */
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const userCreateDto = CreateUserDtoSchema.parse(httpRequest.body)

@@ -20,6 +20,11 @@ export class DeleteUserController implements IController {
     private getOneUserByUseCase: IGetOneUserByUseCase,
   ) {}
 
+  /**
+   * Handles the deletion of a user.
+   * @param httpRequest The incoming HTTP request.
+   * @returns A promise that resolves to an HTTP response.
+   */
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
       const { id } = httpRequest.params
