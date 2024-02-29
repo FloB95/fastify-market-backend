@@ -80,9 +80,12 @@ export function convertQuerySelectToDrizzle(
   return select
     ? Object.entries(select)
         .filter(([key, value]) => value === true)
-        .reduce((acc, [key, value]) => {
-          acc[key] = table[key]
-          return acc
-        }, {})
+        .reduce(
+          (acc, [key, value]) => {
+            acc[key] = table[key]
+            return acc
+          },
+          {} as Record<string, any>,
+        )
     : undefined
 }
