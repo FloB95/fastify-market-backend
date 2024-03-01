@@ -2,8 +2,7 @@
 
 - Implement a proper logging system. Currently using console.log
 - Standardize error messages globally in an error handler
-- Implement a proper authentication system.
-- Implement a proper authorization system.
+- Implement a role based access control system
 - Implement a proper caching system.
 - Document the code
 - Implement a proper Deployment system (Docker, Kubernetes, Github Actions etc.)
