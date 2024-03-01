@@ -20,6 +20,7 @@ const server = z.object({
     .enum(['fatal', 'error', 'warn', 'info', 'debug', 'trace'])
     .default('info'),
   REDIS_URL: z.string().url(),
+  JWT_SECRET: z.string(),
 })
 
 // Don't touch the part below

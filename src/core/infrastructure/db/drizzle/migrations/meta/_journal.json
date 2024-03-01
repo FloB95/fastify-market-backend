@@ -36,6 +36,13 @@
       "when": 1709292808987,
       "tag": "0004_loving_zombie",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1709297762987,
+      "tag": "0005_zippy_speed",
+      "breakpoints": true
     }
   ]
 }

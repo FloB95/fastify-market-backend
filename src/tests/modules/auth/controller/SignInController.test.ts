@@ -3,6 +3,8 @@ import { faker } from '@faker-js/faker'
 import { type ICreateUserDto } from '~/core/domain/dtos/user/ICreateUserDto'
 import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
 import { type ISignInResponseDto } from '~/core/domain/dtos/auth/ISignInResponseDto'
+import { container } from 'tsyringe'
+import { type IJwtService } from '~/core/application/services/IJwtService'
 
 /**
  * Represents the SignInController.
@@ -58,7 +60,9 @@ describe('SignInController', () => {
       expect(receivedUser.accessToken).toBeDefined()
       expect(receivedUser.refreshToken).toBeDefined()
 
-      // TODO validate both tokens !!
+      const jwtService: IJwtService = container.resolve('JwtService')
+      expect(jwtService.verifyToken(receivedUser.accessToken)).not.toBe(false)
+      expect(jwtService.verifyToken(receivedUser.refreshToken)).not.toBe(false)
     })
 
     it('should return a 400 error if no credentials provided', async () => {

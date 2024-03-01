@@ -9,20 +9,23 @@ import { SignInResponseSchema } from '~/core/domain/dtos/auth/ISignInResponseDto
  * JSON schema for the sign-in credentials.
  * @type {object}
  */
-const UserSignInSchemaJsonSchema = zodToJsonSchema(SignInCredentialsSchema, {
-  $refStrategy: 'none',
-  definitions: {
-    body: SignInCredentialsSchema,
-    response: SignInResponseSchema,
+const RefreshAccessTokenSchemaJsonSchema = zodToJsonSchema(
+  SignInCredentialsSchema,
+  {
+    $refStrategy: 'none',
+    definitions: {
+      body: SignInResponseSchema.pick({ refreshToken: true }),
+      response: SignInResponseSchema.pick({ accessToken: true }),
+    },
   },
-})
+)
 
-export const UserSignInSchema: IExtendedFastifySchema = {
-  description: 'Sign in a user.',
+export const RefreshAccessTokenSchema: IExtendedFastifySchema = {
+  description: 'Refresh the access token via refresh token.',
   tags: ['Auth'],
-  body: UserSignInSchemaJsonSchema.definitions.body,
+  body: RefreshAccessTokenSchemaJsonSchema.definitions.body,
   response: {
-    200: UserSignInSchemaJsonSchema.definitions.response,
+    200: RefreshAccessTokenSchemaJsonSchema.definitions.response,
     400: BadRequestErrorResponseJsonSchema.definitions.response,
     401: UnauthenticatedErrorResponseJsonSchema.definitions.response,
   },
