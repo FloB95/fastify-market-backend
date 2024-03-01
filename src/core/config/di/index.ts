@@ -14,6 +14,7 @@ container.registerSingleton<RedisCache>('ApplicationKeyCache', RedisCache)
 
 // import all di files and export them
 
+import * as authDi from './auth'
 import * as userDi from './user'
 
-export { userDi }
+export { authDi, userDi }

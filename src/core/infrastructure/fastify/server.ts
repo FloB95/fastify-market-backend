@@ -8,6 +8,11 @@ import routes from '~/core/presentation/http/routes/v1'
 import { fastifyErrorHandler } from './helpers'
 import { logger } from '../logger'
 import { env } from '~/core/config/env'
+import fastifyGuard from 'fastify-guard'
+import { UnauthenticatedError } from '~/core/application/errors/http'
+import { container } from 'tsyringe'
+import { type IJwtService } from '~/core/application/services/IJwtService'
+import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
 
 /**
  * Builds a Fastify server instance with the specified configurations.
@@ -25,6 +30,40 @@ export const buildServer = async (): Promise<FastifyInstance> => {
   // register security modules
   void server.register(fastifyCors)
   void server.register(fastifyHelmet)
+
+  // add user property to request
+  server.decorateRequest('user', null)
+  server.addHook('onRequest', function (request, _reply, done) {
+    const authHeader = request.headers.authorization
+
+    if (!authHeader) {
+      done()
+      return
+    }
+
+    try {
+      const token = authHeader.replace('Bearer ', '')
+      const JwtService = container.resolve<IJwtService>('JwtService')
+      const decoded = JwtService.verifyToken(token) as IUserResponseDto
+      request.user = decoded
+    } catch (e) {}
+    done()
+  })
+
+  // register guard to protect routes
+  void server.register(fastifyGuard, {
+    requestProperty: 'user',
+    roleProperty: 'roles',
+    errorHandler: (result, req, reply) => {
+      const error = new UnauthenticatedError(
+        "you don't have permission to access this route",
+      )
+      console.log(req?.user)
+      reply.statusCode = error.statusCode
+      void reply.headers({ 'Content-Type': 'application/json' })
+      return reply.send({ error: error.message })
+    },
+  })
 
   // register routes
   void server.register(routes, { prefix: '/api/v1' })

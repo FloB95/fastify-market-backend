@@ -47,6 +47,7 @@ export const swaggerConfig: FastifyDynamicSwaggerOptions = {
     consumes: ['application/json'],
     produces: ['application/json'],
     tags: [
+      { name: 'Auth', description: 'Authentication related end-points' },
       { name: 'User', description: 'User related end-points' },
       { name: 'Product', description: 'Product related end-points' },
     ],

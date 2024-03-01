@@ -32,3 +32,25 @@ export const usersTable = mysqlTable(
     }
   },
 )
+
+export const refreshTokensTable = mysqlTable(
+  'RefreshToken',
+  {
+    id: varchar('id', {
+      length: 36,
+    }).primaryKey(),
+    userId: varchar('userId', {
+      length: 36,
+    })
+      .notNull()
+      .unique('userId'),
+    expiresAt: datetime('expiresAt').notNull(),
+    createdAt: datetime('createdAt').notNull(),
+    updatedAt: datetime('updatedAt').default(null),
+  },
+  (table) => {
+    return {
+      expiresAt: index('expiresAt').on(table.expiresAt),
+    }
+  },
+)

@@ -2,9 +2,9 @@ import zodToJsonSchema from 'zod-to-json-schema'
 import { UpdateUserDtoSchema } from '~/core/domain/dtos/user/IUpdateUserDto'
 import { UserResponseDtoSchema } from '~/core/domain/dtos/user/IUserResponseDto'
 import { DefaultIdQueryParamSchema } from '~/core/presentation/http/validation/BaseRequestSchema'
-import { type ExtendedFastifySchema } from '../../fastify/FastifySwagger'
 import { BadRequestErrorResponseJsonSchema } from '../errors/BadRequestSchema'
 import { NotFoundErrorResponseJsonSchema } from '../errors/NotFoundErrorSchema'
+import { type IExtendedFastifySchema } from '../../fastify/interfaces/Defaults'
 
 export const UpdateUserJsonSchema = zodToJsonSchema(UpdateUserDtoSchema, {
   $refStrategy: 'none',
@@ -15,7 +15,7 @@ export const UpdateUserJsonSchema = zodToJsonSchema(UpdateUserDtoSchema, {
   },
 })
 
-export const UpdateUserSchema: ExtendedFastifySchema = {
+export const UpdateUserSchema: IExtendedFastifySchema = {
   description: 'Update a new user',
   tags: ['User'],
   params: UpdateUserJsonSchema.definitions.params,

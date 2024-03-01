@@ -1,8 +1,8 @@
 import zodToJsonSchema from 'zod-to-json-schema'
 import { UpdateUserDtoSchema } from '~/core/domain/dtos/user/IUpdateUserDto'
 import { DefaultIdQueryParamSchema } from '~/core/presentation/http/validation/BaseRequestSchema'
-import { type ExtendedFastifySchema } from '../../fastify/FastifySwagger'
 import { NotFoundErrorResponseJsonSchema } from '../errors/NotFoundErrorSchema'
+import { type IExtendedFastifySchema } from '../../fastify/interfaces/Defaults'
 
 const DeleteUserJsonSchema = zodToJsonSchema(UpdateUserDtoSchema, {
   $refStrategy: 'none',
@@ -11,7 +11,7 @@ const DeleteUserJsonSchema = zodToJsonSchema(UpdateUserDtoSchema, {
   },
 })
 
-export const DeleteUserSchema: ExtendedFastifySchema = {
+export const DeleteUserSchema: IExtendedFastifySchema = {
   description: 'Delete a new user',
   tags: ['User'],
   params: DeleteUserJsonSchema.definitions.params,

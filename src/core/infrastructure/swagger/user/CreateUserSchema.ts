@@ -1,8 +1,8 @@
 import zodToJsonSchema from 'zod-to-json-schema'
 import { CreateUserDtoSchema } from '~/core/domain/dtos/user/ICreateUserDto'
 import { UserResponseDtoSchema } from '~/core/domain/dtos/user/IUserResponseDto'
-import { type ExtendedFastifySchema } from '../../fastify/FastifySwagger'
 import { BadRequestErrorResponseJsonSchema } from '../errors/BadRequestSchema'
+import { type IExtendedFastifySchema } from '../../fastify/interfaces/Defaults'
 
 const CreateUserJsonSchema = zodToJsonSchema(CreateUserDtoSchema, {
   $refStrategy: 'none',
@@ -12,7 +12,7 @@ const CreateUserJsonSchema = zodToJsonSchema(CreateUserDtoSchema, {
   },
 })
 
-export const CreateUserSchema: ExtendedFastifySchema = {
+export const CreateUserSchema: IExtendedFastifySchema = {
   description: 'Create a new user',
   tags: ['User'],
   body: CreateUserJsonSchema.definitions.body,

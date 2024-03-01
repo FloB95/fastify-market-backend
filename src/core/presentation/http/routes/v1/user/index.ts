@@ -21,7 +21,10 @@ const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
   //
   fastify.get(
     '/',
-    { schema: GetUsersSchema },
+    {
+      schema: GetUsersSchema,
+      // preHandler: [fastify.guard.role('admin', 'editor')],
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const controller = container.resolve(GetUsersController)
       const res = await controller.handle(fastifyRequestParser(request))
