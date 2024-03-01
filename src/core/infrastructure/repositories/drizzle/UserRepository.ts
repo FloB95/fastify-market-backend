@@ -73,7 +73,7 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
    */
   async findOneById(id: string): Promise<User | undefined> {
     const user = await db.query.usersTable.findFirst({
-      where: eq(usersTable.id, id),
+      where: eq(this.table.id, id),
     })
     return user ? UserRepository.mapDbEntryToUser(user) : undefined
   }
@@ -85,7 +85,7 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
    */
   async findOneByEmail(email: string): Promise<User | undefined> {
     const user = await db.query.usersTable.findFirst({
-      where: eq(usersTable.email, email),
+      where: eq(this.table.email, email),
     })
 
     return user ? UserRepository.mapDbEntryToUser(user) : undefined
@@ -116,7 +116,7 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
    */
   async create(user: User): Promise<void> {
     await db
-      .insert(usersTable)
+      .insert(this.table)
       .values({
         id: user.id,
         firstname: user.firstname,

@@ -2,8 +2,8 @@ import zodToJsonSchema from 'zod-to-json-schema'
 import { CreateUserDtoSchema } from '~/core/domain/dtos/user/ICreateUserDto'
 import { UserResponseDtoSchema } from '~/core/domain/dtos/user/IUserResponseDto'
 import { DefaultIdQueryParamSchema } from '~/core/presentation/http/validation/BaseRequestSchema'
-import { type ExtendedFastifySchema } from '../../fastify/FastifySwagger'
 import { NotFoundErrorResponseJsonSchema } from '../errors/NotFoundErrorSchema'
+import { type IExtendedFastifySchema } from '../../fastify/interfaces/Defaults'
 
 const GetUserJsonSchema = zodToJsonSchema(CreateUserDtoSchema, {
   $refStrategy: 'none',
@@ -13,7 +13,7 @@ const GetUserJsonSchema = zodToJsonSchema(CreateUserDtoSchema, {
   },
 })
 
-export const GetUserSchema: ExtendedFastifySchema = {
+export const GetUserSchema: IExtendedFastifySchema = {
   description: 'Get a user by id',
   tags: ['User'],
   params: GetUserJsonSchema.definitions.params,

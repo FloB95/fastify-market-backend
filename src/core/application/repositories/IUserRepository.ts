@@ -6,9 +6,9 @@ export interface IUserRepository extends IBaseRepository<User> {
   /**
    * Finds a user by email.
    * @param email The email of the user to find.
-   * @returns A Promise that resolves to either a User or null.
+   * @returns A Promise that resolves to either a User or undefined.
    */
-  findOneByEmail(email: string): Promise<User | null>
+  findOneByEmail(email: string): Promise<User | undefined>
 
   /**
    * Finds all users based on the provided query parameters.

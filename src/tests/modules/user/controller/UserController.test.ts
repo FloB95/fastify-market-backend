@@ -5,7 +5,13 @@ import { type ICreateUserDto } from '~/core/domain/dtos/user/ICreateUserDto'
 import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
 import { type IPaginationDto } from '~/core/domain/dtos/IPaginationDto'
 
+/**
+ * Represents the UserController.
+ */
 describe('UserController', () => {
+  /**
+   * Represents the user to be created.
+   */
   const createUserDto: ICreateUserDto = {
     firstname: faker.person.firstName(),
     lastname: faker.person.lastName(),
@@ -13,9 +19,18 @@ describe('UserController', () => {
     password: faker.internet.password(),
   }
 
+  /**
+   * Represents the created user.
+   */
   let createdUser: IUserResponseDto
 
+  /**
+   * Represents the tests for createUser.
+   */
   describe('createUser', () => {
+    /**
+     * Represents the test case for creating a user.
+     */
     it('should create a user and return it as JSON with status code 201', async () => {
       const response = await fastifyInstance.inject({
         method: 'POST',
@@ -41,6 +56,9 @@ describe('UserController', () => {
       createdUser = receivedUser
     })
 
+    /**
+     * Represents the test case for invalid request body.
+     */
     it('should return a 400 error if the request body is invalid', async () => {
       const response = await fastifyInstance.inject({
         method: 'POST',
@@ -68,7 +86,13 @@ describe('UserController', () => {
     })
   })
 
+  /**
+   * Represents the tests for getUsers.
+   */
   describe('getUsers', () => {
+    /**
+     * Represents the test case for default pagination.
+     */
     it('tests default pagination, should return a pagination with users and status code 200', async () => {
       const response = await fastifyInstance.inject({
         method: 'GET',
@@ -101,6 +125,9 @@ describe('UserController', () => {
       })
     })
 
+    /**
+     * Represents the test case for invalid page param.
+     */
     it('tests invalid page param, should return a 400 error if the page query parameter is not a number', async () => {
       const response = await fastifyInstance.inject({
         method: 'GET',
@@ -122,6 +149,9 @@ describe('UserController', () => {
       })
     })
 
+    /**
+     * Represents the test case for getting users with selected fields.
+     */
     it('get users with selected fields, should return a pagination with users and status code 200', async () => {
       const response = await fastifyInstance.inject({
         method: 'GET',
@@ -155,6 +185,9 @@ describe('UserController', () => {
       })
     })
 
+    /**
+     * Represents the test case for getting users by where eq condition.
+     */
     it('get users by where eq condition, should find at least one user and return 200', async () => {
       const response = await fastifyInstance.inject({
         method: 'GET',
@@ -186,6 +219,9 @@ describe('UserController', () => {
       expect(receivedUsers.data).toContainEqual(createdUser)
     })
 
+    /**
+     * Represents the test case for getting users by where neq condition.
+     */
     it('get users by where neq condition, should not find the created user 200', async () => {
       const response = await fastifyInstance.inject({
         method: 'GET',
@@ -216,6 +252,9 @@ describe('UserController', () => {
       expect(receivedUsers.data).not.toContainEqual(createdUser)
     })
 
+    /**
+     * Represents the test case for invalid limit query parameter.
+     */
     it('should return a 400 error if the limit query parameter is not a number', async () => {
       const response = await fastifyInstance.inject({
         method: 'GET',
@@ -238,7 +277,13 @@ describe('UserController', () => {
     })
   })
 
+  /**
+   * Represents the tests for getUserById.
+   */
   describe('getUserById', () => {
+    /**
+     * Represents the test case for getting a user by id.
+     */
     it('should return a user by id', async () => {
       // Use the createdUser object to get the id
       const response = await fastifyInstance.inject({
@@ -261,6 +306,9 @@ describe('UserController', () => {
       expect(receivedUser.password).toBeUndefined()
     })
 
+    /**
+     * Represents the test case for getting a user by id when the user is not found.
+     */
     it('should return a 404 error if the user is not found', async () => {
       const response = await fastifyInstance.inject({
         method: 'GET',
@@ -274,7 +322,13 @@ describe('UserController', () => {
     })
   })
 
+  /**
+   * Represents the tests for updateUser.
+   */
   describe('updateUser', () => {
+    /**
+     * Represents the test case for updating a user.
+     */
     it('should update a user and return it as JSON with status code 200', async () => {
       // Update the user
       const updatedUserDto = { firstname: 'Updated Firstname' }
@@ -299,6 +353,9 @@ describe('UserController', () => {
       expect(updatedUser.password).toBeUndefined()
     })
 
+    /**
+     * Represents the test case for updating a user with an invalid dto passed.
+     */
     it('should return a 400 error because of an invalid dto passed', async () => {
       // Update the user
       const updatedUserDto = {
@@ -337,6 +394,9 @@ describe('UserController', () => {
       })
     })
 
+    /**
+     * Represents the test case for updating a user when the user is not found.
+     */
     it('should return a 404 error if the user is not found', async () => {
       const response = await fastifyInstance.inject({
         method: 'PATCH',
@@ -351,7 +411,13 @@ describe('UserController', () => {
     })
   })
 
+  /**
+   * Represents the tests for deleteUser.
+   */
   describe('deleteUser', () => {
+    /**
+     * Represents the test case for deleting a user.
+     */
     it('should delete a user and return true with status code 200', async () => {
       // Update the user
       const deleteResponse = await fastifyInstance.inject({
@@ -373,6 +439,9 @@ describe('UserController', () => {
       expect(getUserResponse.statusCode).toBe(404)
     })
 
+    /**
+     * Represents the test case for deleting a user when the user is not found.
+     */
     it('should return a 404 error if the user is not found', async () => {
       const response = await fastifyInstance.inject({
         method: 'DELETE',

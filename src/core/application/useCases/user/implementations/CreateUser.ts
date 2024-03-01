@@ -9,12 +9,14 @@ import {
 import { CustomZodError } from '~/core/application/errors/zod/CustomZodError'
 import { IEventEmitter } from '~/core/domain/events/IEventEmitter'
 import { UserCreatedEvent } from '~/core/domain/events/user/UserCreatedEvent'
+import { IPasswordService } from '~/core/application/services/IPasswordService'
 
 @injectable()
 export class CreateUserUseCase implements ICreateUserUseCase {
   constructor(
     @inject('UserRepository') private userRepository: IUserRepository,
     @inject('EventEmitter') private eventEmitter: IEventEmitter,
+    @inject('PasswordService') private passwordService: IPasswordService,
   ) {}
 
   /**
@@ -36,13 +38,18 @@ export class CreateUserUseCase implements ICreateUserUseCase {
       throw new CustomZodError('User with this email already exists', ['email'])
     }
 
+    // hash the user's password
+    const hashedPassword = await this.passwordService.hashPassword(
+      validatedUser.password,
+    )
+
     // create a new user entity
     const newUser = new User(
       await this.userRepository.generateId(),
       validatedUser.firstname,
       validatedUser.lastname,
       validatedUser.email,
-      validatedUser.password,
+      hashedPassword,
     )
 
     // create the user
