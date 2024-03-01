@@ -1,3 +1,4 @@
+import { relations } from 'drizzle-orm'
 import { varchar, mysqlTable, datetime, index } from 'drizzle-orm/mysql-core'
 
 export const usersTable = mysqlTable(
@@ -43,7 +44,8 @@ export const refreshTokensTable = mysqlTable(
       length: 36,
     })
       .notNull()
-      .unique('userId'),
+      .unique('userId')
+      .references(() => usersTable.id, { onDelete: 'cascade' }),
     expiresAt: datetime('expiresAt').notNull(),
     createdAt: datetime('createdAt').notNull(),
     updatedAt: datetime('updatedAt').default(null),
@@ -54,3 +56,7 @@ export const refreshTokensTable = mysqlTable(
     }
   },
 )
+
+export const usersRelations = relations(usersTable, ({ one }) => ({
+  profileInfo: one(refreshTokensTable),
+}))
