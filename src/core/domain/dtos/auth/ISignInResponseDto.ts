@@ -1,3 +1,10 @@
+import { z } from 'zod'
+
+export const SignInResponseSchema = z.object({
+  accessToken: z.string(),
+  refreshToken: z.string(),
+})
+
 /**
  * Interface for the sign-in response DTO.
  * @interface

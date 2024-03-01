@@ -1,5 +1,4 @@
-import { type RefreshToken } from "~/core/domain/entities/RefreshToken";
-
+import { type RefreshToken } from '~/core/domain/entities/RefreshToken'
 
 export interface ICreateRefreshTokenUseCase {
   /**
