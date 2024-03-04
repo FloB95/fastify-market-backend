@@ -8,6 +8,8 @@ import { type ISignInCredentialsDto } from '~/core/domain/dtos/auth/ISignInCrede
 import { UserResponseDtoSchema } from '~/core/domain/dtos/user/IUserResponseDto'
 import { ICreateRefreshTokenUseCase } from '../ICreateRefreshTokenUseCase'
 import { type ISignInResponseDto } from '~/core/domain/dtos/auth/ISignInResponseDto'
+import { IEventEmitter } from '~/core/domain/events/IEventEmitter'
+import { UserLoggedInEvent } from '~/core/domain/events/user/UserLoggedInEvent'
 
 /**
  * Use case for authenticating a user.
@@ -30,6 +32,7 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
     @inject('JwtService') private jwtService: IJwtService,
     @inject('CreateRefreshTokenUseCase')
     private createRefreshTokenUseCase: ICreateRefreshTokenUseCase,
+    @inject('EventEmitter') private eventEmitter: IEventEmitter,
   ) {}
 
   /**
@@ -57,7 +60,7 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
     }
 
     const userDto = UserResponseDtoSchema.parse(user)
-    const accessToken = this.jwtService.generateToken(userDto, '1h')
+    const accessToken = this.jwtService.generateToken(userDto, '30d') // TODO change to 5m
 
     // create refresh token with use case
     const refreshToken = await this.createRefreshTokenUseCase.execute(user.id)
@@ -67,6 +70,10 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
       { id: refreshToken.id },
       '30d', // TODO store lifetime in config
     )
+
+    // emit events
+    const userLoggedInEvent = new UserLoggedInEvent(user)
+    this.eventEmitter.emit(userLoggedInEvent)
 
     return { accessToken, refreshToken: refreshTokenToken }
   }

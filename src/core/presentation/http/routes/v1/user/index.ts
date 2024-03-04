@@ -16,14 +16,26 @@ import { UpdateUserController } from '../../../controllers/user/UpdateUserContro
 import { DeleteUserSchema } from '~/core/infrastructure/swagger/user/DeleteUserSchema'
 import { DeleteUserController } from '../../../controllers/user/DeleteUserController'
 import UserRepository from '~/core/infrastructure/repositories/drizzle/UserRepository'
+import { ROLES } from '~/core/domain/enums/Roles'
 
 const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
-  //
+  // roles that have access to the user routes
+  const DEFAULT_USER_ACCESS_ROLES = [
+    ROLES.SUPER_ADMIN,
+    ROLES['users:maintainer'],
+  ]
+
+  // get all users route
   fastify.get(
     '/',
     {
       schema: GetUsersSchema,
-      // preHandler: [fastify.guard.role('admin', 'editor')],
+      preHandler: [
+        fastify.guard.role(
+          ...DEFAULT_USER_ACCESS_ROLES,
+          ROLES.APPLICATION_USER,
+        ),
+      ],
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const controller = container.resolve(GetUsersController)
@@ -34,6 +46,7 @@ const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
     },
   )
 
+  // performance test route
   fastify.get('/test', async (request: FastifyRequest, reply: FastifyReply) => {
     const r = container.resolve(UserRepository)
     const users = await r.findAll({
@@ -48,6 +61,9 @@ const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
     '/',
     {
       schema: CreateUserSchema,
+      preHandler: [
+        fastify.guard.role(...DEFAULT_USER_ACCESS_ROLES, ROLES['users:write']),
+      ],
     },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const controller = container.resolve(CreateUserController)
@@ -61,7 +77,15 @@ const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
   // get singe user ny id
   fastify.get(
     '/:id',
-    { schema: GetUserSchema },
+    {
+      schema: GetUserSchema,
+      preHandler: [
+        fastify.guard.role(
+          ...DEFAULT_USER_ACCESS_ROLES,
+          ROLES.APPLICATION_USER,
+        ),
+      ],
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const controller = container.resolve(GetUserController)
       const res = await controller.handle(fastifyRequestParser(request))
@@ -72,9 +96,18 @@ const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
   )
 
   // update user route
+  // access control is handled by the controller
   fastify.patch(
     '/:id',
-    { schema: UpdateUserSchema },
+    {
+      schema: UpdateUserSchema,
+      preHandler: [
+        fastify.guard.role(
+          ...DEFAULT_USER_ACCESS_ROLES,
+          ROLES.APPLICATION_USER,
+        ),
+      ],
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const controller = container.resolve(UpdateUserController)
       const res = await controller.handle(fastifyRequestParser(request))
@@ -87,7 +120,12 @@ const UserRouter: FastifyPluginCallback = (fastify, opt, done) => {
   // delete user route
   fastify.delete(
     '/:id',
-    { schema: DeleteUserSchema },
+    {
+      schema: DeleteUserSchema,
+      preHandler: [
+        fastify.guard.role(...DEFAULT_USER_ACCESS_ROLES, ROLES['users:delete']),
+      ],
+    },
     async (request: FastifyRequest, reply: FastifyReply) => {
       const controller = container.resolve(DeleteUserController)
       const res = await controller.handle(fastifyRequestParser(request))

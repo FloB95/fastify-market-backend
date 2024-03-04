@@ -10,6 +10,7 @@ export const API_BASE_PATH = '/api/v1'
 beforeAll(async () => {
   await loadConfigurations()
   fastifyInstance = await buildServer()
+  await fastifyInstance.ready()
 })
 
 describe('Fastify Application Setup', () => {

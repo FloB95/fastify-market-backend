@@ -1,5 +1,12 @@
 import { relations } from 'drizzle-orm'
-import { varchar, mysqlTable, datetime, index } from 'drizzle-orm/mysql-core'
+import {
+  varchar,
+  mysqlTable,
+  datetime,
+  index,
+  json,
+} from 'drizzle-orm/mysql-core'
+import { ROLES, type Roles } from '~/core/domain/enums/Roles'
 
 export const usersTable = mysqlTable(
   'User',
@@ -21,6 +28,10 @@ export const usersTable = mysqlTable(
     })
       .notNull()
       .unique('email'),
+    roles: json('roles')
+      .$type<Roles[]>()
+      .notNull()
+      .default([ROLES.APPLICATION_USER]),
     createdAt: datetime('createdAt').notNull(),
     updatedAt: datetime('updatedAt').default(null),
   },

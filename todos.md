@@ -13,3 +13,4 @@
 - add user events (UserCreated, UserUpdated, UserDeleted)
 - Optimize Swagger documentation & implement zod to schema
 - setup drizzle migrations
+- Update user Tests (test access control with different roles)

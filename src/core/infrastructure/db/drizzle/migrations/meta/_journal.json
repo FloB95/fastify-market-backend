@@ -5,43 +5,8 @@
     {
       "idx": 0,
       "version": "5",
-      "when": 1708178082294,
-      "tag": "0000_redundant_violations",
-      "breakpoints": true
-    },
-    {
-      "idx": 1,
-      "version": "5",
-      "when": 1708290759921,
-      "tag": "0001_pale_shocker",
-      "breakpoints": true
-    },
-    {
-      "idx": 2,
-      "version": "5",
-      "when": 1708681076730,
-      "tag": "0002_luxuriant_hulk",
-      "breakpoints": true
-    },
-    {
-      "idx": 3,
-      "version": "5",
-      "when": 1708783246313,
-      "tag": "0003_sweet_makkari",
-      "breakpoints": true
-    },
-    {
-      "idx": 4,
-      "version": "5",
-      "when": 1709292808987,
-      "tag": "0004_loving_zombie",
-      "breakpoints": true
-    },
-    {
-      "idx": 5,
-      "version": "5",
-      "when": 1709297762987,
-      "tag": "0005_zippy_speed",
+      "when": 1709551432476,
+      "tag": "0000_busy_wilson_fisk",
       "breakpoints": true
     }
   ]

@@ -1,1 +1,0 @@
-ALTER TABLE `RefreshToken` ADD CONSTRAINT `RefreshToken_userId_User_id_fk` FOREIGN KEY (`userId`) REFERENCES `User`(`id`) ON DELETE cascade ON UPDATE no action;

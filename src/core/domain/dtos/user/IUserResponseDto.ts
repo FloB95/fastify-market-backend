@@ -1,17 +1,18 @@
-import { z } from 'zod'
+import { type z } from 'zod'
+import { UserSchema } from '../../entities/User'
 import { BaseEntitySchema } from '../../entities/BaseEntity'
 
 /**
  * Schema for the User Response DTO.
  */
-export const UserResponseDtoSchema = z
-  .object({
-    ...BaseEntitySchema.shape,
-    firstname: z.string(),
-    lastname: z.string(),
-    email: z.string(),
-  })
-  .partial()
+export const UserResponseDtoSchema = BaseEntitySchema.merge(
+  UserSchema.pick({
+    firstname: true,
+    lastname: true,
+    email: true,
+    roles: true,
+  }),
+).partial()
 
 /**
  * Interface for the User Response DTO.
