@@ -41,8 +41,8 @@ export const fastifyErrorHandler = (
     return reply.status(error.statusCode).send(responsePayload)
   }
 
-  return reply.status(500).send({
+  return reply.status(400).send({
     message: error.message,
-    code: 500,
+    code: 400,
   })
 }

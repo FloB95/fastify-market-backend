@@ -7,7 +7,8 @@ import { BaseDtoOmitFields } from '../IBaseDtoOmitFields'
  */
 export const CreateUserDtoSchema = UserSchema.omit({
   ...BaseDtoOmitFields,
-  roles: true,
+}).extend({
+  roles: UserSchema.shape.roles.optional(),
 })
 
 /**

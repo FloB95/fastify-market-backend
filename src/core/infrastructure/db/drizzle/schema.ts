@@ -68,9 +68,12 @@ export const refreshTokensTable = mysqlTable(
   },
 )
 
-export const userRefreshTokenRelation = relations(refreshTokensTable, ({ one }) => ({
-  author: one(usersTable, {
-    fields: [refreshTokensTable.userId],
-    references: [usersTable.id],
+export const userRefreshTokenRelation = relations(
+  refreshTokensTable,
+  ({ one }) => ({
+    author: one(usersTable, {
+      fields: [refreshTokensTable.userId],
+      references: [usersTable.id],
+    }),
   }),
-}))
+)

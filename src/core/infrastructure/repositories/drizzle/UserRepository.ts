@@ -123,6 +123,7 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
         lastname: user.lastname,
         email: user.email,
         password: user.password,
+        roles: user.roles,
         createdAt: user.createdAt,
         updatedAt: user.updatedAt,
       } as NewUser)
