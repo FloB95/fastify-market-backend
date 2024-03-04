@@ -58,7 +58,7 @@ export const buildServer = async (): Promise<FastifyInstance> => {
       const error = new UnauthenticatedError(
         "you don't have permission to access this route",
       )
-      console.log(req?.user)
+      console.log('error user', req?.user)
       reply.statusCode = error.statusCode
       void reply.headers({ 'Content-Type': 'application/json' })
       return reply.send({ error: error.message })
@@ -98,9 +98,6 @@ export const buildServer = async (): Promise<FastifyInstance> => {
     }
   }
 
-  await server.ready()
-  server.swagger()
-
   return server
 }
 
@@ -110,6 +107,10 @@ export const buildServer = async (): Promise<FastifyInstance> => {
 export const startServer = async () => {
   try {
     const server = await buildServer()
+
+    await server.ready()
+    server.swagger()
+
     const serverOptions: any = {
       port: process.env.PORT || env.API_PORT,
       host: env.API_HOST,

@@ -141,6 +141,7 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
       dbUser.lastname,
       dbUser.email,
       dbUser.password,
+      dbUser.roles,
     )
 
     user.setCreatedAt(dbUser.createdAt ? new Date(dbUser.createdAt) : undefined)

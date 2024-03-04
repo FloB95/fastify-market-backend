@@ -1,50 +1,44 @@
-import { faker } from '@faker-js/faker'
-import { connection, db, initDb } from './setup'
-import { v4 as uuidv4 } from 'uuid'
+import { db } from './setup'
 import { usersTable } from './schema'
+import { User } from '~/core/domain/entities/User'
+import { eq } from 'drizzle-orm'
+import { logger } from '../../logger'
+import { PasswordService } from '../../services/auth/PasswordService'
+import { type IPasswordService } from '~/core/application/services/IPasswordService'
+import { container } from 'tsyringe'
 
-async function runSeed() {
-  await initDb()
+export const DEFAULT_SYSTEM_USER: User = new User(
+  '93d8755f-b7c9-45ae-b943-7b92129f26ad',
+  'Florian',
+  'Breuer',
+  'fb@medium.ag',
+  'testtest',
+  ['APPLICATION_USER', 'SUPER_ADMIN'],
+)
 
-  // Generate a million entries
-  const numEntries = 1000000
-  const batchSize = 10
-  // Number of entries to insert in each batch
-  for (let i = 0; i < numEntries; i += batchSize) {
-    console.log('start creating batch', i)
-    const entries = []
-    for (let j = 0; j < batchSize; j++) {
-      const id = uuidv4()
-      const email = faker.internet.email()
-      const firstname = faker.person.firstName()
-      const lastname = faker.person.lastName()
-      const password = faker.internet.password()
-      const createdAt = faker.date.past()
-      entries.push({
-        id,
-        firstname,
-        lastname,
-        email,
-        createdAt,
-        password,
-      })
-    }
+// if user exists, do nothing
+async function createDefaultUser() {
+  try {
+    const user = await db.query.usersTable.findFirst({
+      where: eq(usersTable.id, DEFAULT_SYSTEM_USER.id),
+    })
 
-    console.log('start inserting batch', i)
-    try {
-      await db
-        .insert(usersTable)
-        .values(entries)
-        .onDuplicateKeyUpdate({
-          set: { id: uuidv4(), email: faker.internet.email() },
-        })
-    } catch (error) {
-      console.error('Error inserting batch', i, error)
-    }
+    if (user) return
+
+    const passwordService = container.resolve<IPasswordService>(PasswordService)
+    await db.insert(usersTable).values({
+      ...DEFAULT_SYSTEM_USER,
+      password: await passwordService.hashPassword(
+        DEFAULT_SYSTEM_USER.password,
+      ),
+    })
+  } catch (error) {
+    console.error('Error creating default user', error)
   }
-
-  // Close the MySQL connection
-  await connection.end()
 }
 
-void runSeed()
+export async function runSeeds() {
+  logger.info('Running seeds')
+  // create default user if not exists
+  await createDefaultUser()
+}

@@ -9,8 +9,8 @@ import { mergeZodErrorObjects } from '~/core/utils/general'
  * @returns The parsed IHttpRequest object.
  */
 export const fastifyRequestParser = (request: FastifyRequest): IHttpRequest => {
-  const { body, params, query, headers } = request
-  return Object.freeze({ body, params, query, headers })
+  const { body, params, query, headers, user } = request
+  return Object.freeze({ body, params, query, headers, user })
 }
 
 /**

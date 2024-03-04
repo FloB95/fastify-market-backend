@@ -1,55 +1,21 @@
 import { API_BASE_PATH, fastifyInstance } from '~/tests/setup.test'
-import { faker } from '@faker-js/faker'
-import { type ICreateUserDto } from '~/core/domain/dtos/user/ICreateUserDto'
-import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
 import { type ISignInResponseDto } from '~/core/domain/dtos/auth/ISignInResponseDto'
 import { type IJwtService } from '~/core/application/services/IJwtService'
 import { container } from 'tsyringe'
+import { DEFAULT_SYSTEM_USER } from '~/core/infrastructure/db/drizzle/seed'
 
 /**
  * Represents the RefreshAccessTokenController.
  */
 describe('RefreshAccessTokenController', () => {
-  /**
-   * Represents the created user.
-   */
-  let createdUser: IUserResponseDto
-
-  const createUserDto: ICreateUserDto = {
-    firstname: faker.person.firstName(),
-    lastname: faker.person.lastName(),
-    email: faker.internet.email(),
-    password: faker.internet.password(),
-  }
-
-  // create a user before all tests
-  beforeAll(async () => {
-    const response = await fastifyInstance.inject({
-      method: 'POST',
-      url: `${API_BASE_PATH}/users`,
-      payload: createUserDto,
-    })
-
-    const receivedUser = JSON.parse(response.payload) as IUserResponseDto
-    createdUser = receivedUser
-  })
-
-  // deleted the created user after all tests
-  afterAll(async () => {
-    await fastifyInstance.inject({
-      method: 'DELETE',
-      url: `${API_BASE_PATH}/users/${createdUser.id}`,
-    })
-  })
-
   describe('refreshAccessToken', () => {
     it('should return a 200 status code with a new access token', async () => {
       const signInResponse = await fastifyInstance.inject({
         method: 'POST',
         url: `${API_BASE_PATH}/auth/sign-in`,
         payload: {
-          email: createdUser.email,
-          password: createUserDto.password,
+          email: DEFAULT_SYSTEM_USER.email,
+          password: DEFAULT_SYSTEM_USER.password,
         },
       })
 

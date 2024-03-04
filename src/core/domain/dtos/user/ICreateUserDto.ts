@@ -5,7 +5,10 @@ import { BaseDtoOmitFields } from '../IBaseDtoOmitFields'
 /**
  * Schema for the Create User DTO.
  */
-export const CreateUserDtoSchema = UserSchema.omit(BaseDtoOmitFields)
+export const CreateUserDtoSchema = UserSchema.omit({
+  ...BaseDtoOmitFields,
+  roles: true,
+})
 
 /**
  * Interface for the Create User DTO.

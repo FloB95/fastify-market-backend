@@ -5,6 +5,7 @@ import { type MySql2Database } from 'drizzle-orm/mysql2'
 import { migrateDb } from './migrate'
 import { logger } from '../../logger'
 import { env } from '~/core/config/env'
+import { runSeeds } from './seed'
 
 export let db: MySql2Database<typeof schema>
 export let connection: mysql.Connection
@@ -19,6 +20,7 @@ export const initDb = async () => {
       database: env.DB_NAME,
       multipleStatements: true,
       port: Number(env.DB_PORT),
+      connectTimeout: 10000,
     })
 
     // Listen for the 'error' event
@@ -36,6 +38,9 @@ export const initDb = async () => {
 
     // run migrations
     await migrateDb(false)
+
+    // run seeds
+    await runSeeds()
   } catch (error) {
     logger.error('Failed to initialize database')
     logger.error(error.message)

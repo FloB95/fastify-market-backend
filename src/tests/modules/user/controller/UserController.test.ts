@@ -4,6 +4,9 @@ import qs from 'qs'
 import { type ICreateUserDto } from '~/core/domain/dtos/user/ICreateUserDto'
 import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
 import { type IPaginationDto } from '~/core/domain/dtos/IPaginationDto'
+import { container } from 'tsyringe'
+import { type AuthenticateUserUseCase } from '~/core/application/useCases/auth/implementations/AuthenticateUserUseCase'
+import { DEFAULT_SYSTEM_USER } from '~/core/infrastructure/db/drizzle/seed'
 
 /**
  * Represents the UserController.
@@ -25,6 +28,21 @@ describe('UserController', () => {
   let createdUser: IUserResponseDto
 
   /**
+   * Represents the access token.
+   */
+  let ACCESS_TOKEN: string
+
+  beforeAll(async () => {
+    const { accessToken } = await container
+      .resolve<AuthenticateUserUseCase>('AuthenticateUserUseCase')
+      .execute({
+        email: DEFAULT_SYSTEM_USER.email,
+        password: DEFAULT_SYSTEM_USER.password,
+      })
+    ACCESS_TOKEN = accessToken
+  })
+
+  /**
    * Represents the tests for createUser.
    */
   describe('createUser', () => {
@@ -36,6 +54,9 @@ describe('UserController', () => {
         method: 'POST',
         url: `${API_BASE_PATH}/users`,
         payload: createUserDto,
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(response.statusCode).toBe(201)
@@ -65,6 +86,9 @@ describe('UserController', () => {
         url: `${API_BASE_PATH}/users`,
         payload: {
           // Invalid payload with missing required fields
+        },
+        headers: {
+          authorization: ACCESS_TOKEN,
         },
       })
 
@@ -98,6 +122,9 @@ describe('UserController', () => {
         method: 'GET',
         url: `${API_BASE_PATH}/users`,
         query: { page: '1', limit: '20' },
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(response.statusCode).toBe(200)
@@ -133,6 +160,9 @@ describe('UserController', () => {
         method: 'GET',
         url: `${API_BASE_PATH}/users`,
         query: { page: 'invalid', limit: '20' },
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(response.statusCode).toBe(400)
@@ -157,6 +187,9 @@ describe('UserController', () => {
         method: 'GET',
         url: `${API_BASE_PATH}/users`,
         query: { select: 'id,firstname,lastname,invalidFieldShouldBeIgnored!' },
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(response.statusCode).toBe(200)
@@ -202,6 +235,9 @@ describe('UserController', () => {
             [`createdAt[eq]`]: createdUser.createdAt as unknown as string,
           }),
         },
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(response.statusCode).toBe(200)
@@ -235,6 +271,9 @@ describe('UserController', () => {
             ['createdAt[eq]']: createdUser.createdAt as unknown as string,
           }),
         },
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(response.statusCode).toBe(200)
@@ -260,6 +299,9 @@ describe('UserController', () => {
         method: 'GET',
         url: `${API_BASE_PATH}/users`,
         query: { page: '1', limit: 'invalid' },
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(response.statusCode).toBe(400)
@@ -289,6 +331,9 @@ describe('UserController', () => {
       const response = await fastifyInstance.inject({
         method: 'GET',
         url: `${API_BASE_PATH}/users/${createdUser.id}`,
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(response.statusCode).toBe(200)
@@ -313,6 +358,9 @@ describe('UserController', () => {
       const response = await fastifyInstance.inject({
         method: 'GET',
         url: `${API_BASE_PATH}/users/invalid-id`,
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(response.statusCode).toBe(404)
@@ -336,6 +384,9 @@ describe('UserController', () => {
         method: 'PATCH',
         url: `${API_BASE_PATH}/users/${createdUser.id}`,
         payload: updatedUserDto,
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(updateResponse.statusCode).toBe(200)
@@ -366,6 +417,9 @@ describe('UserController', () => {
         method: 'PATCH',
         url: `${API_BASE_PATH}/users/${createdUser.id}`,
         payload: updatedUserDto,
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(response.statusCode).toBe(400)
@@ -402,6 +456,9 @@ describe('UserController', () => {
         method: 'PATCH',
         url: `${API_BASE_PATH}/users/invalid-id`,
         payload: { firstname: 'Updated Firstname' },
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(response.statusCode).toBe(404)
@@ -423,6 +480,9 @@ describe('UserController', () => {
       const deleteResponse = await fastifyInstance.inject({
         method: 'DELETE',
         url: `${API_BASE_PATH}/users/${createdUser.id}`,
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(deleteResponse.statusCode).toBe(200)
@@ -435,6 +495,9 @@ describe('UserController', () => {
       const getUserResponse = await fastifyInstance.inject({
         method: 'GET',
         url: `${API_BASE_PATH}/users/${createdUser.id}`,
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
       expect(getUserResponse.statusCode).toBe(404)
     })
@@ -446,6 +509,9 @@ describe('UserController', () => {
       const response = await fastifyInstance.inject({
         method: 'DELETE',
         url: `${API_BASE_PATH}/users/invalid-id`,
+        headers: {
+          authorization: ACCESS_TOKEN,
+        },
       })
 
       expect(response.statusCode).toBe(404)
