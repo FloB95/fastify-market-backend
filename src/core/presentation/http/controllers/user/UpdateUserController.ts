@@ -14,6 +14,7 @@ import { ZodError } from 'zod'
 import { IGetOneUserByUseCase } from '~/core/application/useCases/user/IGetUserByUseCase'
 import { IUpdateUserUseCase } from '~/core/application/useCases/user/IUpdateUserUseCase'
 import { ROLES } from '~/core/domain/enums/Roles'
+import { UpdateUserDtoSchema } from '~/core/domain/dtos/user/IUpdateUserDto'
 
 @injectable()
 export class UpdateUserController implements IController {
@@ -48,9 +49,26 @@ export class UpdateUserController implements IController {
         )
       }
 
+      const updateUserDto = UpdateUserDtoSchema.parse(httpRequest.body)
+
+      // make sure the validated user has the default role APPLICATION_USER
+      if (!updateUserDto.roles.includes('APPLICATION_USER')) {
+        updateUserDto.roles.push('APPLICATION_USER')
+      }
+
+      // remove the SUPER_ADMIN role if the user is not a SUPER_ADMIN
+      if (
+        updateUserDto.roles.includes('SUPER_ADMIN') &&
+        !httpRequest.user.roles.includes('SUPER_ADMIN')
+      ) {
+        updateUserDto.roles = updateUserDto.roles.filter(
+          (role) => role !== 'SUPER_ADMIN',
+        )
+      }
+
       const updatedUser = await this.updateUserUseCase.execute(
         user,
-        httpRequest.body,
+        updateUserDto,
       )
 
       const userResponse = UserResponseDtoSchema.parse(updatedUser)

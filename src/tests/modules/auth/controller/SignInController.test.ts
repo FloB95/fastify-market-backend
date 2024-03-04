@@ -3,15 +3,11 @@ import { type ISignInResponseDto } from '~/core/domain/dtos/auth/ISignInResponse
 import { container } from 'tsyringe'
 import { type IJwtService } from '~/core/application/services/IJwtService'
 import { DEFAULT_SYSTEM_USER } from '~/core/infrastructure/db/SeedObjects'
-import { sleep } from '~/core/utils/general'
 
 /**
  * Represents the SignInController.
  */
 describe('SignInController', () => {
-  beforeAll(async () => {
-    await sleep(1000)
-  })
   describe('signIn', () => {
     it('it should sign in the created user and return a 200 status code with accessToken and refreshToken', async () => {
       const response = await fastifyInstance.inject({

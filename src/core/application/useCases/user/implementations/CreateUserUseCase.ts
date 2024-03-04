@@ -50,6 +50,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
       validatedUser.lastname,
       validatedUser.email,
       hashedPassword,
+      validatedUser.roles,
     )
 
     // create the user
