@@ -1,8 +1,8 @@
-import { API_BASE_PATH, fastifyInstance } from '~/tests/setup.test'
 import { type ISignInResponseDto } from '~/core/domain/dtos/auth/ISignInResponseDto'
 import { type IJwtService } from '~/core/application/services/IJwtService'
 import { container } from 'tsyringe'
-import { DEFAULT_SYSTEM_USER } from '~/core/infrastructure/db/drizzle/seed'
+import { DEFAULT_SYSTEM_USER } from '~/core/infrastructure/db/SeedObjects'
+import { API_BASE_PATH, fastifyInstance } from '~/tests/setup.test'
 
 /**
  * Represents the RefreshAccessTokenController.

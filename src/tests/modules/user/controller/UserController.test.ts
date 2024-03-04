@@ -6,7 +6,7 @@ import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
 import { type IPaginationDto } from '~/core/domain/dtos/IPaginationDto'
 import { container } from 'tsyringe'
 import { type AuthenticateUserUseCase } from '~/core/application/useCases/auth/implementations/AuthenticateUserUseCase'
-import { DEFAULT_SYSTEM_USER } from '~/core/infrastructure/db/drizzle/seed'
+import { DEFAULT_SYSTEM_USER } from '~/core/infrastructure/db/SeedObjects'
 
 /**
  * Represents the UserController.

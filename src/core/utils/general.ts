@@ -3,6 +3,10 @@ import { type ZodIssue } from 'zod'
 export const sleep = (ms: number) =>
   new Promise((resolve) => setTimeout(resolve, ms))
 
+export function randomInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
+
 export function mergeObjects<T>(original: T, updates: Partial<T>): T {
   return {
     ...original,
