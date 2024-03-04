@@ -1,20 +1,11 @@
 import { db } from './setup'
 import { usersTable } from './schema'
-import { User } from '~/core/domain/entities/User'
 import { eq } from 'drizzle-orm'
 import { logger } from '../../logger'
 import { PasswordService } from '../../services/auth/PasswordService'
 import { type IPasswordService } from '~/core/application/services/IPasswordService'
 import { container } from 'tsyringe'
-
-export const DEFAULT_SYSTEM_USER: User = new User(
-  '93d8755f-b7c9-45ae-b943-7b92129f26ad',
-  'Florian',
-  'Breuer',
-  'fb@medium.ag',
-  'testtest',
-  ['APPLICATION_USER', 'SUPER_ADMIN'],
-)
+import { DEFAULT_SYSTEM_USER } from '../SeedObjects'
 
 // if user exists, do nothing
 async function createDefaultUser() {

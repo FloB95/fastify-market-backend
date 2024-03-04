@@ -35,6 +35,7 @@ export class CreateRefreshTokenUseCase implements ICreateRefreshTokenUseCase {
     // if user has a refresh token, delete it
     const refreshTokenFounded =
       await this.refreshTokenRepository.findOneByUserId(user.id)
+
     if (refreshTokenFounded) {
       await this.refreshTokenRepository.delete(refreshTokenFounded)
     }
