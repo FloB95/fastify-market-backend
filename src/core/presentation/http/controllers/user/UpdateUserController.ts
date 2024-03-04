@@ -52,8 +52,8 @@ export class UpdateUserController implements IController {
       const updateUserDto = UpdateUserDtoSchema.parse(httpRequest.body)
 
       // make sure the validated user has the default role APPLICATION_USER
-      if (!updateUserDto.roles.includes('APPLICATION_USER')) {
-        updateUserDto.roles.push('APPLICATION_USER')
+      if (!updateUserDto?.roles?.includes('APPLICATION_USER')) {
+        updateUserDto?.roles?.push('APPLICATION_USER')
       }
 
       // remove the SUPER_ADMIN role if the user is not a SUPER_ADMIN

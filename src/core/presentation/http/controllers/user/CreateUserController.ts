@@ -25,12 +25,13 @@ export class CreateUserController implements IController {
       const userCreateDto = CreateUserDtoSchema.parse(httpRequest.body)
 
       // make sure the validated user has the default role APPLICATION_USER
-      if (!userCreateDto.roles.includes('APPLICATION_USER')) {
-        userCreateDto.roles.push('APPLICATION_USER')
+      if (!userCreateDto?.roles?.includes('APPLICATION_USER')) {
+        userCreateDto?.roles?.push('APPLICATION_USER')
       }
 
       // remove the SUPER_ADMIN role if the user is not a SUPER_ADMIN
       if (
+        userCreateDto.roles &&
         userCreateDto.roles.includes('SUPER_ADMIN') &&
         !httpRequest.user.roles.includes('SUPER_ADMIN')
       ) {
