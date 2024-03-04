@@ -58,6 +58,7 @@ export class UpdateUserController implements IController {
 
       // remove the SUPER_ADMIN role if the user is not a SUPER_ADMIN
       if (
+        updateUserDto.roles &&
         updateUserDto.roles.includes('SUPER_ADMIN') &&
         !httpRequest.user.roles.includes('SUPER_ADMIN')
       ) {

@@ -58,7 +58,7 @@ export const buildServer = async (): Promise<FastifyInstance> => {
       const error = new UnauthenticatedError(
         "you don't have permission to access this route",
       )
-      console.log("error user", req?.user)
+      console.log('error user', req?.user)
       reply.statusCode = error.statusCode
       void reply.headers({ 'Content-Type': 'application/json' })
       return reply.send({ error: error.message })
