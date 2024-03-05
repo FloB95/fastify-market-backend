@@ -22,6 +22,7 @@ export class CreateUserController implements IController {
    */
   async handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
     try {
+      // validate the incoming user data
       const userCreateDto = CreateUserDtoSchema.parse(httpRequest.body)
 
       // make sure the validated user has the default role APPLICATION_USER

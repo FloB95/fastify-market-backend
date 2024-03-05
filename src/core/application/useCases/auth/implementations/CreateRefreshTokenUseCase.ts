@@ -32,12 +32,21 @@ export class CreateRefreshTokenUseCase implements ICreateRefreshTokenUseCase {
       throw new NotFoundError('User not found')
     }
 
-    // if user has a refresh token, delete it
-    const refreshTokenFounded =
-      await this.refreshTokenRepository.findOneByUserId(user.id)
+    // if user has a refresh token, update it
+    let refreshToken = await this.refreshTokenRepository.findOneByUserId(
+      user.id,
+    )
 
-    if (refreshTokenFounded) {
-      await this.refreshTokenRepository.delete(refreshTokenFounded)
+    if (refreshToken) {
+      // update the expiration date of the existing refresh token
+      // update the refresh token in the repository
+      await this.refreshTokenRepository.update(refreshToken, {
+        expiresAt: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000),
+        updatedAt: new Date(),
+      })
+
+      // get and return the updated refresh token
+      return await this.refreshTokenRepository.findOneById(refreshToken.id)
     }
 
     // create refresh token (30 Days from now)
@@ -46,20 +55,15 @@ export class CreateRefreshTokenUseCase implements ICreateRefreshTokenUseCase {
     )
 
     // create a new refresh token entity
-    const newRefreshToken = new RefreshToken(
+    refreshToken = new RefreshToken(
       await this.refreshTokenRepository.generateId(),
       refreshTokenExpiration,
       user.id,
     )
 
     // create the refresh token
-    await this.refreshTokenRepository.create(newRefreshToken)
+    await this.refreshTokenRepository.create(refreshToken)
 
-    // get the created refresh token from the repository
-    const createdRefreshToken = await this.refreshTokenRepository.findOneById(
-      newRefreshToken.id,
-    )
-
-    return createdRefreshToken
+    return refreshToken
   }
 }
