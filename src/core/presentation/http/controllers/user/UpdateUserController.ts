@@ -49,6 +49,7 @@ export class UpdateUserController implements IController {
         )
       }
 
+      // validate the incoming user data
       const updateUserDto = UpdateUserDtoSchema.parse(httpRequest.body)
 
       // make sure the validated user has the default role APPLICATION_USER

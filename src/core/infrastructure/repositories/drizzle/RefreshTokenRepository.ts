@@ -88,9 +88,10 @@ class RefreshTokenRepository
     refreshToken: RefreshToken,
     updates: Partial<RefreshToken>,
   ): Promise<void> {
-    console.log('params', refreshToken, updates)
-    await sleep(100)
-    throw new Error('Method not implemented.')
+    await db
+      .update(this.table)
+      .set(updates)
+      .where(eq(this.table.id, refreshToken.id))
   }
 
   /**

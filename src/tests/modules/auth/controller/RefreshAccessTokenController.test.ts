@@ -3,14 +3,10 @@ import { type IJwtService } from '~/core/application/services/IJwtService'
 import { container } from 'tsyringe'
 import { DEFAULT_SYSTEM_USER } from '~/core/infrastructure/db/SeedObjects'
 import { API_BASE_PATH, fastifyInstance } from '~/tests/setup.test'
-import { sleep } from '~/core/utils/general'
 
 /**
  * Represents the RefreshAccessTokenController.
  */
-beforeAll(async () => {
-  await sleep(1000)
-})
 describe('RefreshAccessTokenController', () => {
   describe('refreshAccessToken', () => {
     it('should return a 200 status code with a new access token', async () => {

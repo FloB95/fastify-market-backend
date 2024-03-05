@@ -9,7 +9,10 @@ import { fastifyErrorHandler } from './helpers'
 import { logger } from '../logger'
 import { env } from '~/core/config/env'
 import fastifyGuard from 'fastify-guard'
-import { UnauthenticatedError } from '~/core/application/errors/http'
+import {
+  UnauthenticatedError,
+  UnauthorizedError,
+} from '~/core/application/errors/http'
 import { container } from 'tsyringe'
 import { type IJwtService } from '~/core/application/services/IJwtService'
 import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
@@ -55,13 +58,17 @@ export const buildServer = async (): Promise<FastifyInstance> => {
     requestProperty: 'user',
     roleProperty: 'roles',
     errorHandler: (result, req, reply) => {
-      const error = new UnauthenticatedError(
-        "you don't have permission to access this route",
-      )
+      const error = req?.user
+        ? new UnauthorizedError(
+            "you don't have permission to access this route",
+          )
+        : new UnauthenticatedError(
+            'you need to be authenticated to access this route',
+          )
       console.log('error user', req?.user)
       reply.statusCode = error.statusCode
       void reply.headers({ 'Content-Type': 'application/json' })
-      return reply.send({ error: error.message })
+      return reply.send({ message: error.message, code: error.statusCode })
     },
   })
 
