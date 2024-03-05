@@ -1,5 +1,8 @@
 import { eq, sql } from 'drizzle-orm'
-import { type MySqlTableWithColumns } from 'drizzle-orm/mysql-core'
+import {
+  getTableConfig,
+  type MySqlTableWithColumns,
+} from 'drizzle-orm/mysql-core'
 import { v4 as uuidv4 } from 'uuid'
 import { type IBaseKeyCache } from '~/core/application/cache/IBaseKeyCache'
 import type IBaseRepository from '~/core/application/repositories/IBaseRepository'
@@ -30,7 +33,7 @@ export abstract class BaseRepository<T> implements IBaseRepository<T> {
    */
   public async countTotal(): Promise<number> {
     const cacheCount = (await this.appCache.get(
-      'userTableCountTotal',
+      this.getTotalCacheKey(),
     )) as string
 
     if (!cacheCount) {
@@ -41,12 +44,17 @@ export abstract class BaseRepository<T> implements IBaseRepository<T> {
         .from(this.table)
 
       const count = result[0]?.count || 0
-      await this.appCache.set('userTableCountTotal', count, 60)
+      await this.appCache.set(this.getTotalCacheKey(), count)
 
       return count
     }
 
     return parseInt(cacheCount)
+  }
+
+  public getTotalCacheKey(): string {
+    const { name } = getTableConfig(this.table)
+    return `${name}_table_count_total`
   }
 
   /**
