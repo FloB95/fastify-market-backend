@@ -3,14 +3,15 @@ import { db } from '~/core/infrastructure/db/drizzle/setup'
 import { usersTable } from '~/core/infrastructure/db/drizzle/schema'
 import { desc, eq } from 'drizzle-orm'
 import {
+  convertMySqlColumnsToSelectObj,
   convertQuerySelectToDrizzle,
-  convertWhereConditionToDrizzle,
 } from '~/core/infrastructure/db/drizzle/utils'
 import { BaseRepository } from './BaseRepository'
 import { type IUserRepository } from '~/core/application/repositories/IUserRepository'
 import { type ISqlQueryFindBy } from '~/core/application/repositories/IBaseRepository'
 import { User } from '~/core/domain/entities/User'
 import { IBaseKeyCache } from '~/core/application/cache/IBaseKeyCache'
+import { getTableConfig } from 'drizzle-orm/mysql-core'
 
 type NewUser = typeof usersTable.$inferInsert
 
@@ -36,32 +37,24 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
     select,
     where,
   }: ISqlQueryFindBy<User>): Promise<User[]> {
-    const whereDrizzle = where
-      ? convertWhereConditionToDrizzle<User>(where, this.table)
-      : undefined
-
+    const allColumns = convertMySqlColumnsToSelectObj(
+      getTableConfig(this.table).columns,
+    )
     const drizzleSelect = convertQuerySelectToDrizzle(select, this.table)
 
-    let usersQuery
-    if (drizzleSelect) {
-      usersQuery = db
-        .select(drizzleSelect)
-        .from(this.table)
-        .orderBy(desc(this.table.createdAt))
-        .limit(limit)
-        .offset(offset)
-    } else {
-      usersQuery = db
-        .select()
-        .from(this.table)
-        .orderBy(desc(this.table.createdAt))
-        .limit(limit)
-        .offset(offset)
-    }
+    const query = db
+      .select(drizzleSelect || allColumns)
+      .from(this.table)
+      .orderBy(desc(this.table.createdAt))
+      .$dynamic()
 
-    if (whereDrizzle) usersQuery.where(whereDrizzle)
+    // add where conditions
+    if (where) void this.withWhere(query, where)
 
-    const users = await usersQuery.execute()
+    // add pagination
+    void this.withPagination(query, offset, limit)
+
+    const users = await query.execute()
 
     return users.map((user) => UserRepository.mapDbEntryToUser(user))
   }

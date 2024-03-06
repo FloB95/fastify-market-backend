@@ -1,13 +1,19 @@
 import { eq, sql } from 'drizzle-orm'
 import {
+  type MySqlSelect,
   getTableConfig,
   type MySqlTableWithColumns,
+  type MySqlSelectDynamic,
 } from 'drizzle-orm/mysql-core'
 import { v4 as uuidv4 } from 'uuid'
 import { type IBaseKeyCache } from '~/core/application/cache/IBaseKeyCache'
 import type IBaseRepository from '~/core/application/repositories/IBaseRepository'
-import { type ISqlQueryFindBy } from '~/core/application/repositories/IBaseRepository'
+import {
+  type WhereConditions,
+  type ISqlQueryFindBy,
+} from '~/core/application/repositories/IBaseRepository'
 import { db } from '~/core/infrastructure/db/drizzle/setup'
+import { convertWhereConditionToDrizzle } from '../../db/drizzle/utils'
 
 /**
  * Base class for repositories.
@@ -79,5 +85,26 @@ export abstract class BaseRepository<T> implements IBaseRepository<T> {
     }
 
     return newId
+  }
+
+  public withPagination<T extends MySqlSelect>(
+    qb: T,
+    page: number,
+    pageSize: number = 10,
+  ): MySqlSelectDynamic<T> {
+    return qb
+      .limit(pageSize)
+      .offset(page * pageSize)
+      .$dynamic()
+  }
+
+  public withWhere<T extends MySqlSelect>(
+    qb: T,
+    where: WhereConditions<any>,
+  ): MySqlSelectDynamic<T> {
+    const whereDrizzle = where
+      ? convertWhereConditionToDrizzle<T>(where, this.table)
+      : undefined
+    return qb.where(whereDrizzle).$dynamic()
   }
 }

@@ -25,7 +25,7 @@ export class User extends BaseEntity {
    * @param {string} lastname The last name of the user.
    * @param {string} email The email address of the user.
    * @param {string} password The password of the user.
-   * @param {Roles[]} [roles=[ROLES.APPLICATION_USER]] The roles of the user.
+   * @param {Roles[]} roles of the user.
    */
   constructor(
     public readonly id: string,
@@ -33,7 +33,7 @@ export class User extends BaseEntity {
     public lastname: string,
     public email: string,
     public password: string,
-    public roles: Roles[] = [ROLES.APPLICATION_USER],
+    public roles: Roles[],
   ) {
     super(id)
   }
