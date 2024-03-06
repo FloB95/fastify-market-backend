@@ -4,6 +4,7 @@ import { UserResponseDtoSchema } from '~/core/domain/dtos/user/IUserResponseDto'
 import { DefaultIdQueryParamSchema } from '~/core/presentation/http/validation/BaseRequestSchema'
 import { NotFoundErrorResponseJsonSchema } from '../errors/NotFoundErrorSchema'
 import { type IExtendedFastifySchema } from '../../fastify/interfaces/Defaults'
+import { UnauthenticatedErrorResponseJsonSchema } from '../errors/UnauthenticatedErrorSchema'
 
 const GetUserJsonSchema = zodToJsonSchema(CreateUserDtoSchema, {
   $refStrategy: 'none',
@@ -20,5 +21,6 @@ export const GetUserSchema: IExtendedFastifySchema = {
   response: {
     200: GetUserJsonSchema.definitions.response,
     404: NotFoundErrorResponseJsonSchema.definitions.response,
+    401: UnauthenticatedErrorResponseJsonSchema.definitions.response,
   },
 }

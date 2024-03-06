@@ -1,15 +1,16 @@
 import zodToJsonSchema from 'zod-to-json-schema'
 import { UserPaginationResponseSchema } from '~/core/domain/dtos/user/IUserPaginatedResponseDto'
-import { GetUsersQueryParamsSchema } from '~/core/presentation/http/validation/user/IUsersRequestDto'
+import { GetUsersQueryParamsSwaggerSchema } from '~/core/presentation/http/validation/user/IUsersRequestDto'
 import { BadRequestErrorResponseJsonSchema } from '../errors/BadRequestSchema'
 import { type IExtendedFastifySchema } from '../../fastify/interfaces/Defaults'
+import { UnauthenticatedErrorResponseJsonSchema } from '../errors/UnauthenticatedErrorSchema'
 
 export const UserPaginationResponseJsonSchema = zodToJsonSchema(
   UserPaginationResponseSchema,
   {
     $refStrategy: 'none',
     definitions: {
-      querystring: GetUsersQueryParamsSchema,
+      querystring: GetUsersQueryParamsSwaggerSchema,
       response: UserPaginationResponseSchema,
     },
   },
@@ -22,5 +23,6 @@ export const GetUsersSchema: IExtendedFastifySchema = {
   response: {
     200: UserPaginationResponseJsonSchema.definitions.response,
     400: BadRequestErrorResponseJsonSchema.definitions.response,
+    401: UnauthenticatedErrorResponseJsonSchema.definitions.response,
   },
 }

@@ -1,5 +1,6 @@
 import { z } from 'zod'
 import {
+  BaseWhereQueryParamSchema,
   DefaultDateWhereQueryParamSchema,
   DefaultEmailWhereQueryParamSchema,
   DefaultStringWhereQueryParamSchema,
@@ -18,3 +19,7 @@ export type DefaultUserWhere = z.infer<typeof DefaultUserWhereSchema>
 export const GetUsersQueryParamsSchema = PaginationQueryParamsSchema(
   DefaultUserWhereSchema,
 )
+
+export const GetUsersQueryParamsSwaggerSchema = PaginationQueryParamsSchema(
+  DefaultUserWhereSchema,
+).merge(BaseWhereQueryParamSchema)

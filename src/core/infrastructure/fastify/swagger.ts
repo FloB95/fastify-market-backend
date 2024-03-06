@@ -49,7 +49,7 @@ export const swaggerConfig: FastifyDynamicSwaggerOptions = {
     tags: [
       { name: 'Auth', description: 'Authentication related end-points' },
       { name: 'User', description: 'User related end-points' },
-      { name: 'Product', description: 'Product related end-points' },
+      { name: 'Order', description: 'Order related end-points' },
     ],
     securityDefinitions: {
       Bearer: {
