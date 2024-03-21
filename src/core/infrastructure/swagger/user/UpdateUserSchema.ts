@@ -5,6 +5,8 @@ import { DefaultIdQueryParamSchema } from '~/core/presentation/http/validation/B
 import { BadRequestErrorResponseJsonSchema } from '../errors/BadRequestSchema'
 import { NotFoundErrorResponseJsonSchema } from '../errors/NotFoundErrorSchema'
 import { type IExtendedFastifySchema } from '../../fastify/interfaces/Defaults'
+import { UnauthenticatedErrorResponseJsonSchema } from '../errors/UnauthenticatedErrorSchema'
+import { UnauthorizedErrorResponseJsonSchema } from '../errors/UnauthorizedErrorSchema'
 
 export const UpdateUserJsonSchema = zodToJsonSchema(UpdateUserDtoSchema, {
   $refStrategy: 'none',
@@ -24,5 +26,7 @@ export const UpdateUserSchema: IExtendedFastifySchema = {
     200: UpdateUserJsonSchema.definitions.response,
     400: BadRequestErrorResponseJsonSchema.definitions.response,
     404: NotFoundErrorResponseJsonSchema.definitions.response,
+    401: UnauthenticatedErrorResponseJsonSchema.definitions.response,
+    403: UnauthorizedErrorResponseJsonSchema.definitions.response,
   },
 }

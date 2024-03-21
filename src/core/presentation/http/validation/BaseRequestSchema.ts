@@ -84,5 +84,15 @@ export const PaginationQueryParamsSchema = (
       .describe(
         "String with comma separated fields from the entity's schema which will be selected. If not provided, all fields will be selected.",
       ),
-    where: whereObj.partial().optional(),
+    where: whereObj.partial().optional(), // for internal validations only
   })
+
+// this is for the swagger schema since we expect the where query param to be a string and not an object
+export const BaseWhereQueryParamSchema = z.object({
+  where: z
+    .string()
+    .optional()
+    .describe(
+      'String with the where clause for the query. Eg: name[eq]="lorem ipsum"&createdAt[gte]="2021-01-01T00:00:00.000Z"',
+    ),
+})

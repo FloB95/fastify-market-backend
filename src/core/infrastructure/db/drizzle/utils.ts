@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { and, eq, gt, gte, like, lt, lte, not, type SQL } from 'drizzle-orm'
-import { type MySqlTableWithColumns } from 'drizzle-orm/mysql-core'
+import { type MySqlColumn, type MySqlTableWithColumns } from 'drizzle-orm/mysql-core'
 import {
   type WhereConditions,
   type WhereField,
@@ -88,4 +88,11 @@ export function convertQuerySelectToDrizzle(
           {} as Record<string, any>,
         )
     : undefined
+}
+
+export function convertMySqlColumnsToSelectObj(columns: MySqlColumn[]) {
+  return columns.reduce((acc, column) => {
+    acc[column.name] = column
+    return acc
+  }, {})
 }

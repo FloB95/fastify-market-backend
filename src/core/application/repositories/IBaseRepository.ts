@@ -32,6 +32,7 @@ interface IBaseRepository<T> {
   update(item: T, updates: Partial<T>): Promise<void> // Update an item
   delete(item: T): Promise<boolean> // Delete an item
   generateId(): Promise<string> // Generate a new ID
+  getTotalCacheKey(): string // Get the key for the total count cache
 }
 
 // Export the base repository interface

@@ -10,6 +10,7 @@ import { CustomZodError } from '~/core/application/errors/zod/CustomZodError'
 import { IEventEmitter } from '~/core/domain/events/IEventEmitter'
 import { UserCreatedEvent } from '~/core/domain/events/user/UserCreatedEvent'
 import { IPasswordService } from '~/core/application/services/IPasswordService'
+import { IBaseKeyCache } from '~/core/application/cache/IBaseKeyCache'
 
 @injectable()
 export class CreateUserUseCase implements ICreateUserUseCase {
@@ -17,6 +18,7 @@ export class CreateUserUseCase implements ICreateUserUseCase {
     @inject('UserRepository') private userRepository: IUserRepository,
     @inject('EventEmitter') private eventEmitter: IEventEmitter,
     @inject('PasswordService') private passwordService: IPasswordService,
+    @inject('ApplicationKeyCache') private appCache: IBaseKeyCache,
   ) {}
 
   /**
@@ -62,6 +64,11 @@ export class CreateUserUseCase implements ICreateUserUseCase {
     // emit events
     const userCreatedEvent = new UserCreatedEvent(createdUser)
     this.eventEmitter.emit(userCreatedEvent)
+
+    // clear total count cache
+    try {
+      void this.appCache.del(this.userRepository.getTotalCacheKey())
+    } catch (error) {}
 
     // return created user
     return createdUser
