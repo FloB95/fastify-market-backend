@@ -1,5 +1,5 @@
 import Redis from 'ioredis'
-import { injectable } from 'tsyringe'
+import { injectable, singleton } from 'tsyringe'
 import { type IBaseKeyCache } from '~/core/application/cache/IBaseKeyCache'
 import { env } from '~/core/config/env'
 
@@ -7,6 +7,7 @@ import { env } from '~/core/config/env'
  * RedisCache class for caching data using Redis.
  */
 @injectable()
+@singleton()
 export class RedisCache implements IBaseKeyCache {
   private client: Redis
 
