@@ -1,6 +1,6 @@
 import zodToJsonSchema from 'zod-to-json-schema'
 import { UserPaginationResponseSchema } from '~/core/domain/dtos/user/IUserPaginatedResponseDto'
-import { GetUsersQueryParamsSwaggerSchema } from '~/core/presentation/http/validation/user/IUsersRequestDto'
+import { GetUsersQueryParamsSwaggerSchema } from '~/core/presentation/http/validation/user/UsersRequestDtoSchema'
 import { BadRequestErrorResponseJsonSchema } from '../errors/BadRequestSchema'
 import { type IExtendedFastifySchema } from '../../fastify/interfaces/Defaults'
 import { UnauthenticatedErrorResponseJsonSchema } from '../errors/UnauthenticatedErrorSchema'
