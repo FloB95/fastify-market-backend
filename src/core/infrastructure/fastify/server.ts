@@ -125,6 +125,8 @@ export const startServer = async () => {
 
     await server.listen(serverOptions)
 
+    console.log("Server is running under url http://%s:%s", serverOptions.host, serverOptions.port)
+
     return server
   } catch (e) {
     console.error(e)
