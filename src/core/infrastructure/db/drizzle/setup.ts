@@ -21,6 +21,8 @@ export const initDb = async () => {
       multipleStatements: true,
       port: Number(env.DB_PORT),
       connectTimeout: 10000,
+      keepAliveInitialDelay: 10000, // 0 by default.
+      enableKeepAlive: true, // false by default.
     })
 
     // Listen for the 'error' event
