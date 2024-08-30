@@ -2,7 +2,10 @@
 import { API_BASE_PATH, fastifyInstance } from '~/tests/setup.test'
 import { faker } from '@faker-js/faker'
 import { container } from 'tsyringe'
-import { DEFAULT_SYSTEM_SUPER_ADMIN, DEFAULT_SYSTEM_USER } from '~/core/infrastructure/db/SeedObjects'
+import {
+  DEFAULT_SYSTEM_SUPER_ADMIN,
+  DEFAULT_SYSTEM_USER,
+} from '~/core/infrastructure/db/SeedObjects'
 import { type AuthenticateUserUseCase } from '~/core/application/useCases/auth/implementations/AuthenticateUserUseCase'
 
 let DEFAULT_ACCESS_TOKEN: string

@@ -7,8 +7,7 @@ import { type IBaseLogger } from '~/core/domain/logger/IBaseLogger'
  */
 export class UserCreatedEventHandler {
   logger: IBaseLogger
-    constructor(
-  ) {
+  constructor() {
     this.logger = container.resolve<IBaseLogger>('Logger')
   }
 
