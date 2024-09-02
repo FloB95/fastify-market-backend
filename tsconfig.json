@@ -20,7 +20,7 @@
       "~/*": ["./src/*"]
     }
   },
-  "include": [".eslintrc.js", "./src/**/*.ts", "**/*.cjs", "**/*.mjs"],
+  "include": ["eslint.config.mjs", "./src/**/*.ts", "**/*.cjs", "**/*.mjs"],
   "exclude": ["node_modules", "build", "test"],
   "types": ["@types/jest"],
   "ts-node": {

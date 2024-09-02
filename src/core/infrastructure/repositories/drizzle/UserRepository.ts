@@ -10,7 +10,7 @@ import { BaseRepository } from './BaseRepository'
 import { type IUserRepository } from '~/core/application/repositories/IUserRepository'
 import { type ISqlQueryFindBy } from '~/core/application/repositories/IBaseRepository'
 import { User } from '~/core/domain/entities/User'
-import { IBaseKeyCache } from '~/core/application/cache/IBaseKeyCache'
+import { type IBaseKeyCache } from '~/core/application/cache/IBaseKeyCache'
 import { getTableConfig } from 'drizzle-orm/mysql-core'
 
 type NewUser = typeof usersTable.$inferInsert

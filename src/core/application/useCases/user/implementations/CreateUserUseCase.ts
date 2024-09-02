@@ -1,16 +1,16 @@
 import { inject, injectable } from 'tsyringe'
 import { type ICreateUserUseCase } from '../ICreateUserUseCase'
-import { IUserRepository } from '~/core/application/repositories/IUserRepository'
+import { type IUserRepository } from '~/core/application/repositories/IUserRepository'
 import { User } from '~/core/domain/entities/User'
 import {
   CreateUserDtoSchema,
   type ICreateUserDto,
 } from '~/core/domain/dtos/user/ICreateUserDto'
 import { CustomZodError } from '~/core/application/errors/zod/CustomZodError'
-import { IEventEmitter } from '~/core/domain/events/IEventEmitter'
+import { type IEventEmitter } from '~/core/domain/events/IEventEmitter'
 import { UserCreatedEvent } from '~/core/domain/events/user/UserCreatedEvent'
-import { IPasswordService } from '~/core/application/services/IPasswordService'
-import { IBaseKeyCache } from '~/core/application/cache/IBaseKeyCache'
+import { type IPasswordService } from '~/core/application/services/IPasswordService'
+import { type IBaseKeyCache } from '~/core/application/cache/IBaseKeyCache'
 
 @injectable()
 export class CreateUserUseCase implements ICreateUserUseCase {

@@ -1,9 +1,9 @@
 import { inject, injectable } from 'tsyringe'
-import { IUserRepository } from '~/core/application/repositories/IUserRepository'
+import { type IUserRepository } from '~/core/application/repositories/IUserRepository'
 import { type ICreateRefreshTokenUseCase } from '../ICreateRefreshTokenUseCase'
 import { NotFoundError } from '~/core/application/errors/http'
 import { RefreshToken } from '~/core/domain/entities/RefreshToken'
-import { IRefreshTokenRepository } from '~/core/application/repositories/IRefreshTokenRepository'
+import { type IRefreshTokenRepository } from '~/core/application/repositories/IRefreshTokenRepository'
 
 /**
  * Use case for creating a refresh token.
