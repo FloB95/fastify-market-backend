@@ -21,6 +21,8 @@
   "author": "Florian Breuer",
   "license": "ISC",
   "devDependencies": {
+    "@eslint/eslintrc": "^3.1.0",
+    "@eslint/js": "^9.9.1",
     "@faker-js/faker": "^8.4.1",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.5",

@@ -8,9 +8,9 @@ import {
   UnauthenticatedError,
 } from '~/core/application/errors/http'
 import { ZodError } from 'zod'
-import { IRefreshAuthTokenUseCase } from '~/core/application/useCases/auth/IRefreshAuthTokenUseCase'
+import { type IRefreshAuthTokenUseCase } from '~/core/application/useCases/auth/IRefreshAuthTokenUseCase'
 import { SignInResponseSchema } from '~/core/domain/dtos/auth/ISignInResponseDto'
-import { IJwtService } from '~/core/application/services/IJwtService'
+import { type IJwtService } from '~/core/application/services/IJwtService'
 
 /**
  * Controller for handling refresh access token requests.

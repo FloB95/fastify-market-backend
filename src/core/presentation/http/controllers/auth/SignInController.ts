@@ -7,7 +7,7 @@ import {
   BadRequestError,
   UnauthenticatedError,
 } from '~/core/application/errors/http'
-import { IAuthenticateUserUseCase } from '~/core/application/useCases/auth/IAuthenticateUserUseCase'
+import { type IAuthenticateUserUseCase } from '~/core/application/useCases/auth/IAuthenticateUserUseCase'
 import { SignInCredentialsSchema } from '~/core/domain/dtos/auth/ISignInCredentialsDto'
 import { ZodError } from 'zod'
 

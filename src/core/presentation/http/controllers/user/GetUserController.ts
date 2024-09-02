@@ -10,7 +10,7 @@ import {
   NotFoundError,
 } from '~/core/application/errors/http'
 import { ZodError } from 'zod'
-import { IGetOneUserByUseCase } from '~/core/application/useCases/user/IGetUserByUseCase'
+import { type IGetOneUserByUseCase } from '~/core/application/useCases/user/IGetUserByUseCase'
 
 @injectable()
 export class GetUserController implements IController {

@@ -9,8 +9,8 @@ import {
   NotFoundError,
 } from '~/core/application/errors/http'
 import { ZodError } from 'zod'
-import { IDeleteUserUseCase } from '~/core/application/useCases/user/IDeleteUserUseCase'
-import { IGetOneUserByUseCase } from '~/core/application/useCases/user/IGetUserByUseCase'
+import { type IDeleteUserUseCase } from '~/core/application/useCases/user/IDeleteUserUseCase'
+import { type IGetOneUserByUseCase } from '~/core/application/useCases/user/IGetUserByUseCase'
 
 @injectable()
 export class DeleteUserController implements IController {

@@ -1,11 +1,11 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
+ 
 import { inject, injectable } from 'tsyringe'
 import { type IRefreshAuthTokenUseCase } from '../IRefreshAuthTokenUseCase'
-import { IUserRepository } from '~/core/application/repositories/IUserRepository'
-import { IRefreshTokenRepository } from '~/core/application/repositories/IRefreshTokenRepository'
+import { type IUserRepository } from '~/core/application/repositories/IUserRepository'
+import { type IRefreshTokenRepository } from '~/core/application/repositories/IRefreshTokenRepository'
 import { UnauthenticatedError } from '~/core/application/errors/http'
 import { UserResponseDtoSchema } from '~/core/domain/dtos/user/IUserResponseDto'
-import { IJwtService } from '~/core/application/services/IJwtService'
+import { type IJwtService } from '~/core/application/services/IJwtService'
 
 /**
  * Use case for refreshing an authentication token.

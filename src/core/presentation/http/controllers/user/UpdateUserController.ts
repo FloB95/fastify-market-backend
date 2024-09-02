@@ -11,8 +11,8 @@ import {
   UnauthorizedError,
 } from '~/core/application/errors/http'
 import { ZodError } from 'zod'
-import { IGetOneUserByUseCase } from '~/core/application/useCases/user/IGetUserByUseCase'
-import { IUpdateUserUseCase } from '~/core/application/useCases/user/IUpdateUserUseCase'
+import { type IGetOneUserByUseCase } from '~/core/application/useCases/user/IGetUserByUseCase'
+import { type IUpdateUserUseCase } from '~/core/application/useCases/user/IUpdateUserUseCase'
 import { ROLES } from '~/core/domain/enums/Roles'
 import { UpdateUserDtoSchema } from '~/core/domain/dtos/user/IUpdateUserDto'
 
