@@ -41,7 +41,7 @@
     "@fastify/helmet": "^11.1.1",
     "@fastify/swagger": "^8.14.0",
     "@fastify/swagger-ui": "^3.0.0",
-    "argon2": "^0.40.1",
+    "argon2": "^0.41.1",
     "dotenv": "^16.4.4",
     "drizzle-orm": "^0.29.3",
     "fastify": "^4.26.1",
