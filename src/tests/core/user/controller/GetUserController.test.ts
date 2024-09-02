@@ -1,5 +1,9 @@
 import { DEFAULT_SYSTEM_USER } from '~/core/infrastructure/db/SeedObjects'
-import { ADMIN_ACCESS_TOKEN, API_BASE_PATH, fastifyInstance } from './setup.test'
+import {
+  ADMIN_ACCESS_TOKEN,
+  API_BASE_PATH,
+  fastifyInstance,
+} from './setup.test'
 import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
 
 /**

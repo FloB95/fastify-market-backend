@@ -13,7 +13,7 @@ export let connection: mysql.Connection
 export const initDb = async () => {
   try {
     logger.info('Initializing database')
-    connection = await mysql.createConnection({
+    connection = mysql.createPool({
       host: env.DB_HOST,
       user: env.DB_USER,
       password: env.DB_PASSWORD,
@@ -23,6 +23,7 @@ export const initDb = async () => {
       connectTimeout: 10000,
       keepAliveInitialDelay: 10000, // 0 by default.
       enableKeepAlive: true, // false by default.
+      waitForConnections: true, // true by default.
     })
 
     // Listen for the 'error' event
