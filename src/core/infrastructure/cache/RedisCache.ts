@@ -13,10 +13,7 @@ export class RedisCache implements IBaseKeyCache {
 
   constructor() {
     this.client = new Redis(env.REDIS_URL, {
-      maxRetriesPerRequest: 10,
-      tls: {
-        rejectUnauthorized: false,
-      },
+      maxRetriesPerRequest: 3,
     })
   }
 
