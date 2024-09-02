@@ -109,7 +109,7 @@ You can adapt this structure to your specific project needs and preferences, ens
 1. Clone this repository:
 
    ```bash
-   git clone https://github.com/your-username/your-repo.git
+   git clone git@github.com:FloB95/fastify-market-backend.git
    ```
 
 2. Install dependencies:
