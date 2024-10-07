@@ -1,23 +1,17 @@
 import { inject, injectable } from 'tsyringe'
 import { makeApiHttpResponse } from '../../helpers/httpHelpers'
-import { type IController } from '../../interfaces/IController'
 import { type IHttpRequest } from '../../interfaces/IRequest'
 import { type IHttpResponse } from '../../interfaces/IResponse'
-import {
-  BadRequestError,
-  UnauthenticatedError,
-} from '~/core/application/errors/http'
 import { type IAuthenticateUserUseCase } from '~/core/application/useCases/auth/IAuthenticateUserUseCase'
 import { SignInCredentialsSchema } from '~/core/domain/dtos/auth/ISignInCredentialsDto'
-import { ZodError } from 'zod'
+import { AbstractController } from '../AbstractController'
 
 /**
  * Controller for handling user sign-in requests.
  * @class
- * @implements IController
  */
 @injectable()
-export class SignInController implements IController {
+export class SignInController extends AbstractController {
   /**
    * Creates an instance of SignInController.
    * @param {IAuthenticateUserUseCase} authenticateUserUseCase - The use case for authenticating a user.
@@ -25,7 +19,9 @@ export class SignInController implements IController {
   constructor(
     @inject('AuthenticateUserUseCase')
     private authenticateUserUseCase: IAuthenticateUserUseCase,
-  ) {}
+  ) {
+    super()
+  }
 
   /**
    * Handles the user sign-in request.
@@ -40,12 +36,7 @@ export class SignInController implements IController {
 
       return makeApiHttpResponse(200, authResponse)
     } catch (error: any) {
-      // pass error if already api error
-      if (error instanceof ZodError) {
-        throw new BadRequestError(error.message, error.issues)
-      }
-
-      throw new UnauthenticatedError(error.message)
+      this.handleError(error)
     }
   }
 }

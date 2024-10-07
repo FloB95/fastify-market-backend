@@ -3,11 +3,8 @@ import {
   convertHttpSelectQueryToObj,
   makeApiHttpResponse,
 } from '../../helpers/httpHelpers'
-import { type IController } from '../../interfaces/IController'
 import { type IHttpRequest } from '../../interfaces/IRequest'
 import { type IHttpResponse } from '../../interfaces/IResponse'
-import { BadRequestError } from '~/core/application/errors/http'
-import { ZodError } from 'zod'
 import { type IGetUsersUseCase } from '~/core/application/useCases/user/IGetUsersUseCase'
 import qs from 'qs'
 import { GetUsersQueryParamsSchema } from '../../validation/user/UsersRequestDtoSchema'
@@ -16,13 +13,16 @@ import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
 import { UserPaginationResponseSchema } from '~/core/domain/dtos/user/IUserPaginatedResponseDto'
 import { type IPaginationDto } from '~/core/domain/dtos/IPaginationDto'
 import { type WhereConditions } from '~/core/application/repositories/IBaseRepository'
+import { AbstractController } from '../AbstractController'
 
 @injectable()
-export class GetUsersController implements IController {
+export class GetUsersController extends AbstractController {
   constructor(
     @inject('GetUsersUseCase')
     private getUsersUseCase: IGetUsersUseCase,
-  ) {}
+  ) {
+    super()
+  }
 
   /**
    * Handles the retrieval of multiple users with pagination and filtering.
@@ -78,8 +78,7 @@ export class GetUsersController implements IController {
 
       return makeApiHttpResponse(200, response)
     } catch (error: any) {
-      const zodErrors = error instanceof ZodError ? error.issues : []
-      throw new BadRequestError(error.message, zodErrors)
+      this.handleError(error)
     }
   }
 }

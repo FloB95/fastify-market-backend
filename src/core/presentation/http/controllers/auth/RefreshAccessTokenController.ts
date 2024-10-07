@@ -1,24 +1,18 @@
 import { inject, injectable } from 'tsyringe'
 import { makeApiHttpResponse } from '../../helpers/httpHelpers'
-import { type IController } from '../../interfaces/IController'
 import { type IHttpRequest } from '../../interfaces/IRequest'
 import { type IHttpResponse } from '../../interfaces/IResponse'
-import {
-  BadRequestError,
-  UnauthenticatedError,
-} from '~/core/application/errors/http'
-import { ZodError } from 'zod'
 import { type IRefreshAuthTokenUseCase } from '~/core/application/useCases/auth/IRefreshAuthTokenUseCase'
 import { SignInResponseSchema } from '~/core/domain/dtos/auth/ISignInResponseDto'
 import { type IJwtService } from '~/core/application/services/IJwtService'
+import { AbstractController } from '../AbstractController'
 
 /**
  * Controller for handling refresh access token requests.
  * @class
- * @implements IController
  */
 @injectable()
-export class RefreshAccessTokenController implements IController {
+export class RefreshAccessTokenController extends AbstractController {
   /**
    * Creates an instance of RefreshAccessTokenController.
    * @param {IRefreshAuthTokenUseCase} refreshAuthTokenUseCase - The use case for refreshing an authentication token.
@@ -28,7 +22,9 @@ export class RefreshAccessTokenController implements IController {
     @inject('RefreshAuthTokenUseCase')
     private refreshAuthTokenUseCase: IRefreshAuthTokenUseCase,
     @inject('JwtService') private jwtService: IJwtService,
-  ) {}
+  ) {
+    super()
+  }
 
   /**
    * Handles the refresh access token request.
@@ -53,12 +49,7 @@ export class RefreshAccessTokenController implements IController {
         accessToken: newToken,
       })
     } catch (error: any) {
-      // pass error if already api error
-      if (error instanceof ZodError) {
-        throw new BadRequestError(error.message, error.issues)
-      }
-
-      throw new UnauthenticatedError(error.message)
+      this.handleError(error)
     }
   }
 }
