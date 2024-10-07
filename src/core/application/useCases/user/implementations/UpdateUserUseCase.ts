@@ -6,11 +6,14 @@ import {
   type IUpdateUserDto,
   UpdateUserDtoSchema,
 } from '~/core/domain/dtos/user/IUpdateUserDto'
+import { type IEventEmitter } from '~/core/domain/events/IEventEmitter'
+import { UserUpdatedEvent } from '~/core/domain/events/user/UserUpdatedEvent'
 
 @injectable()
 export class UpdateUserUseCase implements IUpdateUserUseCase {
   constructor(
     @inject('UserRepository') private userRepository: IUserRepository,
+    @inject('EventEmitter') private eventEmitter: IEventEmitter,
   ) {}
 
   /**
@@ -31,9 +34,16 @@ export class UpdateUserUseCase implements IUpdateUserUseCase {
       return userToUpdate
     }
 
+    // just the updated fields for the event
+    const updates = { ...validatedUser }
+
     validatedUser.updatedAt = new Date()
     await this.userRepository.update(userToUpdate, validatedUser)
     const updatedUser = await this.userRepository.findOneById(userToUpdate.id)
+
+    // emit event
+    const userUpdatedEvent = new UserUpdatedEvent(userToUpdate, updates)
+    this.eventEmitter.emit(userUpdatedEvent)
 
     return updatedUser
   }
