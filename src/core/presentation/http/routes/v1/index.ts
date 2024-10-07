@@ -1,4 +1,3 @@
- 
 import { type FastifyInstance } from 'fastify'
 import UserRouter from './user'
 import AuthRouter from './auth'

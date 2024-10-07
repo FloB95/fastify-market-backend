@@ -1,10 +1,10 @@
 import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
 import {
   ADMIN_ACCESS_TOKEN,
-  API_BASE_PATH,
   DEFAULT_ACCESS_TOKEN,
   fastifyInstance,
 } from './setup.test'
+import { API_BASE_PATH } from '~/core/config/constants'
 
 /**
  * Represents the tests for deleteUser.

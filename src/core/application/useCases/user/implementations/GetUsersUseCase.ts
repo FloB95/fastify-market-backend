@@ -1,4 +1,3 @@
- 
 import { inject, injectable } from 'tsyringe'
 import {
   type IGetUsersUseCaseResponse,

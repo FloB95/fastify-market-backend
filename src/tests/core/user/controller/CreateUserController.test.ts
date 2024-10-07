@@ -1,12 +1,12 @@
 import { type ICreateUserDto } from '~/core/domain/dtos/user/ICreateUserDto'
 import {
-  API_BASE_PATH,
   fastifyInstance,
   faker,
   ADMIN_ACCESS_TOKEN,
   DEFAULT_ACCESS_TOKEN,
 } from './setup.test'
 import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
+import { API_BASE_PATH } from '~/core/config/constants'
 
 /**
  * Represents the tests for createUser.
