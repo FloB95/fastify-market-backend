@@ -16,6 +16,7 @@ import {
 import { container } from 'tsyringe'
 import { type IJwtService } from '~/core/application/services/IJwtService'
 import { type IUserResponseDto } from '~/core/domain/dtos/user/IUserResponseDto'
+import { API_BASE_PATH } from '~/core/config/constants'
 
 /**
  * Builds a Fastify server instance with the specified configurations.
@@ -65,7 +66,11 @@ export const buildServer = async (): Promise<FastifyInstance> => {
         : new UnauthenticatedError(
             'you need to be authenticated to access this route',
           )
-      console.log('error user', req?.user)
+
+      logger.warn(
+        `Auth error for route ${req.routeOptions.url}. Message: ${error.message}. IP: ${req.ip}`,
+      )
+
       reply.statusCode = error.statusCode
       void reply.headers({ 'Content-Type': 'application/json' })
       return reply.send({ message: error.message, code: error.statusCode })
@@ -73,7 +78,7 @@ export const buildServer = async (): Promise<FastifyInstance> => {
   })
 
   // register routes
-  void server.register(routes, { prefix: '/api/v1' })
+  void server.register(routes, { prefix: API_BASE_PATH })
 
   // disable build in validation and use custom validation
   server.setValidatorCompiler(() => {

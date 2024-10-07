@@ -4,6 +4,7 @@ import { type ICreateRefreshTokenUseCase } from '../ICreateRefreshTokenUseCase'
 import { NotFoundError } from '~/core/application/errors/http'
 import { RefreshToken } from '~/core/domain/entities/RefreshToken'
 import { type IRefreshTokenRepository } from '~/core/application/repositories/IRefreshTokenRepository'
+import { REFRESH_TOKEN_LIFETIME } from '~/core/config/constants'
 
 /**
  * Use case for creating a refresh token.
@@ -41,7 +42,7 @@ export class CreateRefreshTokenUseCase implements ICreateRefreshTokenUseCase {
       // update the expiration date of the existing refresh token
       // update the refresh token in the repository
       await this.refreshTokenRepository.update(refreshToken, {
-        expiresAt: new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000),
+        expiresAt: new Date(new Date().getTime() + REFRESH_TOKEN_LIFETIME),
         updatedAt: new Date(),
       })
 
@@ -51,7 +52,7 @@ export class CreateRefreshTokenUseCase implements ICreateRefreshTokenUseCase {
 
     // create refresh token (30 Days from now)
     const refreshTokenExpiration = new Date(
-      new Date().getTime() + 30 * 24 * 60 * 60 * 1000,
+      new Date().getTime() + REFRESH_TOKEN_LIFETIME,
     )
 
     // create a new refresh token entity

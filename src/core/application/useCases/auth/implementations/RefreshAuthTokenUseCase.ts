@@ -1,4 +1,3 @@
- 
 import { inject, injectable } from 'tsyringe'
 import { type IRefreshAuthTokenUseCase } from '../IRefreshAuthTokenUseCase'
 import { type IUserRepository } from '~/core/application/repositories/IUserRepository'
@@ -6,6 +5,7 @@ import { type IRefreshTokenRepository } from '~/core/application/repositories/IR
 import { UnauthenticatedError } from '~/core/application/errors/http'
 import { UserResponseDtoSchema } from '~/core/domain/dtos/user/IUserResponseDto'
 import { type IJwtService } from '~/core/application/services/IJwtService'
+import { ACCESS_TOKEN_LIFETIME_STRING } from '~/core/config/constants'
 
 /**
  * Use case for refreshing an authentication token.
@@ -53,7 +53,7 @@ export class RefreshAuthTokenUseCase implements IRefreshAuthTokenUseCase {
 
     // generate a new access token
     const userDto = UserResponseDtoSchema.parse(user)
-    const accessToken = this.jwtService.generateToken(userDto, '1h')
+    const accessToken = this.jwtService.generateToken(userDto, ACCESS_TOKEN_LIFETIME_STRING)
 
     return accessToken
   }
