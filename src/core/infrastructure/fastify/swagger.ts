@@ -1,19 +1,20 @@
 import { type FastifyDynamicSwaggerOptions } from '@fastify/swagger'
 import { type FastifySwaggerUiOptions } from '@fastify/swagger-ui'
+import { API_BASE_PATH } from '~/core/config/constants'
 import { env } from '~/core/config/env'
 
 /**
  * Configuration options for the Swagger UI.
  */
 export const swaggerUiConfig: FastifySwaggerUiOptions = {
-  routePrefix: '/api/v1/docs',
+  routePrefix: `${API_BASE_PATH}/docs`,
   theme: {
     title: 'Fastify API',
   },
   uiConfig: {
     docExpansion: 'full',
     deepLinking: false,
-    url: `${env.BASE_URL}/api/v1/swagger.json`,
+    url: `${env.BASE_URL}${API_BASE_PATH}/swagger.json`,
   },
   uiHooks: {
     onRequest: function (request, reply, next) {
