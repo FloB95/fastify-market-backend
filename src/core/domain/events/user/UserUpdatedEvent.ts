@@ -1,4 +1,3 @@
-import { type IUpdateUserDto } from '../../dtos/user/IUpdateUserDto'
 import { type User } from '../../entities/User'
 import { BaseEvent } from '../BaseEvent'
 
@@ -13,11 +12,12 @@ export class UserUpdatedEvent extends BaseEvent {
 
   /**
    * Creates an instance of UserUpdatedEvent.
-   * @param {User} user The user that was updated.
+   * @param {User} oldUser The user before the update.
+   * @param {User} updatedUser The updated user.
    */
   constructor(
-    public readonly user: User,
-    public readonly updates: IUpdateUserDto,
+    public readonly oldUser: User,
+    public readonly updatedUser: User,
   ) {
     super()
   }
