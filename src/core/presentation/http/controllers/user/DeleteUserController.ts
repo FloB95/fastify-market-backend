@@ -33,7 +33,7 @@ export class DeleteUserController extends AbstractController{
         throw new NotFoundError('User not found')
       }
 
-      await this.deleteUserUseCase.execute(user)
+      await this.deleteUserUseCase.execute(user, httpRequest.user)
 
       return makeApiHttpResponse(200, true)
     } catch (error: any) {
