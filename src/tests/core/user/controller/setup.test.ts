@@ -29,9 +29,4 @@ beforeAll(async () => {
   ADMIN_ACCESS_TOKEN = adminAccessToken
 })
 
-export {
-  fastifyInstance,
-  faker,
-  DEFAULT_ACCESS_TOKEN,
-  ADMIN_ACCESS_TOKEN,
-}
+export { fastifyInstance, faker, DEFAULT_ACCESS_TOKEN, ADMIN_ACCESS_TOKEN }

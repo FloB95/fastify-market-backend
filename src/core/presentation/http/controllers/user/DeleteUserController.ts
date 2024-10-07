@@ -1,24 +1,23 @@
 import { inject, injectable } from 'tsyringe'
 import { makeApiHttpResponse } from '../../helpers/httpHelpers'
-import { type IController } from '../../interfaces/IController'
 import { type IHttpRequest } from '../../interfaces/IRequest'
 import { type IHttpResponse } from '../../interfaces/IResponse'
 import {
-  BadRequestError,
-  CustomApiError,
-  NotFoundError,
+  NotFoundError
 } from '~/core/application/errors/http'
-import { ZodError } from 'zod'
 import { type IDeleteUserUseCase } from '~/core/application/useCases/user/IDeleteUserUseCase'
 import { type IGetOneUserByUseCase } from '~/core/application/useCases/user/IGetUserByUseCase'
+import { AbstractController } from '../AbstractController'
 
 @injectable()
-export class DeleteUserController implements IController {
+export class DeleteUserController extends AbstractController{
   constructor(
     @inject('DeleteUserUseCase') private deleteUserUseCase: IDeleteUserUseCase,
     @inject('GetOneUserByUseCase')
     private getOneUserByUseCase: IGetOneUserByUseCase,
-  ) {}
+  ) {
+    super()
+  }
 
   /**
    * Handles the deletion of a user.
@@ -38,13 +37,7 @@ export class DeleteUserController implements IController {
 
       return makeApiHttpResponse(200, true)
     } catch (error: any) {
-      // pass error if already api error
-      if (error instanceof CustomApiError) {
-        throw error
-      }
-
-      const zodErrors = error instanceof ZodError ? error.issues : []
-      throw new BadRequestError(error.message, zodErrors)
+      this.handleError(error)
     }
   }
 }

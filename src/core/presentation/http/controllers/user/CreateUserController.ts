@@ -1,19 +1,19 @@
 import { inject, injectable } from 'tsyringe'
 import { makeApiHttpResponse } from '../../helpers/httpHelpers'
-import { type IController } from '../../interfaces/IController'
 import { type IHttpRequest } from '../../interfaces/IRequest'
 import { type IHttpResponse } from '../../interfaces/IResponse'
 import { CreateUserDtoSchema } from '~/core/domain/dtos/user/ICreateUserDto'
 import { type ICreateUserUseCase } from '~/core/application/useCases/user/ICreateUserUseCase'
 import { UserResponseDtoSchema } from '~/core/domain/dtos/user/IUserResponseDto'
-import { BadRequestError } from '~/core/application/errors/http'
-import { ZodError } from 'zod'
+import { AbstractController } from '../AbstractController'
 
 @injectable()
-export class CreateUserController implements IController {
+export class CreateUserController extends AbstractController {
   constructor(
     @inject('CreateUserUseCase') private createUserUseCase: ICreateUserUseCase,
-  ) {}
+  ) {
+    super()
+  }
 
   /**
    * Handles the creation of a new user.
@@ -45,8 +45,7 @@ export class CreateUserController implements IController {
       const userResponse = UserResponseDtoSchema.parse(user)
       return makeApiHttpResponse(201, userResponse)
     } catch (error: any) {
-      const zodErrors = error instanceof ZodError ? error.issues : []
-      throw new BadRequestError(error.message, zodErrors)
+      this.handleError(error)
     }
   }
 }
