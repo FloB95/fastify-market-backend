@@ -2,7 +2,8 @@ import { type ISignInResponseDto } from '~/core/domain/dtos/auth/ISignInResponse
 import { type IJwtService } from '~/core/application/services/IJwtService'
 import { container } from 'tsyringe'
 import { DEFAULT_SYSTEM_USER } from '~/core/infrastructure/db/SeedObjects'
-import { API_BASE_PATH, fastifyInstance } from '~/tests/setup.test'
+import { fastifyInstance } from '~/tests/setup.test'
+import { API_BASE_PATH } from '~/core/config/constants'
 
 /**
  * Represents the RefreshAccessTokenController.

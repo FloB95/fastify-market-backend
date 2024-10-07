@@ -1,5 +1,5 @@
 // Common imports and setup required for all test files
-import { API_BASE_PATH, fastifyInstance } from '~/tests/setup.test'
+import { fastifyInstance } from '~/tests/setup.test'
 import { faker } from '@faker-js/faker'
 import { container } from 'tsyringe'
 import {
@@ -30,7 +30,6 @@ beforeAll(async () => {
 })
 
 export {
-  API_BASE_PATH,
   fastifyInstance,
   faker,
   DEFAULT_ACCESS_TOKEN,

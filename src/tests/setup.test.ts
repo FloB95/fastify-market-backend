@@ -5,7 +5,6 @@ import AppCache from '~/core/infrastructure/cache'
 import { buildServer } from '~/core/infrastructure/fastify/server'
 
 export let fastifyInstance: FastifyInstance
-export const API_BASE_PATH = '/api/v1'
 
 beforeAll(async () => {
   await loadConfigurations()
