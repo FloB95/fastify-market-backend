@@ -42,7 +42,8 @@ export class UpdateUserController implements IController {
       if (
         httpRequest.user.id !== user.id &&
         !httpRequest.user.roles.includes(ROLES.SUPER_ADMIN) &&
-        !httpRequest.user.roles.includes(ROLES['users:maintainer'])
+        !httpRequest.user.roles.includes(ROLES['users:maintainer']) &&
+        !httpRequest.user.roles.includes(ROLES['users:update'])
       ) {
         throw new UnauthorizedError(
           'You are not authorized to update this user',
@@ -68,6 +69,15 @@ export class UpdateUserController implements IController {
         )
       }
 
+      // remove the roles if the user is not a SUPER_ADMIN or users:maintainer
+      if (
+        !httpRequest.user.roles.includes(ROLES.SUPER_ADMIN) &&
+        !httpRequest.user.roles.includes(ROLES['users:maintainer'])
+      ) {
+        delete updateUserDto.roles
+      }
+
+      // update the user
       const updatedUser = await this.updateUserUseCase.execute(
         user,
         updateUserDto,

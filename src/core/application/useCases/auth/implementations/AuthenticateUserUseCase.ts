@@ -10,7 +10,10 @@ import { type ICreateRefreshTokenUseCase } from '../ICreateRefreshTokenUseCase'
 import { type ISignInResponseDto } from '~/core/domain/dtos/auth/ISignInResponseDto'
 import { type IEventEmitter } from '~/core/domain/events/IEventEmitter'
 import { UserLoggedInEvent } from '~/core/domain/events/user/UserLoggedInEvent'
-import { ACCESS_TOKEN_LIFETIME_STRING, REFRESH_TOKEN_LIFETIME_STRING } from '~/core/config/constants'
+import {
+  ACCESS_TOKEN_LIFETIME_STRING,
+  REFRESH_TOKEN_LIFETIME_STRING,
+} from '~/core/config/constants'
 
 /**
  * Use case for authenticating a user.

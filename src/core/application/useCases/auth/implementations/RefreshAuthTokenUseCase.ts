@@ -53,7 +53,10 @@ export class RefreshAuthTokenUseCase implements IRefreshAuthTokenUseCase {
 
     // generate a new access token
     const userDto = UserResponseDtoSchema.parse(user)
-    const accessToken = this.jwtService.generateToken(userDto, ACCESS_TOKEN_LIFETIME_STRING)
+    const accessToken = this.jwtService.generateToken(
+      userDto,
+      ACCESS_TOKEN_LIFETIME_STRING,
+    )
 
     return accessToken
   }
