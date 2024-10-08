@@ -3,7 +3,7 @@ import mysql from 'mysql2/promise'
 import * as schema from './schema'
 import { type MySql2Database } from 'drizzle-orm/mysql2'
 import { migrateDb } from './migrate'
-import { logger } from '../../logger'
+import { logger } from '../../services/logger'
 import { env } from '~/core/config/env'
 import { runSeeds } from './seed'
 

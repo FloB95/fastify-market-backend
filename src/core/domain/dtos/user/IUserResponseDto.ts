@@ -11,6 +11,7 @@ export const UserResponseDtoSchema = BaseEntitySchema.merge(
     lastname: true,
     email: true,
     roles: true,
+    lastLogin: true,
   }),
 ).partial()
 

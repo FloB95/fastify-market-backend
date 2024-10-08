@@ -6,7 +6,7 @@ import fastifySwaggerUi from '@fastify/swagger-ui'
 import { swaggerConfig, swaggerUiConfig } from './swagger'
 import routes from '~/core/presentation/http/routes/v1'
 import { fastifyErrorHandler } from './helpers'
-import { logger } from '../logger'
+import { logger } from '../services/logger'
 import { env } from '~/core/config/env'
 import fastifyGuard from 'fastify-guard'
 import {
@@ -67,8 +67,10 @@ export const buildServer = async (): Promise<FastifyInstance> => {
             'you need to be authenticated to access this route',
           )
 
+      // ip from user not cloudflare
+      const ip = req.headers['cf-connecting-ip'] || req.ip
       logger.warn(
-        `Auth error for route ${req.routeOptions.url}. Message: ${error.message}. IP: ${req.ip}`,
+        `Auth error for route ${req.routeOptions.url}. Message: ${error.message}. IP: ${ip}`,
       )
 
       reply.statusCode = error.statusCode

@@ -146,6 +146,13 @@ class UserRepository extends BaseRepository<User> implements IUserRepository {
     } else {
       user.setUpdatedAt(undefined)
     }
+
+    // can be null if db field is empty or can be undefined if not selected
+    if (typeof dbUser.lastLogin !== 'undefined') {
+      user.setLastLogin(dbUser.lastLogin ? new Date(dbUser.lastLogin) : null)
+    } else {
+      user.setLastLogin(undefined)
+    }
     return user
   }
 }

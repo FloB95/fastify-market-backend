@@ -28,6 +28,7 @@ export const usersTable = mysqlTable(
     })
       .notNull()
       .unique('email'),
+    lastLogin: datetime('lastLogin').default(null),
     roles: json('roles')
       .$type<Roles[]>()
       .notNull()
