@@ -67,8 +67,10 @@ export const buildServer = async (): Promise<FastifyInstance> => {
             'you need to be authenticated to access this route',
           )
 
+      // ip from user not cloudflare
+      const ip = req.headers['cf-connecting-ip'] || req.ip
       logger.warn(
-        `Auth error for route ${req.routeOptions.url}. Message: ${error.message}. IP: ${req.ip}`,
+        `Auth error for route ${req.routeOptions.url}. Message: ${error.message}. IP: ${ip}`,
       )
 
       reply.statusCode = error.statusCode

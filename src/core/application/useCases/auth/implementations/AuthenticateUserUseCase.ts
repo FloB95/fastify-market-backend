@@ -79,7 +79,7 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
     )
 
     // update user last login
-    void this.userRepository.update(user, { lastLogin: new Date() })
+    await this.userRepository.update(user, { lastLogin: new Date() })
 
     // emit events
     const userLoggedInEvent = new UserLoggedInEvent(user)
