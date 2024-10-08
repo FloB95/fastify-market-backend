@@ -5,7 +5,7 @@ import { type IHttpRequest } from '../interfaces/IRequest'
 import { type IHttpResponse } from '../interfaces/IResponse'
 
 export abstract class AbstractController implements IController {
-  handle(httpRequest: IHttpRequest): Promise<IHttpResponse> {
+  handle(_httpRequest: IHttpRequest): Promise<IHttpResponse> {
     const currentClass = this.constructor.name
     throw new Error(
       `'handle' method not implemented in controller class '${currentClass}'`,

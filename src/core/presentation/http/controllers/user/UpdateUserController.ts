@@ -5,7 +5,7 @@ import { type IHttpResponse } from '../../interfaces/IResponse'
 import { UserResponseDtoSchema } from '~/core/domain/dtos/user/IUserResponseDto'
 import {
   NotFoundError,
-  UnauthorizedError
+  UnauthorizedError,
 } from '~/core/application/errors/http'
 import { type IGetOneUserByUseCase } from '~/core/application/useCases/user/IGetUserByUseCase'
 import { type IUpdateUserUseCase } from '~/core/application/useCases/user/IUpdateUserUseCase'

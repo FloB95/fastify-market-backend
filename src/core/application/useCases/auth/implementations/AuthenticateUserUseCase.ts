@@ -78,6 +78,9 @@ export class AuthenticateUserUseCase implements IAuthenticateUserUseCase {
       REFRESH_TOKEN_LIFETIME_STRING,
     )
 
+    // update user last login
+    void this.userRepository.update(user, { lastLogin: new Date() })
+
     // emit events
     const userLoggedInEvent = new UserLoggedInEvent(user)
     this.eventEmitter.emit(userLoggedInEvent)

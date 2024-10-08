@@ -1,7 +1,7 @@
 import loadConfigurations from '~/core/config/setup'
 import { type FastifyInstance } from 'fastify'
 import { connection } from '~/core/infrastructure/db/drizzle/setup'
-import AppCache from '~/core/infrastructure/cache'
+import AppCache from '~/core/infrastructure/services/cache'
 import { buildServer } from '~/core/infrastructure/fastify/server'
 
 export let fastifyInstance: FastifyInstance

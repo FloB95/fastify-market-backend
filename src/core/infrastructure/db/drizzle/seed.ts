@@ -1,7 +1,7 @@
 import { db } from './setup'
 import { usersTable } from './schema'
 import { eq } from 'drizzle-orm'
-import { logger } from '../../logger'
+import { logger } from '../../services/logger'
 import { PasswordService } from '../../services/auth/PasswordService'
 import { type IPasswordService } from '~/core/application/services/IPasswordService'
 import { container } from 'tsyringe'

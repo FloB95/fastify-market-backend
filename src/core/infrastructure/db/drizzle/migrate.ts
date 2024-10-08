@@ -1,7 +1,7 @@
 import 'dotenv/config'
 import { migrate } from 'drizzle-orm/mysql2/migrator'
 import { db, connection } from './setup'
-import { logger } from '../../logger'
+import { logger } from '../../services/logger'
 
 export const migrateDb = async (closeConnection = true) => {
   if (!db || !connection) {

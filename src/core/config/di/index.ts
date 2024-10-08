@@ -1,9 +1,9 @@
 // register core di files
 
 import { container } from 'tsyringe'
-import { RedisCache } from '~/core/infrastructure/cache/RedisCache'
-import { NodeEventEmitter } from '~/core/infrastructure/events/NodeEventEmitter'
-import { PinoLogger } from '~/core/infrastructure/logger/PinoLogger'
+import { RedisCache } from '~/core/infrastructure/services/cache/RedisCache'
+import { NodeEventEmitter } from '~/core/infrastructure/services/events/NodeEventEmitter'
+import { PinoLogger } from '~/core/infrastructure/services/logger/PinoLogger'
 
 /***
  * Infrastructure Services

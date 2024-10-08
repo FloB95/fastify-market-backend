@@ -11,6 +11,7 @@ export const UserSchema = z.object({
   lastname: z.string().min(3).max(50),
   email: z.string().email(),
   password: z.string().min(6).max(255),
+  lastLogin: z.date().nullable().default(null),
   roles: z.array(z.nativeEnum(ROLES)),
 })
 
@@ -27,6 +28,9 @@ export class User extends BaseEntity {
    * @param {string} password The password of the user.
    * @param {Roles[]} roles of the user.
    */
+
+  public lastLogin: Date | null = null
+
   constructor(
     public readonly id: string,
     public firstname: string,
@@ -36,5 +40,13 @@ export class User extends BaseEntity {
     public roles: Roles[],
   ) {
     super(id)
+  }
+
+  /**
+   * Sets the date and time when the user last logged in.
+   * @param {Date | null} date The date and time when the user last logged in.
+   */
+  setLastLogin(date: Date | null) {
+    this.lastLogin = date
   }
 }
